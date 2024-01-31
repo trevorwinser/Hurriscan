@@ -8,6 +8,6 @@ We will be using the **El Niño** dataset collected with the Tropical Atmosphere
 The data set contains oceanographic and surface meteorological readings taken from a series of buoys positioned throughout the equatorial Pacific.
 
 *Relavant Links:*
-Link to the dataset: https://archive.ics.uci.edu/dataset/122/el+nino
-DOI Link: (https://doi.org/10.24432/C5WG62)
-This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.
+* Link to the dataset: https://archive.ics.uci.edu/dataset/122/el+nino
+* DOI Link: (https://doi.org/10.24432/C5WG62)
+* This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.
