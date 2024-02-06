@@ -7,6 +7,9 @@
 We will be using the **El Niño** dataset collected with the Tropical Atmosphere Ocean (TAO) array which was developed by the international Tropical Ocean Global Atmosphere (TOGA) program.
 The data set contains oceanographic and surface meteorological readings taken from a series of buoys positioned throughout the equatorial Pacific.
 
+## Requirements Folder
+We will be adding our requirements and features to this document: https://docs.google.com/document/d/1-uI7UP0DYwfjyP--KcykfcF6UX6qAPoUc8CGBpUa8PI/edit?pli=1
+
 *Relavant Links:*
 * Link to the dataset: https://archive.ics.uci.edu/dataset/122/el+nino
 * DOI Link: (https://doi.org/10.24432/C5WG62)
