@@ -1,7 +1,7 @@
-# [INSERT NAME HERE]
+# HurriScan
 
 ## Project Description
-[INSERT NAME] is a database integrated web application designed to provide accurate wid and temperature data for businesses and organizations on the seas, providing helpful predictions and hurricane warnings to keep people on the seas and coast safe.
+HurriScan is a database integrated web application designed to provide accurate wind and temperature data for businesses and organizations on the seas, providing helpful predictions and hurricane warnings to keep people on the coast and seas safe.
 
 ## Dataset
 We will be using the **El Niño** dataset collected with the Tropical Atmosphere Ocean (TAO) array which was developed by the international Tropical Ocean Global Atmosphere (TOGA) program.
