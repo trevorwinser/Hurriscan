@@ -11,28 +11,20 @@
     align-items: center;
 }
 
-.navbar-center {
-    text-align: center;
-}
-
 .logo-section {
-    height: 50px;
-    margin-top: 5px;
-    padding-left: 180px;
-}
-
-.navbar-title {
-    align-items: center;
-    padding-right: 400px;
+    width: 50px;
+    position: relative;
+    top: 10px;
 }
 
 .navbar-title {
     color: #6A4C93; 
     font-size: 44px; 
-    margin-left: -250px;
+}
+.navbar-tile img {
+    margin: 0px;
 }
 
 .navbar-icon {
     height: 50px; 
-    cursor: pointer; 
 }
