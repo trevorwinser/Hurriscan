@@ -1,0 +1,38 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FDF7FF; /* Light background color, change as needed */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+}
+
+.navbar-section {
+    align-items: center;
+}
+
+.navbar-center {
+    text-align: center;
+}
+
+.logo-section {
+    height: 50px;
+    margin-top: 5px;
+    padding-left: 180px;
+}
+
+.navbar-title {
+    align-items: center;
+    padding-right: 400px;
+}
+
+.navbar-title {
+    color: #6A4C93; 
+    font-size: 44px; 
+    margin-left: -250px;
+}
+
+.navbar-icon {
+    height: 50px; 
+    cursor: pointer; 
+}
