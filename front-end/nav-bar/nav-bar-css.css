@@ -1,0 +1,104 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FDF7FF; /* Light background color, change as needed */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+}
+
+.navbar-section {
+    align-items: center;
+}
+
+.logo-section {
+    width: 50px;
+    position: relative;
+    top: 10px;
+}
+
+.navbar-title {
+    color: #6A4C93; 
+    font-size: 44px; 
+}
+.navbar-tile img {
+    margin: 0px;
+}
+
+.navbar-icon {
+    height: 50px; 
+}
+
+/* The side panel (positioned to the left of the screen) */
+.side-panel {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    flex-direction: column; 
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #C4A8FF; /* Purple background for the panel */
+    overflow-x: hidden; 
+    transition: 0.3s; 
+    padding-top: 60px; 
+    font-size: 15px;
+}
+
+/* Style for labels with checkboxes (filter options) */
+.location-options label, .filter-section label {
+    background-color: white; /* White background */
+    display: block; 
+    padding: 15px; 
+    margin-right: 10px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    cursor: pointer;
+}
+
+/* The close button inside the side panel */
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 60px;
+    margin-left: 50px;
+}
+
+/* The right side panel */
+.right-side-panel {
+    height: 100%;
+    width: 0; /* Panel is initially hidden */
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0; /* Align to the right side */
+    background-color: #8A2BE2; /* Dark purple background for the panel */
+    overflow-x: hidden;
+    transition: 0.3s; /* Smooth transition */
+    padding-top: 60px; /* Space for content at the top */
+}
+
+/* The close button inside the right side panel */
+.closebtn-right {
+    position: absolute;
+    top: 0;
+    left: 25px; /* Align to the left side inside the panel */
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style for menu options */
+.menu-options a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 22px;
+    color: white;
+    display: block; /* Ensure each link is on a new line */
+}
+
+.menu-options a:hover {
+    background-color: #f1f1f1;
+    color: black;
+}
+
