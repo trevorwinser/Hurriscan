@@ -2,9 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FDF7FF; /* Light background color, change as needed */
-    padding: 10px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds shadow for depth */
+    background-color: #FDF7FF; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 .navbar-section {
@@ -61,44 +60,48 @@
     position: absolute;
     top: 0;
     right: 25px;
-    font-size: 60px;
     margin-left: 50px;
+    font-size: 36px;
 }
 
 /* The right side panel */
 .right-side-panel {
     height: 100%;
-    width: 0; /* Panel is initially hidden */
+    width: 0; 
     position: fixed;
     z-index: 1;
     top: 0;
-    right: 0; /* Align to the right side */
-    background-color: #8A2BE2; /* Dark purple background for the panel */
+    right: 0; 
+    background-color: #C4A8FF; 
     overflow-x: hidden;
-    transition: 0.3s; /* Smooth transition */
-    padding-top: 60px; /* Space for content at the top */
+    transition: 0.3s; 
+    padding-top: 60px; 
 }
 
 /* The close button inside the right side panel */
 .closebtn-right {
     position: absolute;
     top: 0;
-    left: 25px; /* Align to the left side inside the panel */
     font-size: 36px;
-    margin-left: 50px;
+    margin-left: 15px;
 }
 
-/* Style for menu options */
 .menu-options a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 22px;
-    color: white;
-    display: block; /* Ensure each link is on a new line */
+    color: rgb(0, 0, 0);
+    display: block; 
 }
 
 .menu-options a:hover {
     background-color: #f1f1f1;
     color: black;
 }
+
+/* Aligns the 'Menu' title towards the right side of the side panel */
+.menu-title {
+    margin-left: 15px; 
+}
+
 
