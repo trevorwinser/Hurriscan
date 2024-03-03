@@ -6,12 +6,12 @@ import os
 current_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Data paths
-data_file = os.path.join(current_dir, '../data/tao-all2.dat.gz')
-column_names_file = os.path.join(current_dir, '../data/tao-all2.col')
+data_file = os.path.join(current_dir, 'data/tao-all2.dat.gz')
+column_names_file = os.path.join(current_dir, 'data/tao-all2.col')
 
 # May use if necessary, but data seems less populated
-small_data_file = os.path.join(current_dir, '../data/elnino.gz')
-small_data_column_names_file = os.path.join(current_dir, '../data/elnino.col')
+small_data_file = os.path.join(current_dir, 'data/elnino.gz')
+small_data_column_names_file = os.path.join(current_dir, 'data/elnino.col')
 
 # Load column names
 with open(column_names_file, 'r') as f:
@@ -40,4 +40,4 @@ print(data)
 data = data.sort_values(by=['date','obs'])
 
 # Save the cleaned data to a CSV file in the local directory
-data.to_csv('../data/cleaned_data.csv', index=False)
+data.to_csv('data/cleaned_data.csv', index=False)
