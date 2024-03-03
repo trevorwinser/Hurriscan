@@ -35,6 +35,11 @@ data = data.dropna(how='any')
 
 print(data)
 
+# Remove duplicate rows
+data = data.drop_duplicates()
+
+print(data)
+
 # Sort the data by date
 # NOTE: ONLY DO AFTER EVERYTHING ELSE IS FIGURED OUT
 data = data.sort_values(by=['date','obs'])
