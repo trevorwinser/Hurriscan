@@ -1,71 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Map with Leaflet</title>
-    <!-- Include Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <!-- Include your custom navbar stylesheet -->
-    <link rel="stylesheet" href="nav-bar-css.css">
-    <!-- Include Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <style>
-        /* Set the size of the map container to take up half of the screen */
-        #map {
-            height: 100vh; /* Full height of the viewport */
-            width: 50%;    /* 50% of the viewport width */
-        }
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Interactive Map with Leaflet</title>
+   <!-- Include Leaflet CSS -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+   <!-- Include custom navbar stylesheet -->
+   <link rel="stylesheet" href="nav-bar-css.css">
+   <!-- Include Leaflet JavaScript -->
+   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   <style>
+       /* Set the size of the map container */
+       #map {
+           height: 100vh; /* Full height of the viewport */
+           width: 50%;   /* 50% of the viewport width */
+           float: left;  /* Float the map container to the left */
+       }
 
-        /* Set the size of the body to take up the full screen */
-        body {
-            margin: 0;
-            height: 100vh;
-            overflow: hidden; /* Prevent scrolling */
-            background-color: #9ECCDB;
-        }
-    </style>
+
+       /* Set the size of the body to take up the full screen */
+       body {
+           margin: 0;
+           height: 100vh;
+           background-color: #9ECCDB;
+           display: flex;
+       }
+
+
+       #image-container {
+           width: 50%;
+           box-sizing: border-box;
+           margin-left: 155px; /* Adjust this value as needed */
+       }
+      
+
+
+       /* Style for the image */
+       img {
+       width: 75%;
+       max-width: 100%;
+       height: 50%;
+       margin-bottom: 10px;
+       }
+
+
+   </style>
 </head>
 <body>
-    <!-- Navigation Bar
-    <header class="navbar">
-        <link rel="stylesheet" href="nav-bar-css.css">
+   <!-- Map container -->
+   <div id="map"></div>
 
-        <div class="navbar-section">
-            <img src="/images/filter.png" alt="Left Icon" class="navbar-icon" onclick="openNav()">
-        </div>
-        <div>
-            <div class="navbar-title">
-                <img src="/images/logo.png" alt="Logo Icon" class="logo-section">
-                HurriScan
-            </div>
-        </div>
-        <div class="navbar-section">
-            <img src="/images/profile icon.png" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
-        </div>
-    </header> -->
 
-    <img src="/Users/julie/Documents/zonal_winds_plot.png" alt="Zonal Winds Plot">
+   <!-- Image container on the right -->
+   <div id="image-container">
+       <img src="/images/zonal_winds_plot.png" alt="Zonal Winds Plot">
+       <img src="/images/pie_chart.png" alt="Temperature Plot">
+   </div>
 
-    <!-- Map container -->
-    <div id="map"></div>
 
-    <!-- Include your JavaScript file (if needed) -->
-    <!-- <script src="your-script.js"></script> -->
-
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([51.505, -0.09], 13);
-
-        // Add OpenStreetMap tiles as a base layer
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Add a marker with a popup
-        L.marker([51.5, -0.09]).addTo(map)
-            .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-            .openPopup();
-    </script>
+   <script src="sidePanel.js"></script>
+   <script>
+       // Initialize the map
+       var map = L.map('map').setView([51.505, -0.09], 13);
+       // Add OpenStreetMap tiles as a base layer
+       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+       }).addTo(map);
+       // Add a marker with a popup
+       L.marker([51.5, -0.09]).addTo(map)
+           .bindPopup('A pretty CSS popup.<br> Easily customizable.')
+           .openPopup();
+   </script>
 </body>
 </html>
