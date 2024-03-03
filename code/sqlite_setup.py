@@ -19,6 +19,37 @@ def create_table(conn):
             temp REAL
         )
     ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Account (
+            userId INTEGER PRIMARY KEY AUTOINCREMENT,
+            password TEXT NOT NULL,
+            alerts BOOLEAN NOT NULL,
+            dateCreated DATE NOT NULL,
+            isAdmin BOOLEAN NOT NULL,
+        )
+    ''')
+
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS Alerts (
+            userId INTEGER NOT NULL,
+            zone INTEGER NOT NULL,
+            email BOOLEAN NOT NULL,
+            text BOOLEAN NOT NULL,
+            FOREIGN KEY (userId) REFERENCES Account(userId)
+        )
+    ''')
+
+    cursor.execute('''
+        INSERT INTO Account (password, alerts, dateCreated, isAdmin) 
+        VALUES ('password123', 1, '2024-03-02', 0)
+    ''')
+
+    cursor.execute('''
+        INSERT INTO Alerts (userId, zone, email, text) 
+        VALUES ((SELECT userId FROM Account WHERE password = '123'), 2, 1, 0)
+    ''')
+
     conn.commit()
 
 def import_csv_to_table(conn, csv_file_path):

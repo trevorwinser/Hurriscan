@@ -1,0 +1,16 @@
+# Compiled Python files
+*.pyc
+
+# Log files
+*.log
+
+# Directory for virtual environments
+venv/
+__pycache__/
+
+# Dependency directories
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
