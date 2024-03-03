@@ -18,7 +18,6 @@
            float: left;  /* Float the map container to the left */
        }
 
-
        /* Set the size of the body to take up the full screen */
        body {
            margin: 0;
@@ -27,14 +26,11 @@
            display: flex;
        }
 
-
        #image-container {
            width: 50%;
            box-sizing: border-box;
            margin-left: 155px; /* Adjust this value as needed */
        }
-      
-
 
        /* Style for the image */
        img {
@@ -44,13 +40,11 @@
        margin-bottom: 10px;
        }
 
-
    </style>
 </head>
 <body>
    <!-- Map container -->
    <div id="map"></div>
-
 
    <!-- Image container on the right -->
    <div id="image-container">
@@ -58,19 +52,14 @@
        <img src="/images/pie_chart.png" alt="Temperature Plot">
    </div>
 
-
    <script src="sidePanel.js"></script>
    <script>
        // Initialize the map
-       var map = L.map('map').setView([51.505, -0.09], 13);
+       var map = L.map('map').setView([0, -160], 13);
        // Add OpenStreetMap tiles as a base layer
        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
        }).addTo(map);
-       // Add a marker with a popup
-       L.marker([51.5, -0.09]).addTo(map)
-           .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-           .openPopup();
    </script>
 </body>
 </html>
