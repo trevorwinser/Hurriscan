@@ -1,65 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Interactive Map with Leaflet</title>
-   <!-- Include Leaflet CSS -->
-   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-   <!-- Include custom navbar stylesheet -->
-   <link rel="stylesheet" href="nav-bar-css.css">
-   <!-- Include Leaflet JavaScript -->
-   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-   <style>
-       /* Set the size of the map container */
-       #map {
-           height: 100vh; /* Full height of the viewport */
-           width: 50%;   /* 50% of the viewport width */
-           float: left;  /* Float the map container to the left */
-       }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Map with Leaflet</title>
 
-       /* Set the size of the body to take up the full screen */
-       body {
-           margin: 0;
-           height: 100vh;
-           background-color: #9ECCDB;
-           display: flex;
-       }
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <!-- Include Leaflet JavaScript -->
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script src="heatmap.min.js"></script>
+    <script src="leaflet-heatmap.js"></script>
 
-       #image-container {
-           width: 50%;
-           box-sizing: border-box;
-           margin-left: 155px; /* Adjust this value as needed */
-       }
+    <!--    data-->
+    <script src="data.js"></script>
 
-       /* Style for the image */
-       img {
-       width: 75%;
-       max-width: 100%;
-       height: 50%;
-       margin-bottom: 10px;
-       }
-
-   </style>
+    <link rel="stylesheet" href="user-dashboard.css">
+    <style>
+        /* Set the size of the body to take up the full screen */
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: floralwhite;
+            display: flex;
+        }
+    </style>
 </head>
 <body>
-   <!-- Map container -->
-   <div id="map"></div>
+<div id="container">
+    <!-- Map container -->
+    <div id="map"></div>
+    <!-- Image container on the right -->
+    <div id="image-container">
+        <div>
+            <img src="../../images/zonal_winds_plot.png" alt="Zonal Winds Plot">
+        </div>
+        <div>
+            <img src="../../images/pie_chart.png" alt="Temperature Plot">
+        </div>
+        <div>
+            Latitude: <input type="text" id="latitude" readonly><br>
+            Longitude: <input type="text" id="longitude" readonly><br>
+        </div>
+    </div>
+</div>
 
-   <!-- Image container on the right -->
-   <div id="image-container">
-       <img src="/images/zonal_winds_plot.png" alt="Zonal Winds Plot">
-       <img src="/images/pie_chart.png" alt="Temperature Plot">
-   </div>
+<script>
 
-   <script src="sidePanel.js"></script>
-   <script>
-       // Initialize the map
-       var map = L.map('map').setView([0, -160], 13);
-       // Add OpenStreetMap tiles as a base layer
-       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-       }).addTo(map);
-   </script>
+    var cfg = {
+        // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+        // if scaleRadius is false it will be the constant radius used in pixels
+        "radius": 2,
+        "maxOpacity": .8,
+        // scales the radius based on map zoom
+        "scaleRadius": true,
+        // if set to false the heatmap uses the global maximum for colorization
+        // if activated: uses the data maximum within the current map boundaries
+        //   (there will always be a red spot with useLocalExtremas true)
+        // "useLocalExtrema": true,
+        // which field name in your data represents the latitude - default "lat"
+        latField: 'latitude',
+        // which field name in your data represents the longitude - default "lng"
+        lngField: 'longitude',
+        // which field name in your data represents the data value - default "value"
+        valueField: 'humidity'
+    };
+
+
+    var heatmapLayer = new HeatmapOverlay(cfg);
+    heatmapLayer.setData(el_nimo_data);
+
+    var baseLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 15,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+
+    var map = new L.Map('map', {
+        center: new L.LatLng(0, -160),
+        zoom: 4,
+        layers: [baseLayer, heatmapLayer]
+    });
+
+    function updateLatLong() {
+        const center = map.getCenter();
+        document.getElementById('latitude').value = center.lat;
+        document.getElementById('longitude').value = center.lng;
+    }
+    map.on('move', updateLatLong);
+</script>
 </body>
 </html>

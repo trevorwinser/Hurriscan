@@ -10,3 +10,6 @@ The data set contains oceanographic and surface meteorological readings taken fr
 Link to the dataset: https://archive.ics.uci.edu/dataset/122/el+nino
 DOI Link: https://doi.org/10.24432/C5WG62
 This dataset is licensed under a Creative Commons Attribution 4.0 International (CC BY 4.0) license.
+
+## User Dashboard
+Leaflet Heat Map: https://www.patrick-wied.at/static/heatmapjs/plugin-leaflet-layer.htmlwied.at/static/heatmapjs/plugin-leaflet-layer.html
