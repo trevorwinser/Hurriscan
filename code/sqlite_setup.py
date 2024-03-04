@@ -22,32 +22,39 @@ def create_table(conn):
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS Account (
-            userId INTEGER PRIMARY KEY AUTOINCREMENT,
-            password TEXT NOT NULL,
-            alerts BOOLEAN NOT NULL,
+            userId INT PRIMARY KEY AUTOINCREMENT,
+            password TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL UNIQUE,
+            phone TEXT NOT NULL UNIQUE,
+            alerts TINYINT(1) NOT NULL,
             dateCreated DATE NOT NULL,
-            isAdmin BOOLEAN NOT NULL,
+            isAdmin TINYINT(1) NOT NULL
         )
     ''')
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS Alerts (
-            userId INTEGER NOT NULL,
-            zone INTEGER NOT NULL,
-            email BOOLEAN NOT NULL,
-            text BOOLEAN NOT NULL,
+            userId INT NOT NULL,
+            zone INT NOT NULL,
+            email TINYINT(1) NOT NULL,
+            text TINYINT(1) NOT NULL,
             FOREIGN KEY (userId) REFERENCES Account(userId)
         )
     ''')
 
     cursor.execute('''
-        INSERT INTO Account (password, alerts, dateCreated, isAdmin) 
-        VALUES ('password123', 1, '2024-03-02', 0)
+        INSERT INTO Account (password, alerts, email, phone, dateCreated, isAdmin) 
+        VALUES ('password123', 1, 'test@test.com', '13064443333', '2024-03-02', 0)
+    ''')
+
+    cursor.execute('''
+        INSERT INTO Account (password, alerts, email, phone, dateCreated, isAdmin) 
+        VALUES ('password1234', 1, 'test2@test2.com', '13064442222','2024-03-04', 1)
     ''')
 
     cursor.execute('''
         INSERT INTO Alerts (userId, zone, email, text) 
-        VALUES ((SELECT userId FROM Account WHERE password = '123'), 2, 1, 0)
+        VALUES ((SELECT userId FROM Account WHERE password = 'password123'), 2, 1, 0)
     ''')
 
     conn.commit()
