@@ -28,9 +28,11 @@ class TestDatabase(unittest.TestCase):
         account = cursor.fetchone()
         self.assertIsNotNone(account)
         self.assertEqual(account[1], 'password123')
-        self.assertEqual(account[2], 1)  
-        self.assertEqual(account[3], '2024-03-02')  
-        self.assertEqual(account[4], 0)
+        self.assertEqual(account[2], 'test@test.com')  
+        self.assertEqual(account[3], '13064443333')  
+        self.assertEqual(account[4], 1)
+        self.assertEqual(account[5], '2024-03-02')
+        self.assertEqual(account[6], 0)
 
     def test_alerts_insert(self): # This test checks for the data in the table
         cursor = self.conn.cursor()

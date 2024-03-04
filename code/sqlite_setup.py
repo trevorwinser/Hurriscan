@@ -22,7 +22,7 @@ def create_table(conn):
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS Account (
-            userId INT PRIMARY KEY AUTOINCREMENT,
+            userId INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
             password TEXT NOT NULL UNIQUE,
             email TEXT NOT NULL UNIQUE,
             phone TEXT NOT NULL UNIQUE,
