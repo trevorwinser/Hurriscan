@@ -19,7 +19,7 @@ plt.xlabel('Day')
 plt.ylabel('Number of Users')
 
 # Save the plot
-plt.savefig('user_activity.png')
+plt.savefig('/Users/julie/Documents/user_activity.png')
 
 # Show the plot
 plt.show()
@@ -44,7 +44,7 @@ plt.ylabel('Steps')
 plt.xticks(rotation=45)
 
 # Save the plot
-plt.savefig('steps_taken.png')
+plt.savefig('/Users/julie/Documents/steps_taken.png')
 
 # Show the plot
 plt.show()
