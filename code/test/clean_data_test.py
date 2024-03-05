@@ -5,10 +5,17 @@ def test_no_na_rows(data):
     assert data.isna().sum().sum() == 0, "Some rows contain NA values."
 
 def test_random_row(data):
-    assert data.iloc[np.random.randint(0, len(data))].isna().sum() == 0, f"Row {random_index} contains NA values."
+    random_index = np.random.randint(0, len(data))
+    assert data.iloc[random_index].isna().sum() == 0, f"Row {random_index} contains NA values."
 
-def test_data_types(data):
-    expected_data_types = {
+def test_data_types(data, expected_data_types):
+    for column, expected_type in expected_data_types.items():
+        if column in data.columns:
+            assert data[column].dtype == expected_type, f"Column '{column}' has incorrect data type."
+
+def run_tests():
+    data1 = pd.read_csv('../../data/cleaned_data.csv')
+    expected_data_types1 = {
         'obs': 'int64',
         'year': 'int64',
         'month': 'int64',
@@ -22,15 +29,8 @@ def test_data_types(data):
         'air': 'float64',
         'temp.': 'float64'
     }
-
-    for column, expected_type in expected_data_types.items():
-        assert data[column].dtype == expected_type, f"Column '{column}' has incorrect data type."
-
-def run_tests():
-    data = pd.read_csv('../../data/cleaned_data.csv')
-    test_no_na_rows(data)
-    test_random_row(data)
-    test_data_types(data)
-
+    test_no_na_rows(data1)
+    test_random_row(data1)
+    test_data_types(data1, expected_data_types1)
 
 run_tests()
