@@ -1,7 +1,6 @@
 .navbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     background-color: #FDF7FF; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
@@ -12,8 +11,8 @@
 
 .exit-button {
     position: fixed; 
-    top: 10px; 
-    left: 10px; 
+    top: 20px; 
+    left: 25px; 
     background-color: #C1DBF3; 
     color: black;
     padding: 10px 20px; 
@@ -21,7 +20,7 @@
     border: none; 
     cursor: pointer; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .exit-button:hover {
@@ -32,20 +31,20 @@
 .logo-section {
     width: 50px;
     position: relative;
-    top: 10px;
+    top: 12px;
 }
 
 .navbar-title {
     color: #6A4C93; 
     font-size: 44px;
-    margin-left: 550px; 
+    margin-left: 445px; 
 }
 .navbar-tile img {
     margin: 0px;
 }
 
 .navbar-icon {
-    height: 50px; 
+    height: 75px; 
 }
 
 /* The right side panel */

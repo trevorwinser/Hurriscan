@@ -1,11 +1,42 @@
-#image-container {
+#container {
+  margin: 10px;
   display: flex;
   flex-direction: row;
   gap: 20px;
+  width: 100%;
+}
+
+#image-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1; /* Add flex: 1 to make the container take up remaining space */
 }
 
 /* Style for the image */
 #image-container img {
-  max-width: 50%; /* Ensure images don't exceed container width */
-  height: auto; /* Maintain aspect ratio */
+  padding: 20px;
+  max-width: 90%;
+  height: auto;
+  border-radius: 30px;
+}
+
+/* Style for dataset image */
+#image {
+  padding: 20px;
+  flex: 1; /* Add flex: 1 to make the container take up remaining space */
+  display: flex;
+  justify-content: flex-end; /* Align content to the right */
+  margin-right: 20px;
+}
+
+#image img {
+  max-width: 100%;
+  height: auto;
+}
+
+#contacts {
+  position: absolute; /* Set position to absolute */
+  top: 690px;
+  right: 175px; /* Adjust right spacing as needed */
 }
