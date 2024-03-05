@@ -24,3 +24,27 @@ plt.savefig('user_activity.png')
 # Show the plot
 plt.show()
 
+# Generate fake step data for different days
+days = pd.date_range(start='2024-01-01', end='2024-01-10')  # 10 days
+steps = np.random.randint(1000, 10000, size=len(days))  # Random steps taken each day
+
+# Create a Pandas DataFrame
+data = {'Date': days, 'Steps': steps}
+df = pd.DataFrame(data)
+
+# Plot the line graph using Pandas built-in plotting
+df.plot(x='Date', y='Steps', marker='o', linestyle='-')
+
+# Add title and labels
+plt.title('Daily Steps Taken')
+plt.xlabel('Date')
+plt.ylabel('Steps')
+
+# Rotate x-axis labels for better readability
+plt.xticks(rotation=45)
+
+# Save the plot
+plt.savefig('steps_taken.png')
+
+# Show the plot
+plt.show()
