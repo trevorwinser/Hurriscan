@@ -1,21 +1,32 @@
-<header class="navbar">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HurriScan</title>
     <link rel = "stylesheet" href= "nav-bar-css.css">
+</head>
+<body>
+    
+
+<div class="navbar">
 
     <div class="navbar-section">
-        <img src="/code/images/filter.png" alt="Left Icon" class="navbar-icon" onclick="openNav()"> 
+        <img src="../../images/filter.png" alt="Left Icon" class="navbar-icon" onclick="openNav()"> 
     </div>
-    <div>
-        <div class="navbar-title">
-            <img src="/code/images/logo.png" alt="Logo Icon" class = "logo-section"> 
-            HurriScan
-        </div>
+
+    <div class="navbar-title">
+        <img src="../../images/radar logo/icons8-radar-50.png" alt="Logo Icon" > 
+        <h1>HurriScan</h1>  
     </div>
+    
     <div class="navbar-section">
-        <img src="/code/images/profile icon.png" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
+        <img src="../../images/profile icon.png" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
     </div>
-</header>
+
+</div>
 <iframe src="/code/front-end/user-dashboard/user-dashboard.html" style="width:100%; height: 100%; border:none;" ></iframe>
-<body>
+
 <div id="sidePanel" class="side-panel">
     <!-- Close button -->
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -23,7 +34,7 @@
     <h2>Filter Options</h2>
     
     <!-- Location Filter Section -->
-    <div class="filter-section location-section">
+    <div class="location-section">
         <h3>Location:</h3> 
         <div class="location-options">
             <label for="location1"><input type="checkbox" id="location1"> Location 1</label> <br>
@@ -56,3 +67,4 @@
 
     <script src="sidePanel.js"></script>
 </body>
+</html>

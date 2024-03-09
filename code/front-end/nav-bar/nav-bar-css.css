@@ -1,12 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: "roboto mono", monospace;
+}
 .navbar {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FDF7FF; 
+    background-color: #9EC8B9; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
 .navbar-section {
+    border: 3px solid #C4A8FF;
     align-items: center;
 }
 
@@ -17,8 +30,13 @@
 }
 
 .navbar-title {
-    color: #6A4C93; 
-    font-size: 44px; 
+    border: 3px solid #C4A8FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #092635; 
+    font-family: "roboto Mono", monospace;
+   
 }
 .navbar-tile img {
     margin: 0px;
@@ -37,16 +55,27 @@
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #C4A8FF; /* Purple background for the panel */
+    background-color: #9EC8B9; /* Purple background for the panel */
     overflow-x: hidden; 
     transition: 0.3s; 
     padding-top: 60px; 
     font-size: 15px;
 }
 
+.location-section h3{
+    padding-bottom: 10px;
+    padding-top: 15px;
+}
+
+.filter-section h3{
+    padding-bottom: 10px;
+    padding-top: 15px;
+}
+
 /* Style for labels with checkboxes (filter options) */
 .location-options label, .filter-section label {
-    background-color: white; /* White background */
+    background-color: #1B4242; /* White background */
+    color: #9EC8B9;
     display: block; 
     padding: 15px; 
     margin-right: 10px;
@@ -72,7 +101,7 @@
     z-index: 1;
     top: 0;
     right: 0; 
-    background-color: #C4A8FF; 
+    background-color: #9EC8B9; 
     overflow-x: hidden;
     transition: 0.3s; 
     padding-top: 60px; 
@@ -89,7 +118,7 @@
 .menu-options a {
     padding: 10px 15px;
     text-decoration: none;
-    font-size: 22px;
+    font-size: 20pxpx;
     color: rgb(0, 0, 0);
     display: block; 
 }
