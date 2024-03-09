@@ -10,34 +10,30 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #c2dcea;
+            background-color: #092635;
         }
     </style>
+    
 </head>
 <body>
-    <div id = "container">
-    <div id="image-container">
-        <div>
-            <img src="../../../images/user_activity.png" alt="User Activity in Past 10 Days">
-        </div>
-        <div>
-            <img src="../../../images/steps_taken.png" alt="Steps taken by user">
+    <!--add nav bar-->
+    <iframe src="admin-nav-bar.html" style="width:100%; height: 100%; border:none;" ></iframe>
+
+    <!--alert user button-->
+    <button id="button">Alert User</button>
+
+    <div class="display">
+        <div class="container">
+            <div class="login-menu">
+                <h1>Add User</h1>
+                <form action="#.html">
+                    <input type="text" id="fname" name="fname" placeholder="Username/email"><br>
+                    <input type="text" id="lname" name="lname" placeholder="Password"><br>
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+            <img src="../../../images/loginImg.png">
         </div>
     </div>
-    <div id = "image">
-        <div>
-            <img src="../../../images/data.png" alt="Dataset">
-        </div>
-    </div>
-    <div id = "contacts">
-        <h1>Contact Information</h1>
-        <h4> Noah Stasuik - Project Manager</h4>
-        <h4> Trevor Winser - Developer</h4>
-        <h4> Lakshay Dang - Developer</h4>
-        <h4> Komal Singh - Developer</h4>
-        <h4> Julie Flament - Developer</h4>
-        <h4> GitHub Repository - <a href = "https://github.com/trevorwinser/Infinite-Loopers">https://github.com/trevorwinser/Infinite-Loopers</a></h4>
-    </div>
-</div>  
 </body>
 </html>
