@@ -14,7 +14,8 @@
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    margin: 4px 2px;
+    margin-bottom: 10px;
+    margin-top: -30px;
     cursor: pointer;
     border-radius: 10px;
     transition-duration: 0.4s;
@@ -77,7 +78,7 @@ input[type=submit] {
     font-family: "Roboto Mono", monospace;
     font-weight: 600;
     font-size: 15px;
-    width: calc(100% - 26px); /* Adjusted width to match input field */
+    width: 250px;
 }
 
 input[type=submit]:active {
