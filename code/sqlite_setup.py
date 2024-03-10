@@ -87,7 +87,7 @@ def main():
     conn = sqlite3.connect(':memory:')
 
     # Specify the path to CSV file
-    csv_file_path = '/Users/julie/Downloads/cleaned_data.csv'
+    csv_file_path = 'code/data/cleaned_data.csv'
 
     # Create the table
     create_table(conn)
