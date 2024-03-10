@@ -4,7 +4,7 @@ import sqlite_setup
 
 class TestDatabase(unittest.TestCase):
     def setUp(self):
-        self.conn = sqlite3.connect(':memory:')
+        self.conn = sqlite3.connect('hurriscan.db')
         sqlite_setup.create_table(self.conn)
 
     def test_new_table(self): # These three tests check for the table existence
