@@ -57,6 +57,16 @@ def create_table(conn):
         VALUES ((SELECT userId FROM Account WHERE password = 'password123'), 2, 1, 0)
     ''')
 
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS User (
+            id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+            username TEXT NOT NULL UNIQUE,
+            email TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            is_admin TINYINT(1) DEFAULT 0
+        )
+    ''')
+
     conn.commit()
 
 def import_csv_to_table(conn, csv_file_path):
@@ -84,10 +94,10 @@ def import_csv_to_table(conn, csv_file_path):
         
 def main():
     # Connect to SQLite in-memory database
-    conn = sqlite3.connect(':memory:')
+    conn = sqlite3.connect('hurriscan.db')
 
     # Specify the path to CSV file
-    csv_file_path = '/Users/julie/Downloads/cleaned_data.csv'
+    csv_file_path = 'C:/Users/ksing/OneDrive/Documents/GitHub/Infinite-Loopers/code/data/cleaned_data.csv'
 
     # Create the table
     create_table(conn)
