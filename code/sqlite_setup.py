@@ -13,18 +13,18 @@ def create_table(conn):
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS Data (
-            obs INTEGER,
-            year INTEGER,
-            month INTEGER,
-            day INTEGER,
-            date INTEGER,
-            latitude REAL,
-            longitude REAL,
-            zon_winds REAL,
-            mer_winds REAL,
-            humidity REAL,
-            air REAL,
-            temp REAL
+            obs INTEGER NOT NULL,
+            year INTEGER NOT NULL,
+            month INTEGER NOT NULL,
+            day INTEGER NOT NULL,
+            date INTEGER NOT NULL,
+            latitude REAL NOT NULL,
+            longitude REAL NOT NULL,
+            zon_winds REAL NOT NULL,
+            mer_winds REAL NOT NULL,
+            humidity REAL NOT NULL,
+            air REAL NOT NULL,
+            temp REAL NOT NULL
         );
     ''')
 
