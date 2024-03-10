@@ -1,21 +1,24 @@
 import pandas as pd
 import numpy as np
+from pathlib import Path
+import pytest
 
-def test_no_na_rows(data):
-    assert data.isna().sum().sum() == 0, "Some rows contain NA values."
+# Define pytest fixtures
+@pytest.fixture
+def data():
+    # Construct the file path for test data
+    current_file_dir = Path(__file__).parent
+    data_file_path = current_file_dir / '..' / 'data' / 'cleaned_data.csv'
+    absolute_data_file_path = data_file_path.resolve()
 
-def test_random_row(data):
-    random_index = np.random.randint(0, len(data))
-    assert data.iloc[random_index].isna().sum() == 0, f"Row {random_index} contains NA values."
+    # Load and return the test data
+    test_data = pd.read_csv(absolute_data_file_path)
+    return test_data
 
-def test_data_types(data, expected_data_types):
-    for column, expected_type in expected_data_types.items():
-        if column in data.columns:
-            assert data[column].dtype == expected_type, f"Column '{column}' has incorrect data type."
-
-def run_tests():
-    data1 = pd.read_csv('../../data/cleaned_data.csv')
-    expected_data_types1 = {
+@pytest.fixture
+def expected_data_types():
+    # Define the expected data types for columns
+    return {
         'obs': 'int64',
         'year': 'int64',
         'month': 'int64',
@@ -29,8 +32,16 @@ def run_tests():
         'air': 'float64',
         'temp.': 'float64'
     }
-    test_no_na_rows(data1)
-    test_random_row(data1)
-    test_data_types(data1, expected_data_types1)
 
-run_tests()
+def test_no_na_rows(data):
+    assert data.isna().sum().sum() == 0, "Some rows contain NA values."
+
+def test_random_row(data):
+    random_index = np.random.randint(0, len(data))
+    assert data.iloc[random_index].isna().sum() == 0, f"Row {random_index} contains NA values."
+
+def test_data_types(data, expected_data_types):
+    for column, expected_type in expected_data_types.items():
+        # Only perform the check if the column exists in the data
+        if column in data.columns:
+            assert data[column].dtype == expected_type, f"Column '{column}' has incorrect data type."
