@@ -1,36 +1,24 @@
-#button {
-  background-color: #1B4242; /* Green */
-  border: none;
-  color: #9EC8B9;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 10px;
-  transition-duration: 0.4s;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-}
-
+/* Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background-color: #092635;
-    font-family: "Roboto Mono", monospace;
-    font-optical-sizing: auto;
+/* Button Styles */
+#button {
+    background-color: #1B4242; /* Green */
+    border: 3px solid #9EC8B9;
+    font-weight: 600px;
+    color: #9EC8B9;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
     font-size: 16px;
-}
-
-header {
-    background-color: #9EC8B9;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition-duration: 0.4s;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 header .container {
@@ -42,8 +30,7 @@ header .container {
 
 .container {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    align-items: left;
     padding-left: 20px;
 }
 
@@ -52,8 +39,8 @@ header .container {
 }
 
 .display {
-    padding-top: 250px;
-    color: #9EC8B9;
+    padding-top: 20px;
+    color: #9EC8B9; 
 }
 
 .display a {
@@ -63,7 +50,7 @@ header .container {
 input {
     padding: 10px;
     margin-bottom: 10px;
-    width: 100%;
+    width: calc(100% - 26px); /* Adjusted width to accommodate padding */
     background-color: #9EC8B9;
     color: #092635;
     border-radius: 5px;
@@ -84,12 +71,13 @@ input::placeholder {
 }
 
 input[type=submit] {
-    background-color: #092635;
+    background-color: #1B4242;
     color: #9EC8B9;
     border: 3px solid #9EC8B9;
     font-family: "Roboto Mono", monospace;
     font-weight: 600;
     font-size: 15px;
+    width: calc(100% - 26px); /* Adjusted width to match input field */
 }
 
 input[type=submit]:active {
@@ -99,7 +87,6 @@ input[type=submit]:active {
 .login-menu {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .login-menu h1 {
