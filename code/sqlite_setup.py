@@ -3,8 +3,16 @@ import csv
 
 def create_table(conn):
     cursor = conn.cursor()
+
+    cursor.execute("DROP TABLE IF EXISTS Data;")
+    cursor.execute("DROP TABLE IF EXISTS Alerts;")
+    cursor.execute("DROP TABLE IF EXISTS User;")
+    cursor.execute("DROP TABLE IF EXISTS Account;")
+    cursor.execute("DROP TABLE IF EXISTS user;")
+    cursor.execute("DROP TABLE IF EXISTS new_table;")
+
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS new_table (
+        CREATE TABLE IF NOT EXISTS Data (
             obs INTEGER,
             year INTEGER,
             month INTEGER,
@@ -17,54 +25,28 @@ def create_table(conn):
             humidity REAL,
             air REAL,
             temp REAL
-        )
+        );
     ''')
 
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Account (
-            userId INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-            password TEXT NOT NULL UNIQUE,
-            email TEXT NOT NULL UNIQUE,
-            phone TEXT NOT NULL UNIQUE,
-            alerts TINYINT(1) NOT NULL,
-            dateCreated DATE NOT NULL,
-            isAdmin TINYINT(1) NOT NULL
-        )
-    ''')
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS Alerts (
-            userId INT NOT NULL,
-            zone INT NOT NULL,
-            email TINYINT(1) NOT NULL,
-            text TINYINT(1) NOT NULL,
-            FOREIGN KEY (userId) REFERENCES Account(userId)
-        )
-    ''')
-
-    cursor.execute('''
-        INSERT INTO Account (password, alerts, email, phone, dateCreated, isAdmin) 
-        VALUES ('password123', 1, 'test@test.com', '13064443333', '2024-03-02', 0)
-    ''')
-
-    cursor.execute('''
-        INSERT INTO Account (password, alerts, email, phone, dateCreated, isAdmin) 
-        VALUES ('password1234', 1, 'test2@test2.com', '13064442222','2024-03-04', 1)
-    ''')
-
-    cursor.execute('''
-        INSERT INTO Alerts (userId, zone, email, text) 
-        VALUES ((SELECT userId FROM Account WHERE password = 'password123'), 2, 1, 0)
+        CREATE TABLE IF NOT EXISTS Alert ( 
+            id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+            title TEXT NOT NULL,
+            text TEXT NOT NULL,
+            date DATE NOT NULL
+        );
     ''')
 
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS User (
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
-            username TEXT NOT NULL UNIQUE,
+            username TEXT NOT NULL,
+            password TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
-            password_hash TEXT NOT NULL,
-            is_admin TINYINT(1) DEFAULT 0
-        )
+            alerts TINYINT(1) NOT NULL,
+            dateCreated DATE NOT NULL,
+            isAdmin TINYINT(1) NOT NULL
+        );
     ''')
 
     conn.commit()
@@ -82,8 +64,8 @@ def import_csv_to_table(conn, csv_file_path):
             # Insert data into the table
             for row in csv_reader:
                 cursor.execute('''
-                    INSERT INTO new_table
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO Data
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
                 ''', row)
                 
         conn.commit()
@@ -92,27 +74,57 @@ def import_csv_to_table(conn, csv_file_path):
     except Exception as e:
         print(f"Error: {e}")
         
+def create_users(conn):
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO User (username, password, email, alerts, dateCreated, isAdmin)
+        VALUES ("Admin1", "Password1", "admin@gmail.com", 1, "2024-03-10", 1)
+    ''')
+
+    cursor.execute('''
+        INSERT INTO User (username, password, email, alerts, dateCreated, isAdmin)
+        VALUES ("User1", "Password1", "user@gmail.com", 1, "2024-03-10", 0)
+    ''')
+
 def main():
-    # Connect to SQLite in-memory database
+
     conn = sqlite3.connect('hurriscan.db')
 
-    # Specify the path to CSV file
-    csv_file_path = 'C:/Users/ksing/OneDrive/Documents/GitHub/Infinite-Loopers/code/data/cleaned_data.csv'
+    csv_file_path = 'data/cleaned_data.csv'
 
-    # Create the table
     create_table(conn)
 
-    # Import data from CSV to the table
     import_csv_to_table(conn, csv_file_path)
 
-    # Query and print data from the table
+    create_users(conn)
+
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM new_table')
+
+    # print("Data in the database:")
+    # cursor.execute("SELECT * FROM Data;")
+    # rows = cursor.fetchall()
+    # for row in rows:
+    #     print(row)
+
+    print("\nTotal rows in the Data table:")
+    cursor.execute("SELECT COUNT(*) FROM Data;")
+    total_rows = cursor.fetchall()
+    for row in total_rows:
+        print(row[0])
+
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    print("\nTables:")
+    for table in tables:
+        print(table[0])
+
+    print("\nUsers:")
+    cursor.execute("SELECT username FROM User;")
     rows = cursor.fetchall()
     for row in rows:
-        print(row)
+        print(row[0])
 
-    # Close the connection
     conn.close()
 
 if __name__ == "__main__":

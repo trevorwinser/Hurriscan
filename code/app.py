@@ -23,7 +23,7 @@ def data_visualization():
     cur = conn.cursor()
 
     # Execute a query to fetch data from your table
-    cur.execute('SELECT month, SUM(temp) as total_temp FROM new_table GROUP BY month')
+    cur.execute('SELECT month, SUM(temp) as total_temp FROM Data GROUP BY month')
     data = cur.fetchall()  # Fetches all rows as a list of dicts
 
     # Close the connection
