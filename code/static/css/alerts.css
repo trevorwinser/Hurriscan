@@ -127,5 +127,5 @@ input[type="text"] {
 }
 
 #submit input[type="submit"]:hover {
-  background-color: #285959; /* Change the background color when hovering over the button */
+  background-color: #285959; 
 }
