@@ -1,5 +1,5 @@
 .DS_Store
 .idea
-venv/
-*.pyc
-__pycache__/
+code/venv
+code/_pycache_
+code/hurriscan.db
