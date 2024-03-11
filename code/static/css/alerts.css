@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+  background-color: #092635;
+}
+
+#title {
+  display: flex;
+  justify-content: center;
+  padding-left: 50px;
+  padding-top: 50px;
+}
+
+#title h1 {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+  font-size: 64px;
+  margin: 20px;
+  color: #9EC8B9;
+}
+
+.logo-section {
+  height: 102px;
+  width: 116px;
+}
+
+.description {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 auto;
+  padding-top: 30px;
+  text-align: center;
+  width: 700px;
+  color: #9EC8B9;
+}
+
+#form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+
+#zone {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  color: #D9D9D9;
+  font-size: 20px;
+}
+
+.zone-section {
+  display: inline-block;
+  width: 125px;
+  height: 90px;
+}
+
+#check1, #check2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+#message {
+  /* Add your styles here */
+}
+
+.message-section {
+  /* Add your styles here */
+}
+
+#mail {
+  /* Add your styles here */
+}
+
+.mail-section {
+  /* Add your styles here */
+}
+
+/* Style for the submit section */
+#submit {
+  /* Add your styles here */
+}

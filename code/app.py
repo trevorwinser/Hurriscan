@@ -40,6 +40,10 @@ def data_visualization():
 def home():
     return 'Welcome to the Home Page'
 
+@app.route('/alerts')
+def alerts_page():
+    return render_template('alerts.html')
+
 with app.app_context():
     db.create_all()
 

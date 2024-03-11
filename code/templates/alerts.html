@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/alerts.css') }}">
+</head>
+<body>
+    <div id="title">
+        <h1>Alerts Page Template</h1>
+        <img src="{{ url_for('static', filename='images/alert.png') }}" alt="Logo Icon" class = "logo-section">
+    </div>
+    <h3 class="description">Sign Up to Recieve Text or Email Notifcations about hurricane activity based on your prefered region!</h3>
+    <div id="form">
+        <div id="zone">
+            <img src="{{ url_for('static', filename='images/earth.png') }}" alt="Zone Icon" class = "zone-section">
+            <div id="check1">
+                <input type="checkbox" id="east-coast" name="east-coast">
+                <label for="east-coast">East Coast</label>
+            </div>
+            <div id="check2">
+                <input type="checkbox" id="west-coast" name="west-coast">
+                <label for="west-coast">West Coast</label>
+            </div>
+        </div>
+        <div id="message">
+            <img src="{{ url_for('static', filename='images/message.png') }}" alt="Message Icon" class = "message-section">
+            <input type="text" id="phone" name="phone" placeholder="Phone Number">
+        </div>
+        <div id="mail">
+            <img src="{{ url_for('static', filename='images/mail.png') }}" alt="Mail Icon" class = "mail-section">
+            <input type="text" id="email" name="email" placeholder="Email Address">
+        </div>
+    </div>
+    <div id="submit">
+        <input type="submit" value="SAVE PREFERENCES">
+    </div>
+</body>
+</html>
