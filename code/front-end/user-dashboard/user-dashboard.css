@@ -1,3 +1,7 @@
+body{
+    background-color: #092635;
+    color: #9EC8B9;
+}
 #container {
     margin: 20px;
     display: flex;
