@@ -1,8 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #092635 ;
+    color: #9EC8B9;
+    font-family: "roboto mono", monospace;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #FDF7FF; 
+    background-color: #9EC8B9; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
@@ -11,12 +25,11 @@
 }
 
 .exit-button {
-    position: fixed; 
-    top: 10px; 
-    left: 10px; 
-    background-color: #C1DBF3; 
-    color: black;
-    padding: 10px 20px; 
+    
+    background-color: #1B4242; 
+    color: #9EC8B9;
+    padding: 10px 20px;
+    margin-left: 10px;
     border-radius: 15px; 
     border: none; 
     cursor: pointer; 
@@ -24,25 +37,25 @@
     font-size: 16px;
 }
 
-.exit-button:hover {
-    background-color: #C0C0C0; 
+.exit-button:active {
+    background-color: #5C8374; 
 }
 
 
 .logo-section {
-    width: 50px;
-    position: relative;
-    top: 10px;
+    
+    padding-right: 10px;
+    
 }
 
 .navbar-title {
-    color: #6A4C93; 
-    font-size: 44px;
-    margin-left: 550px; 
+    display: flex;
+    align-items: center;
+    color: #092635; 
+    
+    
 }
-.navbar-tile img {
-    margin: 0px;
-}
+
 
 .navbar-icon {
     height: 50px; 

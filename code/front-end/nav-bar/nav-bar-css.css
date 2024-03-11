@@ -19,18 +19,17 @@ body{
 }
 
 .navbar-section {
-    border: 3px solid #C4A8FF;
+    
     align-items: center;
 }
 
 .logo-section {
-    width: 50px;
-    position: relative;
-    top: 10px;
+    
+    padding-right: 10px;
 }
 
 .navbar-title {
-    border: 3px solid #C4A8FF;
+    /*border: 3px solid #C4A8FF;*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,9 +37,7 @@ body{
     font-family: "roboto Mono", monospace;
    
 }
-.navbar-tile img {
-    margin: 0px;
-}
+
 
 .navbar-icon {
     height: 50px; 
