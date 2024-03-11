@@ -1,29 +1,37 @@
-from flask import Blueprint
+from flask import Flask, jsonify, request
+import json
 
-admin_bp = Blueprint('admin', __name__)
+app = Flask(__name__)
 
-users = []
+# Load initial data from JSON file
+with open('users.json', 'r') as file:
+    users = json.load(file)
 
-@admin_bp.route('/admin/users', methods=['GET'])
+@app.route('/admin/users', methods=['GET'])
 def get_users():
-    return users, 200
+    return jsonify(users), 200
 
-@admin_bp.route('/admin/users', methods=['POST'])
+@app.route('/admin/users', methods=['POST'])
 def create_user():
-    users.append(f"User {len(users) + 1}")
-    return "created", 201
+    data = request.get_json()
+    users.append(data)
+    update_json_file(users)
+    return jsonify({"message": "User created successfully"}), 201
 
-@admin_bp.route('/admin/users/<name>', methods=['POST'])
-def create_user_name(name: str):
-    users.append(f"User {name}")
-    return "created", 201
+@app.route('/admin/users/<username>', methods=['DELETE'])
+def delete_user(username):
+    for user in users:
+        if user.get('username') == username:  # Assuming 'username' is the key for the username in user data
+            users.remove(user)
+            update_json_file(users)
+            return jsonify({"message": f"Deleted user: {username}"}), 204
+    return jsonify({"message": "User not found"}), 404
 
-@admin_bp.route('/admin/users', methods=['DELETE'])
-def del_user():
-    users.pop()
-    return "deleted", 204
+def update_json_file(data):
+    with open('users.json', 'w') as file:
+        json.dump(data, file, indent=4)
 
-@admin_bp.route('/admin/users/<key>', methods=['DELETE'])
-def del_user_index(key: str):
-    users.pop(int(key))
-    return "deleted", 204
+if __name__ == '__main__':
+    print("Current users:")
+    print(users)  # This will print the current content of the users list
+    app.run(debug=True)
