@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href=" {{url_for('static', filename='css/login.css')}}">
     <title>HurriScan Login
     </title>
 </head>
@@ -14,7 +14,7 @@
 
     <header>
         <div class = "container">
-            <img src="../../images/radar logo/icons8-radar-50.png">
+            <img src="{{url_for('static', filename='images/radar logo/icons8-radar-50.png')}}">
             <h1> HurriScan</h1>
         </div>
     </header>
@@ -33,7 +33,7 @@
                 </form>
                 <p>Don't have an account? <a href="registration.html">Create one</a></p>
             </div>
-            <img src = "../../images/loginImg.png">
+            <img src="{{url_for('static', filename='images/loginImg.png')}}">
         </div>
     </div>
 
