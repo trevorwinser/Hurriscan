@@ -1,8 +1,6 @@
 from typing import List
-
 from flask import Blueprint, request
-
-from .response import build_response
+from admin.response import build_response
 from .users import User
 
 admin_bp = Blueprint('admin', __name__)
@@ -40,3 +38,4 @@ def edit_user_name(username: str):
             user.password = r.get("newPassword")
             return build_response(**user.to_dict()), 200
     return "not found", 404
+
