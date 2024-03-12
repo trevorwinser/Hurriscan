@@ -17,14 +17,12 @@
 </head>
 
 <body>
-    <!-- Add nav bar -->
     <iframe src="admin-nav-bar.html" style="width:100%; height: 100%; border:none;"></iframe>
 
     <!-- Display dataset -->
-    <iframe id="dataset-frame" src="/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html" style="width:100%; height:500px; border:none;"></iframe>
+    <!--<iframe id="dataset-frame" src="/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html" style="width:100%; height:500px; border:none;"></iframe>-->
 
     <div class="container">
-        <!-- Alert user button -->
     </div>
 
     <div class="display">
@@ -61,7 +59,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Process the received data
                     displayUsers(data.users);
                 })
                 .catch(error => {
@@ -90,7 +87,6 @@
                 if (!response.ok) {
                     throw new Error('Failed to delete user');
                 }
-                // Fetch data again to update the user list
             })
             .catch(error => {
                 console.error('Error deleting user:', error);
@@ -113,7 +109,6 @@
                 if (!response.ok) {
                     throw new Error('Failed to edit user');
                 }
-                // Fetch data again to update the user list
             })
             .catch(error => {
                 console.error('Error editing user:', error);
@@ -121,11 +116,9 @@
         }
 
         function displayDataset() {
-            // Set the iframe source to display the dataset
             document.getElementById("dataset-frame").src = "/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html";
         }
 
-        // Call displayDataset function when the page loads
         displayDataset();
     </script>
 </body>

@@ -4,7 +4,7 @@ import pytest
 import json
 
 # Import the Flask Blueprint and create an instance of the Flask app
-from admin.admin import admin_bp
+from admin import admin_bp
 
 @pytest.fixture
 def client():
