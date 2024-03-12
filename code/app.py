@@ -15,6 +15,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
     
+
+    
 @app.route('/data-visualization')
 def data_visualization():
     # Connect directly to the database
@@ -39,6 +41,18 @@ def data_visualization():
 @app.route('/')
 def home():
     return 'Welcome to the Home Page'
+
+@app.route('/login')
+def login():
+    return render_template('login/login.html')
+
+@app.route('/registration')
+def registration():
+    return render_template('registration/registration.html')
+
+@app.route('/createAccount')
+def createAcc():
+    return render_template('registration/accountCreation.html')
 
 @app.route('/alerts')
 def alerts_page():

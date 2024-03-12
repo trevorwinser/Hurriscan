@@ -1,3 +1,14 @@
+*{
+    box-sizing: border-box;
+
+}
+
+
+body{
+    background-color: #092635;
+    color: #9EC8B9;
+}
+
 #nav-bar {
     width: 100%;
     border: none;
