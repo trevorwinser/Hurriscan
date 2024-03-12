@@ -54,6 +54,10 @@ def registration():
 def createAcc():
     return render_template('registration/accountCreation.html')
 
+@app.route('/alerts')
+def alerts_page():
+    return render_template('alerts.html')
+
 with app.app_context():
     db.create_all()
 
