@@ -6,7 +6,7 @@ app = Flask (__name__)
 
 def index():
 
-    return render_template('login/login.html')
+    return render_template('registration/registration.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
