@@ -1,11 +1,12 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 import time, os
 
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(ChromeDriverManager().install())
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 alerts_html_path = os.path.join(parent_dir, 'templates', 'alerts.html')
