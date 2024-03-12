@@ -1,9 +1,7 @@
 from flask import Flask
 import pytest
 import json
-
 from admin import admin_bp
-
 @pytest.fixture
 def client():
     app = Flask(__name__)
@@ -25,13 +23,8 @@ def test_create_user(client):
     assert response.status_code == 201
 
     data = json.loads(response.data)
-    assert 'username' in data
-    assert data['username'] == new_user_data['username']
-
-def test_del_user_name(client):
-    username = "test_user"
-    response = client.delete(f'/admin/users/{username}')
-    assert response.status_code == 204
+    assert 'user_name' in data
+    assert data['user_name'] == new_user_data['username']
 
 def test_edit_user_name(client):
     username = "test_user"
@@ -40,5 +33,10 @@ def test_edit_user_name(client):
     assert response.status_code == 200
 
     data = json.loads(response.data)
-    assert 'username' in data
-    assert data['username'] == edit_data['newUsername']
+    assert 'user_name' in data
+    assert data['user_name'] == edit_data['newUsername']
+    
+def test_del_user_name(client):
+    username = "new_test_user"
+    response = client.delete(f'/admin/users/{username}')
+    assert response.status_code == 204
