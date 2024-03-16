@@ -31,10 +31,37 @@
     </style>
 </head>
 <body>
+    <input type="date" id="filter-date">
+    <button onclick="applyDateFilter()">Apply Filter</button>
+
     <div id="container">
         <div id="map"></div>
     </div>
+<script>
+    function applyDateFilter() {
+        // Get the value of the date input field
+        const date = document.getElementById('filter-date').value;
 
+        // Send an AJAX request to your Flask route to fetch filtered data
+        fetch(`/filtered-data?date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                // Update el_nino_data with the fetched data
+                el_nino_data.data = data.map(row => ({
+                    latitude: row.latitude,
+                    longitude: row.longitude,
+                    humidity: row.humidity
+                }));
+
+                // Update the heatmap layer with the new data
+                heatmapLayer.setData(el_nino_data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+</script>
 <script>
 
     var cfg = {

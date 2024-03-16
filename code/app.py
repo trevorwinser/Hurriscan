@@ -38,12 +38,11 @@ def data_visualization():
 
 @app.route('/map-filter')
 def mapfilter():
-    # Connect to the SQLite database
+    # Connect directly to the database
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
     cursor = conn.cursor()
 
     try:
-        # Execute SQL SELECT statement to retrieve latitude, longitude, and humidity
         cursor.execute("SELECT latitude, longitude, humidity FROM Data;")
         rows = cursor.fetchall()
 
