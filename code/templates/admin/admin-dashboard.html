@@ -51,7 +51,7 @@
 
     <script>
         function fetchUsers() {
-            fetch('http://localhost:7070/admin/users')
+            fetch('http://localhost:5000/admin/users')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
