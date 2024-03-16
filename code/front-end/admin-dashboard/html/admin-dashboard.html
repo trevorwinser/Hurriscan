@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/admin-dashboard.css">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #092635;
+        }
+    </style>
+</head>
+
+<body>
+    <iframe src="admin-nav-bar.html" style="width:100%; height: 100%; border:none;"></iframe>
+
+    <!-- Display dataset -->
+    <!--<iframe id="dataset-frame" src="/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html" style="width:100%; height:500px; border:none;"></iframe>-->
+
+    <div class="container">
+    </div>
+
+    <div class="display">
+        <div class="container">
+            <div class="login-menu">
+                <button id="button">Alert User</button>
+                <h1>Edit User</h1>
+                <input type="text" id="edit-old-username" name="old-username" placeholder="Old Username/Email"><br>
+                <input type="text" id="edit-new-username" name="new-username" placeholder="New Username/Email"><br>
+                <input type="text" id="edit-old-password" name="old-password" placeholder="Old Password"><br>
+                <input type="text" id="edit-new-password" name="new-password" placeholder="New Password"><br>
+                <input type="submit" value="Save" onclick="editUser()">
+            </div>
+        </div>
+    </div>
+
+    <div class="display">
+        <div class="container">
+            <div class="login-menu">
+                <h1>Delete User</h1>
+                <input type="text" id="delete-username" name="username" placeholder="Username/email"><br>
+                <input type="submit" value="Save" onclick="deleteUser()">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fetchUsers() {
+            fetch('http://localhost:7070/admin/users')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayUsers(data.users);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        function displayUsers(users) {
+            const userList = document.getElementById('userList');
+            userList.innerHTML = ''; 
+
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = `${user.user_name} - ${user.email}`;
+                userList.appendChild(li);
+            });
+        }
+
+        function deleteUser() {
+            var username = document.getElementById("delete-username").value;
+            console.log('DELETE' + username)
+            fetch(`http://localhost:7070/admin/users/${username}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete user');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting user:', error);
+            });
+        }
+
+        function editUser() {
+            var oldUsername = document.getElementById("edit-old-username").value;
+            var newUsername = document.getElementById("edit-new-username").value;
+            var oldPassword = document.getElementById("edit-old-password").value;
+            var newPassword = document.getElementById("edit-new-password").value;
+            fetch(`http://localhost:7070/admin/users/${oldUsername}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "newUsername": newUsername, "oldPassword": oldPassword, "newPassword": newPassword })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to edit user');
+                }
+            })
+            .catch(error => {
+                console.error('Error editing user:', error);
+            });
+        }
+
+        function displayDataset() {
+            document.getElementById("dataset-frame").src = "/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html";
+        }
+
+        displayDataset();
+    </script>
+</body>
+
+</html>

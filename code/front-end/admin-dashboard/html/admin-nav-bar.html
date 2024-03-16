@@ -1,0 +1,31 @@
+<header class="navbar">
+    <link rel = "stylesheet" href= "../css/admin-nav-bar.css">
+    <div>
+        <div class="navbar-title">
+            <img src="/code/images/logo.png" alt="Logo Icon" class = "logo-section"> 
+            HurriScan - Admin Dashboard
+        </div>
+    </div>
+    <div class="navbar-section">
+        <img src="/code/images/profile icon.png" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
+    </div>
+</header>
+
+<body>
+    <!-- <iframe src="admin-dashboard/admin-dashboard.html" style="width:100%; height: 100%; border:none;" ></iframe> -->
+
+    <button class="exit-button">Exit</button>
+
+<div id="rightSidePanel" class="right-side-panel">
+    <!-- Close button -->
+    <a href="javascript:void(0)" class="closebtn-right" onclick="closeRightNav()">&times;</a>
+    
+    <h2 class="menu-title">Menu</h2>
+    <div class="menu-options">
+        <a href="#">Update Database</a>
+        <a href="#" >Permission & Roles</a>
+        <a href="#">Sign-out</a>
+    </div>
+</div>
+    <script src="admin-nav-bar.js"></script>
+</body>
