@@ -38,6 +38,44 @@ def data_visualization():
     # Pass this data to your template
     return render_template('data_visualization.html', months=months, temps=temps)
 
+@app.route('/map-filter')
+def mapfilter():
+    # Connect directly to the database
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT latitude, longitude, humidity FROM Data;")
+        rows = cursor.fetchall()
+
+        # Convert the retrieved data to JavaScript format
+        js_data = "const el_nino_data = {\n"
+        js_data += "    max: 100,\n"
+        js_data += "    data: [\n"
+
+        for row in rows:
+            js_data += f"        {{latitude: '{row[0]}', longitude: '{row[1]}', humidity: '{row[2]}'}}"
+
+            # Add comma if not the last row
+            if row != rows[-1]:
+                js_data += ",\n"
+            else:
+                js_data += "\n"
+
+        js_data += "    ]\n};"
+
+        with open(os.path.join(basedir, 'static', 'js/el_nino_data.js'), 'w') as js_file:
+            js_file.write(js_data)
+
+    except sqlite3.Error as e:
+        print("Error executing SQL statement:", e)
+
+    finally:
+        # Close the database connection
+        conn.close()
+
+    return render_template('mapfilter-temp/mapfilter.html')
+    
 @app.route('/')
 def home():
     return 'Welcome to the Home Page'
