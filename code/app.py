@@ -2,6 +2,9 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
+import calendar
+from flask import jsonify
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -19,24 +22,14 @@ class User(db.Model):
     
 @app.route('/data-visualization')
 def data_visualization():
-    # Connect directly to the database
-    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
-    conn.row_factory = sqlite3.Row  # This enables column access by name: row['column_name']
-    cur = conn.cursor()
-
-    # Execute a query to fetch data from your table
-    cur.execute('SELECT month, SUM(temp) as total_temp FROM Data GROUP BY month')
-    data = cur.fetchall()  # Fetches all rows as a list of dicts
-
-    # Close the connection
+    conn = sqlite3.connect('hurriscan.db')
+    curs = conn.cursor()
+    curs.execute("SELECT month, AVG(temp) FROM Data GROUP BY month")
+    results = curs.fetchall()
     conn.close()
-
-    # Convert data to format suitable for visualization (e.g., lists of labels and values)
-    months = [row['month'] for row in data]
-    temps = [row['total_temp'] for row in data]
-
-    # Pass this data to your template
-    return render_template('data_visualization.html', months=months, temps=temps)
+    months = [calendar.month_name[int(row[0])] for row in results]  # Converts month numbers to names
+    temps = [row[1] for row in results]
+    return jsonify(months=months, temperatures=temps)
 
 @app.route('/map-filter')
 def mapfilter():
