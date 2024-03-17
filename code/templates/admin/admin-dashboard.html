@@ -17,107 +17,60 @@
 </head>
 
 <body>
-    <!-- <iframe src="/admin-nav-bar" style="width:100%; height: 100%; border:none;"></iframe> -->
-
-    <!-- Display dataset -->
-    <!--<iframe id="dataset-frame" src="/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html" style="width:100%; height:500px; border:none;"></iframe>-->
-
-    <div class="container">
-    </div>
-
-    <div class="display">
-        <div class="container">
-            <div class="login-menu">
-                <button id="button">Alert User</button>
-                <h1>Edit User</h1>
-                <input type="text" id="edit-new-username" name="new-username" placeholder="New Username/Email"><br>
-                <input type="text" id="edit-new-password" name="new-password" placeholder="New Password"><br>
-                <input type="submit" value="Save" onclick="editUser()">
-            </div>
-        </div>
-    </div>
-
-    <div class="display">
-        <div class="container">
-            <div class="login-menu">
-                <h1>Delete User</h1>
-                <input type="text" id="delete-username" name="username" placeholder="Username/email"><br>
-                <input type="submit" value="Save" onclick="deleteUser()">
-            </div>
-        </div>
-    </div>
+    <table id="user-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Alerts Email</th>
+                <th>Alerts Phone</th>
+                <th>Is Admin</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="user-table-body"></tbody>
+    </table>
 
     <script>
-        function fetchUsers() {
-            fetch('http://localhost:5000/admin/users')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/users')
+                .then(response => response.json())
                 .then(data => {
-                    displayUsers(data.users);
+                    const tableBody = document.getElementById('user-table-body');
+                    data.forEach(user => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${user.id}</td>
+                            <td>${user.username}</td>
+                            <td>${user.password}</td>
+                            <td>${user.email}</td>
+                            <td>${user.phone}</td>
+                            <td>${user.alerts_email ? 'Yes' : 'No'}</td>
+                            <td>${user.alerts_phone ? 'Yes' : 'No'}</td>
+                            <td>${user.isAdmin ? 'Yes' : 'No'}</td>
+                            <td><button onclick="deleteUser(${user.id})">Delete</button></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
                 })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-        }
+                .catch(error => console.error('Error:', error));
+        });
 
-        function displayUsers(users) {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = ''; 
-
-            users.forEach(user => {
-                const li = document.createElement('li');
-                li.textContent = `${user.user_name} - ${user.email}`;
-                userList.appendChild(li);
-            });
-        }
-
-        function deleteUser() {
-            var username = document.getElementById("delete-username").value;
-            console.log('DELETE' + username)
-            fetch(`http://localhost:5000/admin/users/${username}`, {
-                method: 'DELETE'
-            })
+        function deleteUser(userId) {
+            fetch(`/delete-user/${userId}`)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to delete user');
+                if (response.ok) {
+                    console.log(`User with ID ${userId} deleted successfully`);
+                    location.reload();
+                } else {
+                    console.error('Error deleting user');
                 }
             })
-            .catch(error => {
-                console.error('Error deleting user:', error);
-            });
+            .catch(error => console.error('Error:', error));
         }
-
-        function editUser() {
-            var oldUsername = document.getElementById("edit-old-username").value;
-            var newUsername = document.getElementById("edit-new-username").value;
-            var oldPassword = document.getElementById("edit-old-password").value;
-            var newPassword = document.getElementById("edit-new-password").value;
-            fetch(`http://localhost:5000/admin/users/${oldUsername}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "newUsername": newUsername, "oldPassword": oldPassword, "newPassword": newPassword })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to edit user');
-                }
-            })
-            .catch(error => {
-                console.error('Error editing user:', error);
-            });
-        }
-
-        function displayDataset() {
-            document.getElementById("dataset-frame").src = "/../Infinite-Loopers/code/front-end/nav-bar/admin-dashboard/dataset.html";
-        }
-
-        displayDataset();
     </script>
 </body>
 

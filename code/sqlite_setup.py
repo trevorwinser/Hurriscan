@@ -87,6 +87,7 @@ def create_users(conn):
         INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone)
         VALUES ("User1", "Password1", "user@gmail.com", "123-456-7890", 1, 1)
     ''')
+    conn.commit()
 
 def main():
 

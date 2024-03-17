@@ -47,7 +47,10 @@ header .container {
 .display a {
     color: #5C8374;
 }
-
+table#user-table {
+    background-color: #9EC8B9;
+    margin: auto;
+}
 input {
     padding: 10px;
     margin-bottom: 10px;
