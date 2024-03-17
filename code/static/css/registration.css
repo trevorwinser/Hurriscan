@@ -8,9 +8,9 @@
 
 body{
     background-color: #092635;
-    font-family: "Roboto Mono", monospace;
+    font-family: "Roboto Mono", monospace !important;
     font-optical-sizing: auto;
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 header{
@@ -19,22 +19,25 @@ header{
     
 }
 
-header .container{
+.nav{
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding-left: 20px;
 }
 
-.container{
+.login-container{
     display: flex;
     align-items: center;
     justify-content:space-around;
     padding-left: 20px;
 }
 
-.container h1{
+.nav h1{
     padding-left: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0 !important;
 }
 
 .display{
