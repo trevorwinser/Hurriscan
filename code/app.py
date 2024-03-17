@@ -1,7 +1,8 @@
-from flask import Flask, render_template, jsonify, redirect
+from flask import Flask, render_template, jsonify, redirect, request
 import os
 import sqlite3
 import sqlite_setup
+from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
@@ -86,6 +87,24 @@ def delete_user(user_id):
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/create-alert', methods=['POST'])
+def create_alert():
+    title = request.form['title']
+    text = request.form['text']
+    date = datetime.now().date()
+
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    cur = conn.cursor()
+    cur.execute('INSERT INTO Alert (title, text, date) VALUES (?, ?, ?)', (title, text, date))
+    conn.commit()
+    cur.execute('SELECT * FROM Alert')
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
+    conn.close()
+
+    return redirect('/alerts') # Wrong path but will change later!
 
 
 if __name__ == '__main__':

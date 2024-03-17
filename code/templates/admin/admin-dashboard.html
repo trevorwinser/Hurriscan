@@ -17,22 +17,35 @@
 </head>
 
 <body>
-    <table id="user-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Alerts Email</th>
-                <th>Alerts Phone</th>
-                <th>Is Admin</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="user-table-body"></tbody>
-    </table>
+    <div id="container">
+        <table id="user-table">
+            <thead>
+                <tr>
+                    <th id="id">ID</th>
+                    <th id="username">Username</th>
+                    <th id="password">Password</th>
+                    <th id="email">Email</th>
+                    <th id="phone">Phone</th>
+                    <th id="alerts_email">Alerts Email</th>
+                    <th id="alerts_phone">Alerts Phone</th>
+                    <th id="isAdmin">Is Admin</th>
+                    <th id="action">Action</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body"></tbody>
+        </table>
+
+        <div id="create-alert">
+            <h2>Create New Alert</h2>
+            <form action="/create-alert" method="POST">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br><br>
+                <label for="text">Text:</label>
+                <textarea id="text" name="text" required></textarea><br><br>
+                <button type="submit">Create Alert</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -43,14 +56,14 @@
                     data.forEach(user => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${user.id}</td>
-                            <td>${user.username}</td>
-                            <td>${user.password}</td>
-                            <td>${user.email}</td>
-                            <td>${user.phone}</td>
-                            <td>${user.alerts_email ? 'Yes' : 'No'}</td>
-                            <td>${user.alerts_phone ? 'Yes' : 'No'}</td>
-                            <td>${user.isAdmin ? 'Yes' : 'No'}</td>
+                            <td id="user_id">${user.id}</td>
+                            <td id="username">${user.username}</td>
+                            <td id="password">${user.password}</td>
+                            <td id="email">${user.email}</td>
+                            <td id="phone">${user.phone}</td>
+                            <td id="alerts_email">${user.alerts_email ? 'Yes' : 'No'}</td>
+                            <td id="alerts_phone">${user.alerts_phone ? 'Yes' : 'No'}</td>
+                            <td id="is_admin">${user.isAdmin ? 'Yes' : 'No'}</td>
                             <td><button onclick="deleteUser(${user.id})">Delete</button></td>
                         `;
                         tableBody.appendChild(row);

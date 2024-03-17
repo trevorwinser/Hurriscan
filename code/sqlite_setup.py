@@ -5,8 +5,9 @@ def create_table(conn):
     cursor = conn.cursor()
 
     cursor.execute("DROP TABLE IF EXISTS Data;")
-    cursor.execute("DROP TABLE IF EXISTS Alerts;")
+    cursor.execute("DROP TABLE IF EXISTS Alert;")
     cursor.execute("DROP TABLE IF EXISTS User;")
+    cursor.execute("DROP TABLE IF EXISTS Alerts;")
     cursor.execute("DROP TABLE IF EXISTS Account;")
     cursor.execute("DROP TABLE IF EXISTS user;")
     cursor.execute("DROP TABLE IF EXISTS new_table;")
