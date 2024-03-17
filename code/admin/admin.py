@@ -1,41 +1,65 @@
-from typing import List
-from flask import Blueprint, request
-from admin.response import build_response
-from .users import User
+from flask import Blueprint, request, jsonify
+import sqlite3
 
 admin_bp = Blueprint('admin', __name__)
 
-users: list[User] = []
+# Function to establish connection with SQLite database
+def get_db_connection():
+    conn = sqlite3.connect('hurriscan.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @admin_bp.route('/admin/users', methods=['GET'])
 def get_users():
-    response = {"users": [u.to_dict() for _, u in enumerate(users)]}
-    return build_response(**response), 200
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM User;")
+    users = cursor.fetchall()
+    conn.close()
+    return jsonify(users), 200
 
 @admin_bp.route('/admin/users', methods=['POST'])
 def create_user():
+    conn = get_db_connection()
+    cursor = conn.cursor()
     r = request.get_json()
-    user = User(r.get("username"), r.get("password"), r.get("email", "admin@gmail.com"))
-    users.append(user)
-    return build_response(**user.to_dict()), 201
+    cursor.execute('''
+        INSERT INTO User (username, password, email)
+        VALUES (?, ?, ?)
+    ''', (r.get("username"), r.get("password"), r.get("email", "admin@gmail.com")))
+    conn.commit()
+    conn.close()
+    return "User created successfully", 201
 
 @admin_bp.route('/admin/users/<username>', methods=['DELETE'])
 def del_user_name(username: str):
-    for i, user in enumerate(users):
-        if user.user_name == username:
-            users.pop(i)
-            return "deleted", 204
-    return "not found", 404
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM User WHERE username = ?;", (username,))
+    conn.commit()
+    conn.close()
+    return "User deleted successfully", 204
 
 @admin_bp.route('/admin/users/<username>', methods=['PATCH'])
 def edit_user_name(username: str):
-    for i, user in enumerate(users):
-        if user.user_name == username:
-            r = request.get_json()
-            if(user.password != r.get("oldPassword")):
-                return "wrong password", 401
-            user.user_name = r.get("newUsername")
-            user.password = r.get("newPassword")
-            return build_response(**user.to_dict()), 200
-    return "not found", 404
-
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    r = request.get_json()
+    cursor.execute("SELECT * FROM User WHERE username = ?;", (username,))
+    user = cursor.fetchone()
+    if user:
+        if user["password"] == r.get("oldPassword"):
+            cursor.execute('''
+                UPDATE User 
+                SET username = ?, password = ?
+                WHERE username = ?;
+            ''', (r.get("newUsername"), r.get("newPassword"), username))
+            conn.commit()
+            conn.close()
+            return "User updated successfully", 200
+        else:
+            conn.close()
+            return "Wrong password", 401
+    else:
+        conn.close()
+        return "User not found", 404

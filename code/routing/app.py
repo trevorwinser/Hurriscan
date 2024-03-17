@@ -58,6 +58,10 @@ def createAcc():
 def alerts_page():
     return render_template('alerts.html')
 
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    return render_template('admin/admin-dashboard.html')
+
 with app.app_context():
     db.create_all()
 

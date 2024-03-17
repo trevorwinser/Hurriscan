@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/admin-dashboard.css">
+    <link rel="stylesheet" href="/code/static/css/admin-dashboard.css">
     <title>Admin Dashboard</title>
     <style>
         body {
@@ -80,7 +80,7 @@
         function deleteUser() {
             var username = document.getElementById("delete-username").value;
             console.log('DELETE' + username)
-            fetch(`http://localhost:7070/admin/users/${username}`, {
+            fetch(`http://localhost:5000/admin/users/${username}`, {
                 method: 'DELETE'
             })
             .then(response => {
@@ -98,7 +98,7 @@
             var newUsername = document.getElementById("edit-new-username").value;
             var oldPassword = document.getElementById("edit-old-password").value;
             var newPassword = document.getElementById("edit-new-password").value;
-            fetch(`http://localhost:7070/admin/users/${oldUsername}`, {
+            fetch(`http://localhost:5000/admin/users/${oldUsername}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
