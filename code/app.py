@@ -4,6 +4,7 @@ import os
 import sqlite3
 import calendar
 from flask import jsonify
+import json
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -17,19 +18,19 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True)
-    
 
-    
 @app.route('/data-visualization')
 def data_visualization():
-    conn = sqlite3.connect('hurriscan.db')
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
     curs = conn.cursor()
     curs.execute("SELECT month, AVG(temp) FROM Data GROUP BY month")
     results = curs.fetchall()
     conn.close()
-    months = [calendar.month_name[int(row[0])] for row in results]  # Converts month numbers to names
-    temps = [row[1] for row in results]
-    return jsonify(months=months, temperatures=temps)
+    months = [calendar.month_name[int(row[0])] for row in results]  # Convert month numbers to names
+    temperatures = [row[1] for row in results]
+    # Return the template with data included
+    return render_template('data_visualization.html',months=months, temperatures=temperatures)
+
 
 @app.route('/map-filter')
 def mapfilter():
@@ -88,6 +89,10 @@ def createAcc():
 @app.route('/alerts')
 def alerts_page():
     return render_template('alerts.html')
+
+@app.route('/user-dashboard')
+def user_dashboard():
+    return render_template('user-dashboard.html')
 
 with app.app_context():
     db.create_all()
