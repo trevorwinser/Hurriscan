@@ -46,7 +46,6 @@ def get_monthly_data(year, month):
         return render_template('filter_visualization.html', error="No data found")
 
 
-
 @app.route('/map-filter')
 def mapfilter():
     # Connect directly to the database

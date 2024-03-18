@@ -4,23 +4,21 @@
     <title>Monthly Weather Data</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
-
 <body>
     <canvas id="weatherChart"></canvas>
-    <select id="year" onchange="updateFilters()">
+    <select id="year">
         <option value="89">1989</option>
-        <option value="=90">1990</option>
-        <option value="=91">1991</option>
-        <option value="=92">1992</option>
-        <option value="=93">1993</option>
-        <option value="=94">1994</option>
-        <option value="=95">1995</option>
-        <option value="=96">1996</option>
-        <option value="=97">1997</option>
-        <option value="=98">1998</option>
+        <option value="90">1990</option>
+        <option value="91">1991</option>
+        <option value="92">1992</option>
+        <option value="93">1993</option>
+        <option value="94">1994</option>
+        <option value="95">1995</option>
+        <option value="96">1996</option>
+        <option value="97">1997</option>
+        <option value="98">1998</option>
     </select>
-    <select id="month" onchange="updateFilters()">
+    <select id="month">
         <option value="1">January</option>
         <option value="2">February</option>
         <option value="3">March</option>
@@ -34,10 +32,12 @@
         <option value="11">November</option>
         <option value="12">December</option>
     </select>
+    <button id="submit" onclick="updateURL()">Submit</button>
     </body>
+   
 
     <script>
-
+    
     var labels = {{ labels|tojson }};
     var values = {{ values|tojson }};
 
@@ -49,8 +49,8 @@
             datasets: [{
                 label: 'Weather Data',
                 data: values,
-                backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)'],
-                borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)'],
+                backgroundColor: [ 'rgba(9, 38, 53, 1)', 'rgba(27, 66, 66, 1)', 'rgba(92, 131, 116, 1)', 'rgba(158, 200, 185, 1)'],
+                borderColor: ['rgba(0,0,0,0.5)'],
                 borderWidth: 1
             }]
         },
@@ -74,86 +74,31 @@
         .then(data => {
             if (weatherChart) { // Check if the chart instance already exists
                 updateChart(data); // Update the existing chart
-            // } else {
-            //     // If the chart does not exist, create it
-            //     weatherChart = new Chart(ctx, {
-            //         type: 'bar', 
-            //         data: {
-            //             labels: data.labels, // Your labels array
-            //             datasets: [{
-            //                 label: 'Humidity',
-            //                 data: data.humidity, // Your humidity data array
-            //                 backgroundColor: 'rgba(54, 162, 235, 0.2)', // Customize as needed
-            //                 borderColor: 'rgba(54, 162, 235, 1)', // Customize as needed
-            //                 borderWidth: 1
-            //             },
-            //             {label: 'Temperature',
-            //                 data: data.temp,
-            //                 backgroundColor: 'rgba(54, 162, 235, 0.2)', // Customize as needed
-            //                 borderColor: 'rgba(54, 162, 235, 1)', // Customize as needed
-            //                 borderWidth: 1 
-            //             },
-            //             {
-            //                 label: 'Air',
-            //                 data: data.air,
-            //                 backgroundColor: 'rgba(54, 162, 235, 0.2)', // Customize as needed
-            //                 borderColor: 'rgba(54, 162, 235, 1)', // Customize as needed
-            //                 borderWidth: 1
-            //             },
-            //             {
-            //                 label: 'Zon Winds',
-            //                 data: data.zon_winds,
-            //                 backgroundColor: 'rgba(54, 162, 235, 0.2)', // Customize as needed
-            //                 borderColor: 'rgba(54, 162, 235, 1)', // Customize as needed
-            //                 borderWidth: 1 
-            //             },
-            //             {
-            //                 label: 'Mer Winds',
-            //                 data: data.mer_winds, 
-            //                 backgroundColor: 'rgba(54, 162, 235, 0.2)', // Customize as needed
-            //                 borderColor: 'rgba(54, 162, 235, 1)', // Customize as needed
-            //                 borderWidth: 1
-            //             },
-            //             ]
-            //         },
-            //         options: {
-            //             scales: {
-            //                 y: {
-            //                     beginAtZero: true
-            //                 }
-            //             }
-            //         }
-            //     });
             }
         });
 }
-function updateChart(data) {
-    weatherChart.data.labels = ['Humidity', 'Air', 'Temperature', 'Zon Winds', 'Mer Winds'];
-    weatherChart.data.datasets = [{
+        function updateChart(data) {
+        weatherChart.data.labels = ['Humidity', 'Air', 'Temperature', 'Zon Winds', 'Mer Winds'];
+        weatherChart.data.datasets = [{
         label: 'Measurements',
         data: [data.humidity, data.air, data.temp, data.zon_winds, data.mer_winds],
         backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)'
+            'rgba(9, 38, 53, 1)',
+            'rgba(27, 66, 66, 1)',
+            'rgba(92, 131, 116, 1)',
+            'rgba(158, 200, 185, 1)',
         ],
         borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)'
+            'rgba(0,0,0,0.5)'
         ],
         borderWidth: 1
     }];
     weatherChart.update();
 }
-
-// Attach event listeners to your year and month filters
-document.getElementById('year').addEventListener('change', updateFilters);
-document.getElementById('month').addEventListener('change', updateFilters);
-
-        </script>
+function updateURL() {
+    var year = document.getElementById('year').value;
+    var month = document.getElementById('month').value;
+    window.location.href = `/data-visualization/${year}/${month}`;
+}
+  </script>
 </html>
