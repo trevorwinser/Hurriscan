@@ -124,7 +124,7 @@ function applyDateFilter() {
     const monthNumber = date.getMonth() + 1;
     const year = date.getFullYear() - 1900;
     
-    fetch(`/map-filter?month=${monthNumber}&year=${year}`)
+    fetch(`/map-filter-data?month=${monthNumber}&year=${year}`)
         .then(response => response.json())
         .then(data => {
             // Set the received filtered data to heatmapLayer
