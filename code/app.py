@@ -31,6 +31,21 @@ def data_visualization():
     # Return the template with data included
     return render_template('data_visualization.html',months=months, temperatures=temperatures)
 
+@app.route('/data-visualization/<int:year>/<int:month>')
+def get_monthly_data(year, month):
+    conn = sqlite3.connect('hurriscan.db')
+    curs = conn.cursor()
+    curs.execute("SELECT AVG(humidity), AVG(air), AVG(temp), AVG(zon_winds), AVG(mer_winds) FROM Data WHERE year = ? AND month = ?", (year, month))
+    data = curs.fetchone()
+    conn.close()
+    if data:
+        labels = ['Humidity', 'Air', 'Temperature', 'Zon Winds', 'Mer Winds']
+        values = [data[0], data[1], data[2], data[3], data[4]]
+        return render_template('filter_visualization.html', year=year, month=month, labels=labels, values=values)
+    else:
+        return render_template('filter_visualization.html', error="No data found")
+
+
 
 @app.route('/map-filter')
 def mapfilter():
@@ -90,9 +105,6 @@ def createAcc():
 def alerts_page():
     return render_template('alerts.html')
 
-@app.route('/user-dashboard')
-def user_dashboard():
-    return render_template('user-dashboard.html')
 
 with app.app_context():
     db.create_all()
