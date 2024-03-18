@@ -98,7 +98,7 @@
     
     // Function to fetch initial data
     function fetchInitialData() {
-    fetch('/initial-data')
+    fetch('/map-filter-data')
         .then(response => response.json())
         .then(data => {
             // Set the received data to heatmapLayer
@@ -147,10 +147,18 @@ function applyTemperatureRangeFilter() {
     const maxTemperature = document.getElementById('max-temperature').value;
 
     // Send request to server with temperature range
-    fetch(`/map-filter?minTemperature=${minTemperature}&maxTemperature=${maxTemperature}`)
+    fetch(`/map-filter-data?minTemperature=${minTemperature}&maxTemperature=${maxTemperature}`)
         .then(response => response.json())
         .then(data => {
             // Update map with filtered data
+            heatmapLayer.setData({
+                max: 100,  // You may need to adjust these parameters based on your data
+                data: data.map(row => ({
+                    latitude: row.latitude,
+                    longitude: row.longitude,
+                    humidity: row.humidity
+                }))
+            });
         })
         .catch(error => {
             console.error('Error fetching filtered data:', error);

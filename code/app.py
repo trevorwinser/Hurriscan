@@ -142,85 +142,48 @@ def create_alert():
 
     return redirect('/alerts') # Wrong path but will change later!
 
-@app.route('/initial-data')
-def initial_data():
-    try:
-        conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        cursor.execute("SELECT latitude, longitude, humidity FROM Data;")
-
-        data = [dict(row) for row in cursor.fetchall()]
-
-        conn.close()
-
-        return jsonify(data), 200
-
-    except sqlite3.Error as e:
-        return f"Error {e} fetching initial data from database", 500
-
 @app.route('/map-filter')
 def mapfilter():
     return render_template('mapfilter-temp/mapfilter.html')
 
 @app.route('/map-filter-data')
-def mapfilterData():
-    month = request.args.get('month')
-    year = request.args.get('year')
-    
-    if month and year:
-        # Convert month and year to integers
-        month = int(month)
-        year = int(year)
+def mapfilterData():         
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
         
-        # If month and year are provided, fetch filtered data from the database
-        conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        
-        try:
-            cursor.execute("SELECT latitude, longitude, humidity FROM Data WHERE month = ? AND year = ?;", (month, year))
-            rows = cursor.fetchall()
-
-        except sqlite3.Error as e:
-            return f"Error {e} fetching filtered data from database", 500
-        finally:
-            conn.close()
-
+    try:
+        sql = buildSQL()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
         # Serialize the data to JSON format
         data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
 
         # Render the mapfilter.html template and pass the JSON data as a context variable
         return data, 200
-    else:
-        # If month and year are not provided, simply render the mapfilter.html template
-        return initial_data()
 
-@app.route('/temperature-filter')
-def temperature_filter():
-    # Handle temperature range filter
+    except sqlite3.Error as e:
+        return f"Error {e} fetching filtered data from database", 500
+    except Exception as e:
+        return f"Error {e} fetching filtered data from database", 500
+    finally:
+        conn.close()
+    
+def buildSQL():
+    sql = "SELECT latitude, longitude, humidity FROM Data"
+    month = request.args.get('month')
+    year = request.args.get('year')
     min_temperature = request.args.get('minTemperature')
     max_temperature = request.args.get('maxTemperature')
+    if(month and year):
+        sql += " WHERE month = " + month + " AND year = " + year
+    if(min_temperature and max_temperature):
+        if(month and year):
+            sql += " AND "
+        else:
+            sql += " WHERE "
+        sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
+    return sql
 
-    if min_temperature is not None and max_temperature is not None:
-        # Apply temperature range filter
-        connection = sqlite3.connect((os.path.join(basedir, 'hurriscan.db'))) 
-        cursor = connection.cursor()
-        cursor.execute("SELECT latitude, longitude, humidity FROM Data WHERE temperature BETWEEN ? AND ?", (min_temperature, max_temperature))
-        filtered_data = cursor.fetchall()
-        connection.close()
-    else:
-        # No filters applied, return all data
-        connection = sqlite3.connect((os.path.join(basedir, 'hurriscan.db'))) 
-        cursor = connection.cursor()
-        cursor.execute("SELECT latitude, longitude, humidity FROM Data")
-        filtered_data = cursor.fetchall()
-        connection.close()
-
-    return jsonify(filtered_data)
-
-
-    return jsonify(filtered_data)
 if __name__ == '__main__':
     app.run(debug=True)
-
