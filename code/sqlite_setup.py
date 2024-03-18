@@ -45,6 +45,7 @@ def create_table(conn):
             password TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             phone TEXT DEFAULT "",
+            zone varchar(4) DEFAULT "none",
             alerts_email TINYINT(1) DEFAULT 0,
             alerts_phone TINYINT(1) DEFAULT 0,
             isAdmin TINYINT(1) DEFAULT 0
@@ -80,13 +81,13 @@ def create_users(conn):
     cursor = conn.cursor()
 
     cursor.execute('''
-        INSERT INTO User (username, password, email, alerts_email, isAdmin)
-        VALUES ("Admin1", "Password1", "admin@gmail.com", 1, 1)
+        INSERT INTO User (username, password, email, alerts_email, isAdmin, zone)
+        VALUES ("Admin1", "Password1", "admin@gmail.com", 0, 0, "none")
     ''')
 
     cursor.execute('''
-        INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone)
-        VALUES ("User1", "Password1", "user@gmail.com", "123-456-7890", 1, 1)
+        INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone)
+        VALUES ("User1", "Password1", "user@gmail.com", "123-456-7890", 0, 0, "none")
     ''')
     conn.commit()
 
@@ -101,6 +102,8 @@ def main():
     import_csv_to_table(conn, csv_file_path)
 
     create_users(conn)
+
+    conn.commit()
 
     cursor = conn.cursor()
 
