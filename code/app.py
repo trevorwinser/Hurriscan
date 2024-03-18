@@ -1,10 +1,18 @@
-from flask import Flask, render_template, jsonify, redirect, request
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask_sqlalchemy import SQLAlchemy
 import os
 import sqlite3
 import sqlite_setup
 from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'hurriscan.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
 sqlite_setup.main()
 app = Flask(__name__)
 
