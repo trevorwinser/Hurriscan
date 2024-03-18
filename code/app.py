@@ -156,10 +156,7 @@ def mapfilterData():
         sql = buildSQL()
         cursor.execute(sql)
         rows = cursor.fetchall()
-        # Serialize the data to JSON format
         data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
-
-        # Render the mapfilter.html template and pass the JSON data as a context variable
         return data, 200
 
     except sqlite3.Error as e:

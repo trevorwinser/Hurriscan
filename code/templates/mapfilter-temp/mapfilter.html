@@ -87,7 +87,6 @@
             const latitudeElement = document.getElementById('latitude');
             const longitudeElement = document.getElementById('longitude');
             
-            // Check if the elements are found before setting their values
             if (latitudeElement && longitudeElement) {
                 latitudeElement.value = center.lat;
                 longitudeElement.value = center.lng;
@@ -95,13 +94,10 @@
         }
     }
     map.on('move', updateLatLong);
-    
-    // Function to fetch initial data
     function fetchInitialData() {
     fetch('/map-filter-data')
         .then(response => response.json())
         .then(data => {
-            // Set the received data to heatmapLayer
             heatmapLayer.setData({
                 max: 100,  
                 data: data.map(row => ({
@@ -116,7 +112,6 @@
         });
 }
 
-// Function to apply filter
 function applyDateFilter() {
     const selectedDate = document.getElementById('filter-date').value;   
     const date = new Date(selectedDate);
@@ -127,9 +122,8 @@ function applyDateFilter() {
     fetch(`/map-filter-data?month=${monthNumber}&year=${year}`)
         .then(response => response.json())
         .then(data => {
-            // Set the received filtered data to heatmapLayer
-            heatmapLayer.setData({
-                max: 100,  // You may need to adjust these parameters based on your data
+=            heatmapLayer.setData({
+                max: 100, 
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
@@ -146,13 +140,11 @@ function applyTemperatureRangeFilter() {
     const minTemperature = document.getElementById('min-temperature').value;
     const maxTemperature = document.getElementById('max-temperature').value;
 
-    // Send request to server with temperature range
     fetch(`/map-filter-data?minTemperature=${minTemperature}&maxTemperature=${maxTemperature}`)
         .then(response => response.json())
         .then(data => {
-            // Update map with filtered data
             heatmapLayer.setData({
-                max: 100,  // You may need to adjust these parameters based on your data
+                max: 100, 
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
@@ -165,8 +157,6 @@ function applyTemperatureRangeFilter() {
         });
 }
 
-
-// Initial fetch of data when the page loads
 window.onload = fetchInitialData;
     
 </script>
