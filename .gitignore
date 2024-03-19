@@ -3,5 +3,5 @@
 code/venv
 code/__pycache__
 venv
-
+test/__pycache__
 **/hurriscan.db

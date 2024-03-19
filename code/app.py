@@ -146,6 +146,11 @@ def create_alert():
 def mapfilter():
     return render_template('mapfilter-temp/mapfilter.html')
 
+@app.route('/user-dashboard')
+def user_dashboard():
+    return render_template('user-dashboard.html')
+
+
 @app.route('/map-filter-data')
 def mapfilterData():         
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
