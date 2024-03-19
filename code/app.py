@@ -167,7 +167,7 @@ def mapfilterData():
         conn.close()
     
 def buildSQL():
-    sql = "SELECT latitude, longitude, zon.winds, mer.winds FROM Data"
+    sql = "SELECT latitude, longitude, temp FROM Data"
     month = request.args.get('month')
     year = request.args.get('year')
     min_temperature = request.args.get('minTemperature')

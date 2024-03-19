@@ -46,8 +46,7 @@
         // "useLocalExtrema": true,
         latField: 'latitude',
         lngField: 'longitude',
-        zonWindsField: 'zon.winds', // zonal winds field
-        merWindsField: 'mer.winds'  // meridional winds field
+        valueField: 'temperature'
     };
 
     var heatmapLayer = new HeatmapOverlay(cfg);
@@ -67,15 +66,13 @@
             .then(response => response.json())
             .then(data => {
                 heatmapLayer.setData({
-                    max: 100, 
+                    max: 100,  
                     data: data.map(row => ({
                         latitude: row.latitude,
                         longitude: row.longitude,
-                        zonalWinds: row['zon.winds'], 
-                        meridionalWinds: row['mer.winds'] 
+                        temperature: row.temp
                     }))
                 });
-                
             })
             .catch(error => {
                 console.error('Error fetching initial data:', error);
@@ -103,7 +100,7 @@
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
-                    humidity: row.humidity
+                    temperature: row.temperature
                 }))
             });
         })
@@ -127,7 +124,7 @@ function applyDateFilter() {
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
-                    humidity: row.humidity
+                    temperature: row.temp
                 }))
             });
         })
@@ -148,7 +145,7 @@ function applyTemperatureRangeFilter() {
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
-                    humidity: row.humidity
+                    temperature: row.temp
                 }))
             });
         })
