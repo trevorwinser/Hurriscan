@@ -2,10 +2,9 @@
 .idea
 code/venv
 code/__pycache__
-code/__pycache__
 code/test/__pycache__
 code/hurriscan.db
 code/sendgrid.env
 venv
-
-hurriscan.db
+test/__pycache__
+**/hurriscan.db
