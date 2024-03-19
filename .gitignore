@@ -3,8 +3,11 @@
 code/venv
 code/__pycache__
 venv
+test/__pycache__
+**/hurriscan.db
 .venv
 .pytest_cache
 test/__pycache__
 test/__pycache__
 **/hurriscan.db
+code/test/__pycache__
