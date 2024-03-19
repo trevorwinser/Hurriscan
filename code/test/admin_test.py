@@ -20,6 +20,7 @@ def test_delete_user(browser):
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM User WHERE id = "1";')
     assert cursor.fetchone() is None, "User with ID 1 still in database"
+    conn.close()
 
 def test_create_alert(browser):
     browser.get('http://127.0.0.1:5000/admin')
@@ -30,6 +31,7 @@ def test_create_alert(browser):
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Alert WHERE title = "Test Alert" AND text = "This is a test alert";')
     assert cursor.fetchone() is not None, "Alert was not created in the database"
+    conn.close()
 
 if __name__ == "__main__":
     pytest.main()
