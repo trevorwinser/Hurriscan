@@ -55,7 +55,7 @@ If there is any database setup needed (like running a script to initialize table
 2. Navigate to the project root directory and run the following command:
 
 ```
-python sql_setup.py
+python sqlite_setup.py
 ```
 
 ## Running the Flask Application

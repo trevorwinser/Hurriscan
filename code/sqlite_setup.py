@@ -5,8 +5,9 @@ def create_table(conn):
     cursor = conn.cursor()
 
     cursor.execute("DROP TABLE IF EXISTS Data;")
-    cursor.execute("DROP TABLE IF EXISTS Alerts;")
+    cursor.execute("DROP TABLE IF EXISTS Alert;")
     cursor.execute("DROP TABLE IF EXISTS User;")
+    cursor.execute("DROP TABLE IF EXISTS Alerts;")
     cursor.execute("DROP TABLE IF EXISTS Account;")
     cursor.execute("DROP TABLE IF EXISTS user;")
     cursor.execute("DROP TABLE IF EXISTS new_table;")
@@ -88,6 +89,7 @@ def create_users(conn):
         INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone)
         VALUES ("User1", "Password1", "user@gmail.com", "123-456-7890", 0, 0, "none")
     ''')
+    conn.commit()
 
 def main():
 
