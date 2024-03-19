@@ -12,11 +12,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
 app = Flask(__name__)
 
-db = SQLAlchemy(app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), unique=True)
 
 @app.route('/data-visualization')
 def data_visualization():
@@ -93,13 +89,10 @@ def alerts_page():
         conn.commit()
         conn.close()
 
-        return redirect(url_for('alerts_page'))
+        return redirect('alerts_page')
 
     return render_template('alerts.html')
 
-
-with app.app_context():
-    db.create_all()
 @app.route('/admin')
 def admin_dashboard():
     return render_template('admin/admin-dashboard.html')
