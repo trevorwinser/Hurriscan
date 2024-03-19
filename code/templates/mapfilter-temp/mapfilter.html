@@ -13,57 +13,26 @@
             crossorigin="">
     </script>
 
-
-    <script src="{{url_for('static', filename='js/el_nino_data.js')}}"></script>
     <script src="{{url_for('static', filename='js/heatmap.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/leaflet-heatmap.js')}}"></script>
-    <!-- <script src="{{url_for('static', filename='js/data.js')}}"></script> -->
-
 
     <link rel="stylesheet" href="{{url_for('static', filename='css/map-filter.css')}}">
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background-color: floralwhite;
-            display: flex;
-        }
-    </style>
 </head>
-<body>
-    <input type="date" id="filter-date">
+<body style="background-color: #092635;">
+
+    <input type="month" id="filter-date">
     <button onclick="applyDateFilter()">Apply Filter</button>
+
+    <label for="min-temperature"></label>
+    <input type="number" id="min-temperature" placeholder="Min temperature">
+    <label for="max-temperature"></label>
+    <input type="number" id="max-temperature" placeholder="Max temperature">
+    <button onclick="applyTemperatureRangeFilter()">Apply Temperature Range Filter</button>
 
     <div id="container">
         <div id="map"></div>
     </div>
 <script>
-    function applyDateFilter() {
-        // Get the value of the date input field
-        const date = document.getElementById('filter-date').value;
-
-        // Send an AJAX request to your Flask route to fetch filtered data
-        fetch(`/filtered-data?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                // Update el_nino_data with the fetched data
-                el_nino_data.data = data.map(row => ({
-                    latitude: row.latitude,
-                    longitude: row.longitude,
-                    humidity: row.humidity
-                }));
-
-                // Update the heatmap layer with the new data
-                heatmapLayer.setData(el_nino_data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }
-
-</script>
-<script>
-
     var cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
@@ -75,18 +44,12 @@
         // if activated: uses the data maximum within the current map boundaries
         //   (there will always be a red spot with useLocalExtremas true)
         // "useLocalExtrema": true,
-        // which field name in your data represents the latitude - default "lat"
         latField: 'latitude',
-        // which field name in your data represents the longitude - default "lng"
         lngField: 'longitude',
-        // which field name in your data represents the data value - default "value"
         valueField: 'humidity'
     };
 
-
     var heatmapLayer = new HeatmapOverlay(cfg);
-    heatmapLayer.setData(el_nino_data);
-
     var baseLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 15,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -98,13 +61,29 @@
         layers: [baseLayer, heatmapLayer]
     });
 
+    window.onload = function() {
+        fetch('/initial-data')
+            .then(response => response.json())
+            .then(data => {
+                heatmapLayer.setData({
+                    max: 100,  
+                    data: data.map(row => ({
+                        latitude: row.latitude,
+                        longitude: row.longitude,
+                        humidity: row.humidity
+                    }))
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching initial data:', error);
+            });
+    };
     function updateLatLong() {
         if (map != null) {
             const center = map.getCenter();
             const latitudeElement = document.getElementById('latitude');
             const longitudeElement = document.getElementById('longitude');
             
-            // Check if the elements are found before setting their values
             if (latitudeElement && longitudeElement) {
                 latitudeElement.value = center.lat;
                 longitudeElement.value = center.lng;
@@ -112,6 +91,71 @@
         }
     }
     map.on('move', updateLatLong);
+    function fetchInitialData() {
+    fetch('/map-filter-data')
+        .then(response => response.json())
+        .then(data => {
+            heatmapLayer.setData({
+                max: 100,  
+                data: data.map(row => ({
+                    latitude: row.latitude,
+                    longitude: row.longitude,
+                    humidity: row.humidity
+                }))
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching initial data:', error);
+        });
+}
+
+function applyDateFilter() {
+    const selectedDate = document.getElementById('filter-date').value;   
+    const date = new Date(selectedDate);
+    date.setDate(date.getDate()+2);
+    const monthNumber = date.getMonth() + 1;
+    const year = date.getFullYear() - 1900;
+    
+    fetch(`/map-filter-data?month=${monthNumber}&year=${year}`)
+        .then(response => response.json())
+        .then(data => {
+            heatmapLayer.setData({
+                max: 100, 
+                data: data.map(row => ({
+                    latitude: row.latitude,
+                    longitude: row.longitude,
+                    humidity: row.humidity
+                }))
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching filtered data:', error);
+        });
+}
+
+function applyTemperatureRangeFilter() {
+    const minTemperature = document.getElementById('min-temperature').value;
+    const maxTemperature = document.getElementById('max-temperature').value;
+
+    fetch(`/map-filter-data?minTemperature=${minTemperature}&maxTemperature=${maxTemperature}`)
+        .then(response => response.json())
+        .then(data => {
+            heatmapLayer.setData({
+                max: 100, 
+                data: data.map(row => ({
+                    latitude: row.latitude,
+                    longitude: row.longitude,
+                    humidity: row.humidity
+                }))
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching filtered data:', error);
+        });
+}
+
+window.onload = fetchInitialData;
+    
 </script>
 </body>
 </html>

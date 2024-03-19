@@ -2,8 +2,9 @@
 .idea
 code/venv
 code/__pycache__
-code/hurriscan.db
 venv
 .venv
 .pytest_cache
 test/__pycache__
+test/__pycache__
+**/hurriscan.db
