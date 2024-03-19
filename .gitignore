@@ -6,4 +6,4 @@ code/hurriscan.db
 venv
 .venv
 .pytest_cache
-test/__pycache__
+code/test/__pycache__
