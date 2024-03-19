@@ -1,18 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, jsonify, redirect, request
 import os
 import sqlite3
 import sqlite_setup
 from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'hurriscan.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
 sqlite_setup.main()
 app = Flask(__name__)
 
@@ -32,44 +24,6 @@ def data_visualization():
 
     return render_template('data_visualization.html', months=months, temps=temps)
 
-@app.route('/map-filter')
-def mapfilter():
-    # Connect directly to the database
-    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
-    cursor = conn.cursor()
-
-    try:
-        cursor.execute("SELECT latitude, longitude, humidity FROM Data;")
-        rows = cursor.fetchall()
-
-        # Convert the retrieved data to JavaScript format
-        js_data = "const el_nino_data = {\n"
-        js_data += "    max: 100,\n"
-        js_data += "    data: [\n"
-
-        for row in rows:
-            js_data += f"        {{latitude: '{row[0]}', longitude: '{row[1]}', humidity: '{row[2]}'}}"
-
-            # Add comma if not the last row
-            if row != rows[-1]:
-                js_data += ",\n"
-            else:
-                js_data += "\n"
-
-        js_data += "    ]\n};"
-
-        with open(os.path.join(basedir, 'static', 'js/el_nino_data.js'), 'w') as js_file:
-            js_file.write(js_data)
-
-    except sqlite3.Error as e:
-        print("Error executing SQL statement:", e)
-
-    finally:
-        # Close the database connection
-        conn.close()
-
-    return render_template('mapfilter-temp/mapfilter.html')
-    
 @app.route('/')
 def home():
     return 'Welcome to the Home Page'
@@ -125,6 +79,10 @@ def alerts_page():
 @app.route('/admin')
 def admin_dashboard():
     return render_template('admin/admin-dashboard.html')
+
+@app.route('/admin-nav-bar')
+def admin_nav_bar():
+    return render_template('admin/admin-nav-bar.html')
 
 @app.route('/users')
 def get_users():
@@ -184,7 +142,45 @@ def create_alert():
 
     return redirect('/alerts') # Wrong path but will change later!
 
+@app.route('/map-filter')
+def mapfilter():
+    return render_template('mapfilter-temp/mapfilter.html')
+
+@app.route('/map-filter-data')
+def mapfilterData():         
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+        
+    try:
+        sql = buildSQL()
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+        data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
+        return data, 200
+
+    except sqlite3.Error as e:
+        return f"Error {e} fetching filtered data from database", 500
+    except Exception as e:
+        return f"Error {e} fetching filtered data from database", 500
+    finally:
+        conn.close()
+    
+def buildSQL():
+    sql = "SELECT latitude, longitude, humidity FROM Data"
+    month = request.args.get('month')
+    year = request.args.get('year')
+    min_temperature = request.args.get('minTemperature')
+    max_temperature = request.args.get('maxTemperature')
+    if(month and year):
+        sql += " WHERE month = " + month + " AND year = " + year
+    if(min_temperature and max_temperature):
+        if(month and year):
+            sql += " AND "
+        else:
+            sql += " WHERE "
+        sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
+    return sql
 
 if __name__ == '__main__':
     app.run(debug=True)
-
