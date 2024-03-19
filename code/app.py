@@ -1,6 +1,10 @@
 from flask import Flask, render_template, jsonify, redirect, request
 import os
 import sqlite3
+import calendar
+from flask import jsonify
+import json
+
 import sqlite_setup
 from datetime import datetime
 
@@ -8,21 +12,34 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
 app = Flask(__name__)
 
+
+
 @app.route('/data-visualization')
 def data_visualization():
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-
-    cur.execute('SELECT month, SUM(temp) as total_temp FROM Data GROUP BY month')
-    data = cur.fetchall()
-
+    curs = conn.cursor()
+    curs.execute("SELECT month, AVG(temp) FROM Data GROUP BY month")
+    results = curs.fetchall()
     conn.close()
+    months = [calendar.month_name[int(row[0])] for row in results]  # Convert month numbers to names
+    temperatures = [row[1] for row in results]
+    # Return the template with data included
+    return render_template('data_visualization.html',months=months, temperatures=temperatures)
 
-    months = [row['month'] for row in data]
-    temps = [row['total_temp'] for row in data]
+@app.route('/data-visualization/<int:year>/<int:month>')
+def get_monthly_data(year, month):
+    conn = sqlite3.connect('hurriscan.db')
+    curs = conn.cursor()
+    curs.execute("SELECT AVG(humidity), AVG(air), AVG(temp), AVG(zon_winds), AVG(mer_winds) FROM Data WHERE year = ? AND month = ?", (year, month))
+    data = curs.fetchone()
+    conn.close()
+    if data:
+        labels = ['Humidity', 'Air', 'Temperature', 'Zon Winds', 'Mer Winds']
+        values = [data[0], data[1], data[2], data[3], data[4]]
+        return render_template('filter_visualization.html', year=year, month=month, labels=labels, values=values)
+    else:
+        return render_template('filter_visualization.html', error="No data found")
 
-    return render_template('data_visualization.html', months=months, temps=temps)
 
 @app.route('/')
 def home():
@@ -72,7 +89,7 @@ def alerts_page():
         conn.commit()
         conn.close()
 
-        return redirect(url_for('alerts_page'))
+        return redirect('alerts_page')
 
     return render_template('alerts.html')
 

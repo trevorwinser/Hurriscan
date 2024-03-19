@@ -6,5 +6,7 @@ code/test/__pycache__
 code/hurriscan.db
 code/sendgrid.env
 venv
+.venv
+.pytest_cache
 test/__pycache__
-**/hurriscan.db
+code/test/__pycache__

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Visualization</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -9,40 +10,37 @@
     <canvas id="myChart"></canvas>
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',  // or 'line', 'pie', etc.
-            data: {
-                labels: ['January', 'February', 'March'],
-                datasets: [{
-                    label: 'Total Temperature',
-                    data: [10, 20, 30],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+        var months = {{ months|tojson }};
+        var temperatures = {{ temperatures|tojson }};
+        var backgroundColors = [
+            'rgba(9, 38, 53, 1)', 
+            'rgba(27, 66, 66, 1)', 
+            'rgba(92, 131, 116, 1)',
+            'rgba(158, 200, 185, 1)', 
+];
+        var borderColors = [
+            'rgba(0,0,0,0.5)', 
+];
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [{
+            label: 'Total Temperature',
+            data: temperatures,
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
             }
-        });
-    </script>
+        }
+    }
+});
+</script> 
 </body>
 </html>

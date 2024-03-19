@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HurriScan</title>
-    <link rel = "stylesheet" href= "nav-bar-css.css">
+    <link rel = "stylesheet" href= "static/css/nav-bar-css.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     
@@ -26,10 +27,11 @@
     </div>
 
 </div>
-<iframe src="/code/front-end/user-dashboard/user-dashboard.html" style="width:100%; height: 100%; border:none;" ></iframe>
 
-<iframe src="/code/templates/alerts.html" style="width:100%; height: 100%; border:none;"></iframe>
+<iframe src="/code/front-end/user-dashboard/user-dashboard.html" style="width:100%; height: 100vh; border:none;" ></iframe>
+<!-- <iframe src="/code/templates/alerts.html" style="width:100%; height: 100%; border:none;"></iframe>  -->
 <body>
+    
 <div id="sidePanel" class="side-panel">
     <!-- Close button -->
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -45,15 +47,7 @@
             <label for="location3"><input type="checkbox" id="location3"> Location 3</label>
         </div>
     </div>
-    
-    <!-- Frequency Filter Section -->
-    <div class="filter-section">
-        <h3>Frequency:</h3>
-        <label for="frequency1"> <input type="checkbox" id="frequency1"> Area with most hurricane activity </label> <br>
-        <label for="frequency2"> <input type="checkbox" id="frequency2"> Most hurricane activity this year </label> <br>
-        <label for="frequency3"> <input type="checkbox" id="frequency3"> Area with lease hurricane activity </label>
-    </div>
-</div>
+    <canvas id="myChart"></canvas>
 
 <div id="rightSidePanel" class="right-side-panel">
     <!-- Close button -->
@@ -68,6 +62,7 @@
     </div>
 </div>
 
-    <script src="sidePanel.js"></script>
+    <script src="static/js/sidePanel.js"></script>
+    <script src="static/js/dataVisualization.js"></script>
 </body>
 </html>
