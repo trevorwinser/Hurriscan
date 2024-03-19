@@ -46,7 +46,7 @@
         // "useLocalExtrema": true,
         latField: 'latitude',
         lngField: 'longitude',
-        valueField: 'humidity'
+        valueField: 'temperature'
     };
 
     var heatmapLayer = new HeatmapOverlay(cfg);
@@ -70,7 +70,7 @@
                     data: data.map(row => ({
                         latitude: row.latitude,
                         longitude: row.longitude,
-                        humidity: row.humidity
+                        temperature: row.temp
                     }))
                 });
             })
@@ -100,7 +100,7 @@
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
-                    humidity: row.humidity
+                    temperature: row.temperature
                 }))
             });
         })
@@ -124,7 +124,7 @@ function applyDateFilter() {
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
-                    humidity: row.humidity
+                    temperature: row.temp
                 }))
             });
         })
@@ -145,7 +145,7 @@ function applyTemperatureRangeFilter() {
                 data: data.map(row => ({
                     latitude: row.latitude,
                     longitude: row.longitude,
-                    humidity: row.humidity
+                    temperature: row.temp
                 }))
             });
         })
