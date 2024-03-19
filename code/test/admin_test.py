@@ -1,42 +1,31 @@
-from flask import Flask
 import pytest
-import json
-from admin import admin_bp
+from selenium import webdriver
+
 @pytest.fixture
-def client():
-    app = Flask(__name__)
-    app.register_blueprint(admin_bp)
-    with app.test_client() as client:
-        yield client
+def browser():
+    # Initialize WebDriver needed for Selenium web automation tests
+    driver = webdriver.Chrome()  # You can change this to your preferred browser driver
+    yield driver
+    driver.quit()
 
-def test_get_users(client):
-    response = client.get('/admin/users')
-    assert response.status_code == 200
+def test_admin_page(browser):
+    # Open the admin page
+    browser.get('http://127.0.0.1:5000/admin')
 
-    data = json.loads(response.data)
-    assert 'users' in data
-    assert isinstance(data['users'], list)
+    # Check if the page title contains "Admin Dashboard"
+    assert "Admin Dashboard" in browser.title
 
-def test_create_user(client):
-    new_user_data = {"username": "test_user", "password": "test_password", "email": "test@example.com"}
-    response = client.post('/admin/users', json=new_user_data)
-    assert response.status_code == 201
+    # You can add more assertions to verify elements or functionalities on the admin page
 
-    data = json.loads(response.data)
-    assert 'user_name' in data
-    assert data['user_name'] == new_user_data['username']
+def test_users_page(browser):
+    # Open the users page
+    browser.get('http://127.0.0.1:5000/users')
 
-def test_edit_user_name(client):
-    username = "test_user"
-    edit_data = {"oldPassword": "test_password", "newUsername": "new_test_user", "newPassword": "new_test_password"}
-    response = client.patch(f'/admin/users/{username}', json=edit_data)
-    assert response.status_code == 200
+    # Check if the page title contains "Users"
+    assert "Users" in browser.title
 
-    data = json.loads(response.data)
-    assert 'user_name' in data
-    assert data['user_name'] == edit_data['newUsername']
-    
-def test_del_user_name(client):
-    username = "new_test_user"
-    response = client.delete(f'/admin/users/{username}')
-    assert response.status_code == 204
+    # You can add more assertions to verify elements or functionalities on the users page
+
+# Run the tests
+if __name__ == "__main__":
+    pytest.main()

@@ -143,9 +143,10 @@ def get_users():
             'password': row[2],
             'email': row[3],
             'phone': row[4],
-            'alerts_email': row[5],
-            'alerts_phone': row[6],
-            'isAdmin': row[7]
+            'zone': row[5],
+            'alerts_email': row[6],
+            'alerts_phone': row[7],
+            'isAdmin': row[8]
         }
         users.append(user)
 
