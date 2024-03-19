@@ -12,6 +12,6 @@ typing_extensions==4.10.0
 Werkzeug==3.0.1
 flask-cors==4.0.0
 selenium==3.141.0
-urllib3==1.26.5
 pytest==8.1.1
 pandas==2.2.1
+urllib3==1.26.5
