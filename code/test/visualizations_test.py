@@ -19,12 +19,11 @@ def test_default_page_load(browser):
 
 def test_chart_data(browser):
     # Interact with the year and month dropdowns
-    Select(browser.find_element_by_id('year')).select_by_visible_text('1994')
-    Select(browser.find_element_by_id('month')).select_by_visible_text('August')
-    browser.find_element_by_id('submit').click()
+    Select(browser.find_element(By.ID, 'year')).select_by_visible_text('1994')
+    Select(browser.find_element(By.ID, 'month')).select_by_visible_text('August')
+    browser.find_element(By.ID, 'submit').click()
     WebDriverWait(browser, 10).until(
         EC.presence_of_element_located((By.ID, 'weatherChart'))
     )
-
     # Assert the chart is displayed
-    assert browser.find_element_by_id('weatherChart').is_displayed()
+    assert browser.find_element(By.ID, 'weatherChart').is_displayed()
