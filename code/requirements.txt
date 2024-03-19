@@ -14,3 +14,6 @@ flask-cors==4.0.0
 selenium==3.141.0
 urllib3==1.26.5
 Flask_Login==0.6.3
+Flask-Testing==0.8.1
+Twilio
+sendgrid
