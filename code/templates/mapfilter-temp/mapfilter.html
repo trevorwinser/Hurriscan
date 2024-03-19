@@ -46,7 +46,8 @@
         // "useLocalExtrema": true,
         latField: 'latitude',
         lngField: 'longitude',
-        valueField: 'humidity'
+        zonWindsField: 'zon.winds', // zonal winds field
+        merWindsField: 'mer.winds'  // meridional winds field
     };
 
     var heatmapLayer = new HeatmapOverlay(cfg);
@@ -66,13 +67,15 @@
             .then(response => response.json())
             .then(data => {
                 heatmapLayer.setData({
-                    max: 100,  
+                    max: 100, 
                     data: data.map(row => ({
                         latitude: row.latitude,
                         longitude: row.longitude,
-                        humidity: row.humidity
+                        zonalWinds: row['zon.winds'], 
+                        meridionalWinds: row['mer.winds'] 
                     }))
                 });
+                
             })
             .catch(error => {
                 console.error('Error fetching initial data:', error);
