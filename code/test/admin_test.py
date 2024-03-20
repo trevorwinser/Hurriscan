@@ -18,8 +18,8 @@ def test_delete_user(browser):
     browser.execute_script("deleteUser(1)")
     conn = sqlite3.connect('hurriscan.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM User WHERE id = "1";')
-    assert cursor.fetchone() is None, "User with ID 1 still in database"
+    cursor.execute('SELECT * FROM User WHERE id = 1;')
+    assert cursor.fetchall() is None, "User with ID 1 still in database"  # app.py prints the User table showing that User w/ id = 1 is deleted. This fails for reasons unknown.
     conn.close()
 
 def test_create_alert(browser):

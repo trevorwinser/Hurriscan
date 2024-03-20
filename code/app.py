@@ -135,7 +135,10 @@ def delete_user(user_id):
         cur = conn.cursor()
         cur.execute('DELETE FROM User WHERE id = ?', (user_id,))
         conn.commit()
-        
+        cur.execute("SELECT * FROM User;")
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
         conn.close()
         return redirect('/admin') # Doesn't do anything, but needed to return something ¯\_(ツ)_/¯
 
