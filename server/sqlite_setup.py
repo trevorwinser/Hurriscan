@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import csv
 
@@ -92,10 +93,17 @@ def create_users(conn):
     conn.commit()
 
 def main():
+    
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    
+    DB_NAME = 'hurriscan.db'
 
-    conn = sqlite3.connect('hurriscan.db')
 
-    csv_file_path = 'data/cleaned_data.csv'
+    
+
+    conn = sqlite3.connect(os.path.join(basedir, DB_NAME))
+
+    csv_file_path = '../data/cleaned_data.csv'
 
     create_table(conn)
 
