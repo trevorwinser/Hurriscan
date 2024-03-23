@@ -4,15 +4,12 @@ import sqlite3
 import calendar
 from flask import jsonify
 import json
-
-import sqlite_setup
+from . import sqlite_setup
 from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
 app = Flask(__name__)
-
-
 
 @app.route('/data-visualization')
 def data_visualization():

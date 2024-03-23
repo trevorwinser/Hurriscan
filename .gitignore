@@ -10,3 +10,4 @@ venv
 .pytest_cache
 test/__pycache__
 code/test/__pycache__
+server/hurriscan.db
