@@ -20,3 +20,5 @@ Flask_Login==0.6.3
 Flask-Testing==0.8.1
 Twilio
 sendgrid
+numpy
+scikit-learn

@@ -4,16 +4,38 @@ import sqlite3
 import calendar
 from flask import jsonify
 import json
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 import sqlite_setup
 from datetime import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
+
 app = Flask(__name__)
 
+@app.route('/temperature-predictions/<int:month>')
+def temperature_predictions(month):
+    conn = sqlite3.connect('hurriscan.db')
+    query = "SELECT month, temp FROM Data"
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    X = df[['month']]
+    y = df['temp']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+    model = LinearRegression()
+    model.fit(X_train, y_train)
 
+    # Make predictions for the next year
+    future_months = np.array([[m] for m in range(1, 13)])
+    predictions = model.predict(future_months)
 
+    predictions_dict = dict(zip(range(1, 13), predictions))
+
+    return render_template('temperature_predictions.html', predictions=predictions_dict, labels=month, values=predictions)
 @app.route('/data-visualization')
 def data_visualization():
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
@@ -187,6 +209,18 @@ def mapfilterData():
         return f"Error {e} fetching filtered data from database", 500
     finally:
         conn.close()
+
+@app.route('/predictions-visualization')
+def predictions_visualization():
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    curs = conn.cursor()
+    curs.execute("SELECT month, AVG(temp) FROM Data GROUP BY month")
+    results = curs.fetchall()
+    conn.close()
+    months = [calendar.month_name[int(row[0])] for row in results]
+    temperatures = [round(row[1], 2) for row in results]
+    return render_template('predictions_visualization.html', months=months, temperatures=temperatures)
+
     
 def buildSQL():
     sql = "SELECT latitude, longitude, temp FROM Data"
