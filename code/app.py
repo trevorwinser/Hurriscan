@@ -118,9 +118,10 @@ def get_users():
             'password': row[2],
             'email': row[3],
             'phone': row[4],
-            'alerts_email': row[5],
-            'alerts_phone': row[6],
-            'isAdmin': row[7]
+            'zone': row[5],
+            'alerts_email': row[6],
+            'alerts_phone': row[7],
+            'isAdmin': row[8]
         }
         users.append(user)
 
@@ -134,7 +135,10 @@ def delete_user(user_id):
         cur = conn.cursor()
         cur.execute('DELETE FROM User WHERE id = ?', (user_id,))
         conn.commit()
-        
+        cur.execute("SELECT * FROM User;")
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
         conn.close()
         return redirect('/admin') # Doesn't do anything, but needed to return something ¯\_(ツ)_/¯
 

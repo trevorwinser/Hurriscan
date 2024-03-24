@@ -1,5 +1,5 @@
 import pytest
-from code.routing.app import app, db  # Import the app directly
+from code.app import app, db  # Import the app directly
 
 @pytest.fixture
 def client():
