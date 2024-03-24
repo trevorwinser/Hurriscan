@@ -21,19 +21,18 @@ app = Flask(__name__)
 @app.route('/temperature-predictions/<int:month>')
 def temperature_predictions(month):
     conn = sqlite3.connect('hurriscan.db')
-    df = pd.read_sql_query("SELECT month, AVG(temp) AS avg_temp FROM Data GROUP BY month", conn)
+    df = pd.read_sql_query("SELECT month, AVG(temp) AS avg_temp, AVG(humidity) AS avg_humidity, AVG(air) AS avg_air FROM Data GROUP BY month", conn)
     conn.close()
     if request.is_json or month is not None:
         if month and not df[df['month'] == month].empty:
             X = df[['month']]
-            y = df['avg_temp']
+            y = df[['avg_temp', 'avg_humidity', 'avg_air']]
             model = LinearRegression()
             model.fit(X, y)
-            predicted_temp = model.predict([[month]])
-            return jsonify(month=month, temperature=predicted_temp[0])
+            predicted_values = model.predict([[month]])
+            return jsonify(month=month, temperature=predicted_values[0][0], humidity=predicted_values[0][1], air=predicted_values[0][2])
         else:
             return jsonify(error="No data available"), 404
-    # For initial page load
     return render_template('temperature_predictions.html')
 
 @app.route('/data-visualization')

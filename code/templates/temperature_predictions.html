@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Temperature Predictions</title>
+    <title>Weather Predictions</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -21,41 +21,24 @@
         <option value="12">December</option>
     </select>
     <script>
-        var PredictionsChart;
-        // document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             var ctx = document.getElementById('PredictionsChart').getContext('2d');
-var PredictionsChart = new Chart(ctx, {
-    type: 'bar', // or 'bar', depending on your needs
-    data: {
-        labels: [], // Empty for initialization
-        datasets: [{
-            label: 'Temperature',
-            data: [], // Empty for initialization
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-function updateGraph(selectedMonth) {
-    fetch(`/temperature-predictions/${selectedMonth}`)
-        .then(response => response.json())
-        .then(data => {
-            PredictionsChart.data.labels = ['Month ' + data.month];
-            PredictionsChart.data.datasets.forEach((dataset) => {
-                dataset.data = [data.temperature];
+            PredictionsChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: [], datasets: [ { label: 'Temperature', data: [], backgroundColor: 'rgba(255, 99, 132, 0.2)', borderColor: 'rgba(255, 99, 132, 1)', borderWidth: 1 }, { label: 'Humidity', data: [], backgroundColor: 'rgba(54, 162, 235, 0.2)', borderColor: 'rgba(54, 162, 235, 1)', borderWidth: 1 }, { label: 'Air', data: [], backgroundColor: 'rgba(255, 206, 86, 0.2)', borderColor: 'rgba(255, 206, 86, 1)', borderWidth: 1 } ] },
+                options: { scales: { y: { beginAtZero: true } } }
             });
-            PredictionsChart.update();
         });
-}
+
+        function updateGraph(selectedMonth) {
+            fetch(`/temperature-predictions/${selectedMonth}`).then(response => response.json()).then(data => {
+                PredictionsChart.data.labels = ['Month ' + selectedMonth];
+                PredictionsChart.data.datasets[0].data = [data.temperature];
+                PredictionsChart.data.datasets[1].data = [data.humidity];
+                PredictionsChart.data.datasets[2].data = [data.air];
+                PredictionsChart.update();
+            });
+        }
     </script>
 </body>
 </html>
