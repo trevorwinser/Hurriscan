@@ -1,4 +1,4 @@
-import os
+""" import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -16,4 +16,4 @@ try:
     print(response.body)
     print(response.headers)
 except Exception as e:
-    print(str(e)) 
+    print(str(e))  """
