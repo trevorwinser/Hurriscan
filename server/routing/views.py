@@ -1,10 +1,14 @@
-from flask import Blueprint
+from flask import Blueprint, redirect, url_for, render_template
 from flask_login import  login_required,  current_user
+from . import user
 
 views = Blueprint('views', __name__)
 
 
 @views.route('/')
-@login_required
 def home():
-    return "<h1> Hello World </h1>"
+    if(user.currentUsername == ""):
+        redirect(url_for('auth.login'))
+    
+    
+    return render_template('user-dashboard.html')

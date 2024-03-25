@@ -43,6 +43,8 @@ def create_table(conn):
         CREATE TABLE IF NOT EXISTS User (
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
             username TEXT NOT NULL,
+            firstName TEXT,
+            lastName TEXT,
             password TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             phone TEXT DEFAULT "",
@@ -96,7 +98,7 @@ def main():
     
     basedir = os.path.abspath(os.path.dirname(__file__))
     
-    DB_NAME = 'hurriscan.db'
+    DB_NAME = 'routing/hurriscan.db'
 
 
     
