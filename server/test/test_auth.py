@@ -1,10 +1,9 @@
 import os
 import pytest
 from flask import Flask
-from server.routing import create_app  # Replace 'yourapp' with the name of your Flask app package
-from server.routing.auth import auth 
+from routing import create_app  # Replace 'yourapp' with the name of your Flask app package
+from routing.auth import auth 
 from flask_sqlalchemy import SQLAlchemy
-from server.routing import db
 
 
 
@@ -17,8 +16,7 @@ def app():
     
    
    
-    with app.app_context():
-        db.create_all()
+    
 
     yield app
 
@@ -35,11 +33,23 @@ def test_login_page(client):
 def test_login_functionality(client):
     
     response = client.post('/login', data=dict(
-        email='lakshay@gmail.com', 
+        username = 'lakshayd',
         password='12345678'
     ), follow_redirects=True)
     assert response.status_code == 200
     # Check for a success indicator, e.g., a flash message or redirect to a dashboard
+
+    
+
+def test_bad_login_incorrect_password(client):
+    # Simulate incorrect password scenario
+    response = client.post('/login', data={'username': 'lakshayd', 'password': 'wrong_password'})
+    assert b'Incorrect Password, Try Again.' in response.data
+
+def test_bad_login_invalid_username(client):
+    # Simulate invalid username scenario
+    response = client.post('/login', data={'username': 'nonexistent_user', 'password': 'any_password'})
+    assert b'Invalid Username.' in response.data
 
 
 
