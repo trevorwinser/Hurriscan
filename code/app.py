@@ -8,11 +8,11 @@ import json
 import sqlite_setup
 from datetime import datetime
 
+from twilio.rest import Client
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
 app = Flask(__name__)
-
-
 
 @app.route('/data-visualization')
 def data_visualization():
@@ -182,13 +182,13 @@ def mapfilterData():
         sql = buildSQL()
         cursor.execute(sql)
         rows = cursor.fetchall()
-        data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
-        return data, 200
+        data = [{'latitude': row[0], 'longitude': row[1], 'temp': row[2]} for row in rows]
+        return jsonify(data), 200
 
     except sqlite3.Error as e:
-        return f"Error {e} fetching filtered data from database", 500
+        return jsonify({'error': f"Error {e} fetching filtered data from database"}), 500
     except Exception as e:
-        return f"Error {e} fetching filtered data from database", 500
+        return jsonify({'error': f"Error {e} fetching filtered data from database"}), 500
     finally:
         conn.close()
     
@@ -207,6 +207,10 @@ def buildSQL():
             sql += " WHERE "
         sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
     return sql
+
+@app.route('/predictions-dashboard')
+def predictions_dashboard():
+    return render_template('predictions-dashboard.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
