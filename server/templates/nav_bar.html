@@ -13,22 +13,22 @@
 <div class="navbar">
 
     <div class="navbar-section">
-        <img src="../../static/images/filter.png" alt="Left Icon" class="navbar-icon" onclick="openNav()"> 
+        <img src="{{url_for('static', filename='images/filter.png')}}" alt="Left Icon" class="navbar-icon" onclick="openNav()"> 
        
     </div>
 
     <div class="navbar-title">
-        <img src="../../static/images/radar logo/new-logo.png" alt="Logo Icon" class = "logo-section" > 
+        <img src="{{url_for('static', filename='images/new-logo.png')}}" alt="Logo Icon" class = "logo-section" > 
         <h1>HurriScan</h1>  
     </div>
     
     <div class="navbar-section">
-        <img src="../../static/images/profile icon.png" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
+        <img src="{{url_for('static', filename='images/profile_icon.png')}}" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
     </div>
 
 </div>
 
-<iframe src="/code/front-end/user-dashboard/user-dashboard.html" style="width:100%; height: 100vh; border:none;" ></iframe>
+<iframe src="{{ url_for('user_dashboard.dashboard') }}" style="width:100%; height: 100vh; border:none;" ></iframe>
 <!-- <iframe src="/code/templates/alerts.html" style="width:100%; height: 100%; border:none;"></iframe>  -->
 <body>
     
@@ -56,9 +56,9 @@
     <h2 class="menu-title">Menu</h2>
     <div class="menu-options">
         <a href="#">Predictions</a>
-        <a href="admin-dashboard/admin-nav-bar.html">Admin View</a>
+        <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
         <a href="https://github.com/trevorwinser/Infinite-Loopers" target="_blank">Github</a>
-        <a href="#">Sign-out</a>
+        <a href="{{url_for('auth.logout')}}">Sign-out</a>
     </div>
 </div>
 

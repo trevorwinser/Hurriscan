@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
-db = SQLAlchemy()
+
 DB_NAME = 'hurriscan.db'
 
 def create_app():
@@ -19,21 +19,30 @@ def create_app():
     # Use the absolute path in SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, DB_NAME)
 
-    db.init_app(app)
+
     
     #import blueprints here
     from .views import views
     from .auth import auth
+    from .admin import admin_bp
+    from .mapFilter import mapfilter_bp
+    from .data_visualization import data_visualization_bp
+    from .alerts import alerts_bp
+    from.user_dashboard import user_dashboard
     
     #register blueprints here
     app.register_blueprint(auth, url_prefix = '/')
     app.register_blueprint(views, url_prefix = '/')
+    app.register_blueprint(admin_bp, url_prefix='/')
+    app.register_blueprint(mapfilter_bp, url_prefix='/')
+    app.register_blueprint(data_visualization_bp, url_prefix='/')
+    app.register_blueprint(alerts_bp, url_prefix = '/')
+    app.register_blueprint(user_dashboard, url_for='/')
     
     
     
     
-    with app.app_context():
-        db.create_all()
+    
         
         
     # login_manager = LoginManager()

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 import os
 import sqlite3
 
-mapfilter_bp = Blueprint('admin', __name__, template_folder="../templates", static_folder="../static")
+mapfilter_bp = Blueprint('mapfilter_bp', __name__, template_folder="../templates", static_folder="../static")
 
 @mapfilter_bp.route('/map-filter')
 def mapfilter():

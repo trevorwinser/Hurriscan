@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
-from routing import db
+
 from flask_login import login_user, login_required, logout_user, current_user
 
 import sqlite3
@@ -38,7 +38,7 @@ def login():
         
         if exists:
             if check_password_hash(DBpassword, password):
-                flash('Successfully Logged In!', category="success")
+                
                 user.currentUsername = username
                 return redirect(url_for('views.home'))
             else:
@@ -48,8 +48,8 @@ def login():
     return render_template('login.html')
 
 @auth.route('/logout')
-@login_required
 def logout():
+    user.currentUsername = ""
     return redirect(url_for('auth.login'))
 
 @auth.route('/sign-up', methods=["GET", "POST"])

@@ -7,8 +7,8 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
+    
     if(user.currentUsername == ""):
-        redirect(url_for('auth.login'))
-    
-    
-    return render_template('user-dashboard.html')
+        return redirect(url_for('auth.login'))
+    else:
+        return render_template('nav_bar.html')

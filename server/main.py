@@ -1,4 +1,5 @@
 from routing import create_app
+from routing import user
 
 app = create_app()
 

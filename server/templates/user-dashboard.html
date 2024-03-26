@@ -81,11 +81,11 @@
 </script>
 
 <div id="data-visualization">
-    <iframe src="{{ url_for('data_visualization') }}" frameborder="0" style="width: 300%; height: 600px;"></iframe>
+    <iframe src="{{ url_for('data_visualization.data_visualization') }}" frameborder="0" style="width: 300%; height: 600px;"></iframe>
 </div>
 
 <div id="filter-visualization">
-    <iframe src="{{ url_for('get_monthly_data', year=94, month=8) }}" frameborder="0"></iframe>
+    <iframe src="{{ url_for('data_visualization.get_monthly_data', year=94, month=8) }}" frameborder="0"></iframe>
 </div>
 
 </body>
