@@ -4,6 +4,10 @@ import sqlite3
 import calendar
 from flask import jsonify
 import json
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 
 import sqlite_setup
 from datetime import datetime
@@ -12,8 +16,34 @@ from twilio.rest import Client
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
+
+
 app = Flask(__name__)
 
+@app.route('/temperature-predictions', defaults={'month': None})
+@app.route('/temperature-predictions/<int:month>')
+def temperature_predictions(month):
+    try:
+        conn = sqlite3.connect('hurriscan.db')
+        df = pd.read_sql_query("SELECT month, AVG(temp) AS avg_temp, AVG(humidity) AS avg_humidity, AVG(air) AS avg_air FROM Data GROUP BY month", conn)
+    except Exception as e:
+        print(f"Error connecting to database or executing query: {e}")
+        return jsonify(error="Database error"), 500
+    finally:
+        if conn:
+            conn.close()
+    if request.is_json or month is not None:
+        if month and not df[df['month'] == month].empty:
+            X = df[['month']]
+            y = df[['avg_temp', 'avg_humidity', 'avg_air']]
+            model = LinearRegression()
+            model.fit(X, y)
+            predicted_values = model.predict([[month]])
+            return jsonify(month=month, temperature=predicted_values[0][0], humidity=predicted_values[0][1], air=predicted_values[0][2])
+        else:
+            return jsonify(error="No data available"), 404
+    return render_template('temperature_predictions.html')
+  
 @app.route('/data-visualization')
 def data_visualization():
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
