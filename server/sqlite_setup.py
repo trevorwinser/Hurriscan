@@ -1,6 +1,7 @@
 import os
 import sqlite3
 import csv
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_table(conn):
     cursor = conn.cursor()
@@ -82,11 +83,12 @@ def import_csv_to_table(conn, csv_file_path):
         
 def create_users(conn):
     cursor = conn.cursor()
+    
+    hashed_password = generate_password_hash("Password1", method="pbkdf2:sha256")
 
-    cursor.execute('''
-        INSERT INTO User (username, password, email, alerts_email, isAdmin, zone)
-        VALUES ("Admin1", "Password1", "admin@gmail.com", 0, 0, "none")
-    ''')
+    cursor.execute(" INSERT INTO User (username, password, email, alerts_email, isAdmin, zone) VALUES (?, ?, ?, ?, ?, ?)", ("Admin1", hashed_password, "admin@gmail.com", 0, 1, "none"))
+
+
 
     cursor.execute('''
         INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone)

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, jsonify, redirect, request
 import os
 import sqlite3
 from datetime import datetime
+from routing import user
 
 admin_bp = Blueprint('admin', __name__, template_folder="../templates", static_folder="../static")
 
@@ -13,7 +14,7 @@ def admin_dashboard():
 
 @admin_bp.route('/admin-nav-bar')
 def admin_nav_bar():
-    return render_template('admin/admin-nav-bar.html')
+    return render_template('admin/admin-nav-bar.html', usernams = user.currentUsername)
 
 @admin_bp.route('/users')
 def get_users():

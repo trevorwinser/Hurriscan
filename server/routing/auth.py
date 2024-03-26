@@ -40,6 +40,7 @@ def login():
             if check_password_hash(DBpassword, password):
                 
                 user.currentUsername = username
+                user.isAdmin = isAdmin(username=username)
                 return redirect(url_for('views.home'))
             else:
                 flash('Incorrect Password, Try Again.', category="error")
@@ -114,7 +115,7 @@ def emailExists(email):
     return False
 
 
-def usernameExists(username):
+def isAdmin(username):
     basedir = os.path.abspath(os.path.dirname(__file__))
     DB_NAME = 'hurriscan.db'
  
@@ -122,11 +123,14 @@ def usernameExists(username):
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     
-    cursor.execute("SELECT * FROM User WHERE username = ?", (username,))
-    rows = cursor.fetchall()
-    for row in rows:
+    cursor.execute("SELECT isAdmin FROM User WHERE username = ?", (username,))
+    row = cursor.fetchone()
+    if row[0] == 1:
         return True
-    return False
+    else:
+        return False
+    
+
 
 
     

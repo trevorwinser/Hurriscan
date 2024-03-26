@@ -11,7 +11,7 @@
         
         
 <header class="navbar">
-    <button class="exit-button">Exit</button>
+    <button class="exit-button" onclick = "redirectTop()">Exit</button>
     <div>
         <div class="navbar-title">
             <img src="{{ url_for('static', filename='images/new-logo.png') }}" alt="Logo Icon" class="logo-section">
@@ -56,5 +56,11 @@
             <a href="#">Sign-out</a>
         </div>
     </div>
+
+    <script>
+        function redirectTop() {
+            window.top.location.href = "{{url_for('views.home')}}";
+        }
+    </script>
         <!-- <script src="admin-nav-bar.js"></script> -->
 </body>

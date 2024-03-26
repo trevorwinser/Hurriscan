@@ -22,6 +22,7 @@
         <h1>HurriScan</h1>  
     </div>
     
+    
     <div class="navbar-section">
         <img src="{{url_for('static', filename='images/profile_icon.png')}}" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
         <p> {{ username }}</p>
@@ -57,7 +58,9 @@
     <h2 class="menu-title">Menu</h2>
     <div class="menu-options">
         <a href="#">Predictions</a>
-        <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
+        {% if isAdmin %}
+            <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
+        {% endif %}
         <a href="https://github.com/trevorwinser/Infinite-Loopers" target="_blank">Github</a>
         <a href="{{url_for('auth.logout')}}">Sign-out</a>
     </div>
@@ -65,5 +68,7 @@
 
     <script src="static/js/sidePanel.js"></script>
     <script src="static/js/dataVisualization.js"></script>
+
+    
 </body>
 </html>

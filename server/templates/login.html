@@ -56,7 +56,7 @@
                     <input type="Password" id="password" name="password" placeholder="Password"><br>
                     <input type="submit" value="Login">
                 </form>
-                <p>Don't have an account? <a href="registration.html">Create one</a></p>
+                <p>Don't have an account? <a href="{{url_for('auth.signUp')}}">Create one</a></p>
             </div>
             <img src="{{url_for('static', filename='images/loginImg.png')}}">
         </div>

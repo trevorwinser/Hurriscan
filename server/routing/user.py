@@ -2,5 +2,5 @@ import os
 import sqlite3
 
 
-currentUsername = "";
-currentPassword = "";
+currentUsername = ""
+isAdmin = False
