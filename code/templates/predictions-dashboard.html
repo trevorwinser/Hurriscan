@@ -90,6 +90,58 @@
             marker = L.marker(latlng).addTo(map);
             updateLatLong(latlng);
         });
+
+        function getHemisphere() {
+            var northAmericaChecked = document.getElementById('north-america').checked;
+            var southAmericaChecked = document.getElementById('south-america').checked;
+    
+            var formData = new FormData();
+            formData.append('north_america', northAmericaChecked);
+            formData.append('south_america', southAmericaChecked);
+    
+            fetch('/predictions-dashboard/alerts', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log(data); // Response from server
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        }
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('make-predictions-button').addEventListener('click', function () {
+                sendAlerts();
+            });
+
+            function sendAlerts() {
+                fetch('/predictions-dashboard/alerts', {
+                    method: 'POST'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    console.log(data); 
+                    alert('Alerts sent successfully!');
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    alert('Failed to send alerts. Please try again later.');
+                });
+            }
+        });
     </script>
 </body>
 </html>
