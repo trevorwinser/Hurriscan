@@ -42,6 +42,11 @@ def temperature_predictions():
         return f"Error {e} fetching predictions from database", 500
 
 def predict(month:int, latitude:float, longitude:float):
+
+#this is the graph in the predictions dashboard
+@app.route('/temperature-predictions', defaults={'month': None})
+@app.route('/temperature-predictions/<int:month>')
+def temperature_predictions(month):
     try:
         conn = sqlite3.connect('hurriscan.db')
         query = "SELECT month, AVG(temp) AS avg_temp, AVG(humidity) AS avg_humidity, AVG(air) AS avg_air FROM Data GROUP BY month"
@@ -77,7 +82,10 @@ def predict(month:int, latitude:float, longitude:float):
     except Exception as e:
         print(f"Error predicting: {e}")
         raise e
+            return jsonify(error="No data available"), 404
+    return render_template('temperature_predictions.html')
 
+#this is the graph in the user-dashboard 
 @app.route('/data-visualization')
 def data_visualization():
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
@@ -89,6 +97,7 @@ def data_visualization():
     temperatures = [row[1] for row in results]
     return render_template('data_visualization.html',months=months, temperatures=temperatures)
 
+#this is graph #2 where the user can pick a month and it also goes in the user dashboard
 @app.route('/data-visualization/<int:year>/<int:month>')
 def get_monthly_data(year, month):
     conn = sqlite3.connect('hurriscan.db')
@@ -102,7 +111,6 @@ def get_monthly_data(year, month):
         return render_template('filter_visualization.html', year=year, month=month, labels=labels, values=values)
     else:
         return render_template('filter_visualization.html', error="No data found")
-
 
 @app.route('/')
 def home():
