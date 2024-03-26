@@ -61,23 +61,6 @@
         layers: [baseLayer, heatmapLayer]
     });
 
-    window.onload = function() {
-        fetch('/initial-data')
-            .then(response => response.json())
-            .then(data => {
-                heatmapLayer.setData({
-                    max: 100,  
-                    data: data.map(row => ({
-                        latitude: row.latitude,
-                        longitude: row.longitude,
-                        temperature: row.temp
-                    }))
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching initial data:', error);
-            });
-    };
     function updateLatLong() {
         if (map != null) {
             const center = map.getCenter();

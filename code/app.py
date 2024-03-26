@@ -8,11 +8,14 @@ import json
 import sqlite_setup
 from datetime import datetime
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
+from twilio.rest import Client
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
 app = Flask(__name__)
-
-
 
 @app.route('/data-visualization')
 def data_visualization():
@@ -182,13 +185,13 @@ def mapfilterData():
         sql = buildSQL()
         cursor.execute(sql)
         rows = cursor.fetchall()
-        data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
-        return data, 200
+        data = [{'latitude': row[0], 'longitude': row[1], 'temp': row[2]} for row in rows]
+        return jsonify(data), 200
 
     except sqlite3.Error as e:
-        return f"Error {e} fetching filtered data from database", 500
+        return jsonify({'error': f"Error {e} fetching filtered data from database"}), 500
     except Exception as e:
-        return f"Error {e} fetching filtered data from database", 500
+        return jsonify({'error': f"Error {e} fetching filtered data from database"}), 500
     finally:
         conn.close()
     
@@ -207,6 +210,121 @@ def buildSQL():
             sql += " WHERE "
         sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
     return sql
+
+# def hurricane_risk(month, hemisphere):
+#     if hemisphere.lower() == 'north':
+#         if month in [6, 7, 11]:  
+#             return "Medium"
+#         elif month in [8, 9, 10]:  
+#             return "High"
+#         else:
+#             return "Low"
+#     elif hemisphere.lower() == 'south':
+#         if month in [5, 6, 11, 12]:  
+#             return "Medium"
+#         elif month in [1, 2, 3, 4]: 
+#             return "High"
+#         else:
+#             return "Low"
+
+def hurricane_risk(humidity, air_temp, temp):
+    if humidity > 85 and air_temp > 26 and temp > 27:  
+        return "High"
+    elif humidity > 75 and air_temp > 24 and temp > 25:
+        return "Medium"
+    else:
+        return "Low"
+        
+def send_alert(user, month, risk, kind):
+    
+    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+    if account_sid is None or auth_token is None:
+        raise ValueError('TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set')
+    
+    if kind == 'email':
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        message = Mail(
+            from_email="noah.stasuik@gmail.com",
+            to_emails=user.get("email"),
+            subject='Hurriscan Alert!',
+            html_content='<strong>Warning!</strong> Hurricane Activity in your area!!')
+        response = sg.send(message)
+        return response.status_code
+    elif kind == 'phone':
+        client = Client(account_sid, auth_token)
+        message = client.messages.create(
+            from_='+15005550006',
+            body='Alert Hurricane Risk: ' + str(risk) + '\n' + 'Month: ' + str(month),
+            to=user.get("phone")  
+        )
+        return message.sid
+    else:
+        return 0
+
+@app.route('/predictions-dashboard/alerts', methods=['POST'])
+def predictions_dashboard_alerts():
+    north_america = request.form.get('north_america')
+    south_america = request.form.get('south_america')
+    print(north_america, south_america)
+    if north_america and south_america:
+        return "Both zones selected", 400
+    elif north_america:
+        zone = 'north'
+    elif south_america:
+        zone = 'south'
+    else:
+        return "No zone selected", 400
+    month = 6
+    risk = hurricane_risk(month, zone)
+    
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    
+    try:
+        sql = "SELECT * FROM User WHERE alerts_email != 0"
+        cur.execute(sql)
+        user_rows = cur.fetchall()
+        for user_row in user_rows:
+            user = {
+            'id': user_row[0],
+            'username': user_row[1],
+            'password': user_row[2],
+            'email': user_row[3],
+            'phone': user_row[4],
+            'zone': user_row[5],
+            'alerts_email': user_row[6],
+            'alerts_phone': user_row[7],
+            'isAdmin': user_row[8]
+            }
+            send_alert(user, month, risk, 'email')
+        sql = "SELECT * FROM User WHERE alerts_phone != 0"
+        cur.execute(sql)
+        user_rows = cur.fetchall()
+        for user_row in user_rows:
+            user = {
+            'id': user_row[0],
+            'username': user_row[1],
+            'password': user_row[2],
+            'email': user_row[3],
+            'phone': user_row[4],
+            'zone': user_row[5],
+            'alerts_email': user_row[6],
+            'alerts_phone': user_row[7],
+            'isAdmin': user_row[8]
+            }
+            send_alert(user, month, risk, 'phone')
+        return "Alerts sent", 200  
+    except sqlite3.Error as e:
+        return f"Error {e} fetching user data from database", 500
+    except Exception as e:
+        return f"Error {e} fetching user data from database", 500
+    finally:
+        conn.close() 
+@app.route('/predictions-dashboard')
+def predictions_dashboard():
+    return render_template('predictions-dashboard.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
