@@ -3,9 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
-
-DB_NAME = 'hurriscan.db'
-
+import sqlite_setup
+sqlite_setup.main()
 def create_app():
     app = Flask(__name__, static_folder= "../static", template_folder= "../templates")
     app.config['SECRET_KEY'] = "hurriscanKey"
@@ -14,10 +13,8 @@ def create_app():
     # Absolute directory path of this __init__.py file
     basedir = os.path.abspath(os.path.dirname(__file__))
 
-    DB_NAME = 'hurriscan.db'
-
     # Use the absolute path in SQLALCHEMY_DATABASE_URI
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, DB_NAME)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'hurriscan.db')
 
 
     
@@ -56,9 +53,9 @@ def create_app():
     return app
 
 
-def create_database(app):
-    if not path.exists('server/' + DB_NAME):
-        db.create_all(app=app)
-        print('Created Database!')
+# def create_database(app):
+#     if not path.exists('server/' + DB_NAME):
+#         db.create_all(app=app)
+#         print('Created Database!')
     
 

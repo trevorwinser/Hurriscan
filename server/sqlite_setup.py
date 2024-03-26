@@ -43,12 +43,12 @@ def create_table(conn):
         CREATE TABLE IF NOT EXISTS User (
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
             username TEXT NOT NULL,
-            firstName TEXT,
-            lastName TEXT,
+            firstName TEXT DEFAULT "",
+            lastName TEXT DEFAULT "",
             password TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             phone TEXT DEFAULT "",
-            zone varchar(4) DEFAULT "none",
+            zone varchar(4) DEFAULT "West",
             alerts_email TINYINT(1) DEFAULT 0,
             alerts_phone TINYINT(1) DEFAULT 0,
             isAdmin TINYINT(1) DEFAULT 0
