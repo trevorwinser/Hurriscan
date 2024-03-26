@@ -66,10 +66,7 @@ class TestPredictionsDashboard(unittest.TestCase):
         make_prediction_button.click()
 
         WebDriverWait(self.driver, 10).until(
-            EC.text_to_be_present_in_element((By.ID, "humidity-value"), "")
-            and EC.text_to_be_present_in_element((By.ID, "temperature-value"), "")
-            and EC.text_to_be_present_in_element((By.ID, "air-pressure-value"), "")
-            and EC.text_to_be_present_in_element((By.ID, "hurricane-risk"), "")
+            EC.visibility_of_element_located((By.ID, "humidity-value"))
         )
 
         humidity_value = self.driver.find_element(By.ID, "humidity-value").text
@@ -81,7 +78,6 @@ class TestPredictionsDashboard(unittest.TestCase):
         self.assertNotEqual(temperature_value, "")
         self.assertNotEqual(air_pressure_value, "")
         self.assertNotEqual(hurricane_risk_value, "")
-        
     def tearDown(self):
         self.driver.quit()
 
