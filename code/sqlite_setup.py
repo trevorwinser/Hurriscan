@@ -1,5 +1,6 @@
 import sqlite3
 import csv
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_table(conn):
     cursor = conn.cursor()
@@ -42,10 +43,15 @@ def create_table(conn):
         CREATE TABLE IF NOT EXISTS User (
             id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
             username TEXT NOT NULL,
+<<<<<<< HEAD:server/sqlite_setup.py
+            firstName TEXT DEFAULT "",
+            lastName TEXT DEFAULT "",
+=======
+>>>>>>> main:code/sqlite_setup.py
             password TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             phone TEXT DEFAULT "",
-            zone varchar(4) DEFAULT "none",
+            zone varchar(4) DEFAULT "West",
             alerts_email TINYINT(1) DEFAULT 0,
             alerts_phone TINYINT(1) DEFAULT 0,
             isAdmin TINYINT(1) DEFAULT 0
@@ -79,12 +85,16 @@ def import_csv_to_table(conn, csv_file_path):
         
 def create_users(conn):
     cursor = conn.cursor()
+    
+    hashed_password = generate_password_hash("Password1", method="pbkdf2:sha256")
 
-    cursor.execute('''
-        INSERT INTO User (username, password, email, alerts_email, isAdmin, zone)
-        VALUES ("Admin1", "Password1", "admin@gmail.com", 0, 0, "none")
-    ''')
+    cursor.execute(" INSERT INTO User (username, password, email, alerts_email, isAdmin, zone) VALUES (?, ?, ?, ?, ?, ?)", ("Admin1", hashed_password, "admin@gmail.com", 0, 1, "none"))
 
+<<<<<<< HEAD:server/sqlite_setup.py
+
+    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("User1", hashed_password, "user@gmail.com", "123-456-7890", 0, 0, "none"))
+    
+=======
     cursor.execute('''
         INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone)
         VALUES ("User1", "Password1", "user@gmail.com", "123-456-7890", 0, 0, "none")
@@ -93,6 +103,7 @@ def create_users(conn):
         INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone)
         VALUES ("User2", "Password2", "juliemeflament@gmail.com", "250-258-6880", 1, 1, "none")
     ''')
+>>>>>>> main:code/sqlite_setup.py
     conn.commit()
 
 def main():

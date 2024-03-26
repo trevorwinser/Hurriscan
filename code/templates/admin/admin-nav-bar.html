@@ -9,12 +9,13 @@
 
 <body>
         
-        <button class="exit-button">Exit</button>
+        
 <header class="navbar">
+    <button class="exit-button" onclick = "redirectTop()">Exit</button>
     <div>
         <div class="navbar-title">
-            <img src="{{ url_for('static', filename='/code/static/images/logo.png') }}" alt="Logo Icon" class="logo-section">
-            HurriScan - Admin Dashboard
+            <img src="{{ url_for('static', filename='images/new-logo.png') }}" alt="Logo Icon" class="logo-section">
+            <h1>HurriScan</h1>
         </div>
     </div>
     <div class="navbar-section">
@@ -22,10 +23,10 @@
     </div>
 </header>
 
-<body>
-    <iframe src="admin-dashboard.html" style="width:100%; height: 100%; border:none;" ></iframe>
+    <h1 style="margin-left:auto;margin-right:auto;width:20%"> Admin Dashboard </h1>
+    <!-- <iframe src="{{url_for('admin.admin_dashboard')}}" style="width:100%; height: 100%; border:none;" ></iframe> -->
 
-    <button class="exit-button">Exit</button>
+    <!--<button class="exit-button">Exit</button>
 
         <div class="navbar-title">
             <img src="{{ url_for('static', filename='images/new-logo.png') }}" alt="Logo Icon" class = "logo-section"> 
@@ -34,11 +35,11 @@
         
         <div class="navbar-section">
             <img src="{{ url_for('static', filename='images/profile icon.png') }}" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
-        </div>
+        </div> -->
 
         
         
-    </header>
+
 
 
         
@@ -55,5 +56,11 @@
             <a href="#">Sign-out</a>
         </div>
     </div>
-        <script src="admin-nav-bar.js"></script>
+
+    <script>
+        function redirectTop() {
+            window.top.location.href = "{{url_for('views.home')}}";
+        }
+    </script>
+        <!-- <script src="admin-nav-bar.js"></script> -->
 </body>

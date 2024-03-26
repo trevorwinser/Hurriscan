@@ -6,5 +6,14 @@ code/sendgrid.env
 venv
 .venv
 .pytest_cache
+<<<<<<< HEAD
+test/__pycache__
+code/test/__pycache__
+server/hurriscan.db
+code/login/__pycache__
+server/routing/__pycache__
+server/__pycache__
+=======
 **/hurriscan.db
 .env
+>>>>>>> main

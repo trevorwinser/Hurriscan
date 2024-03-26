@@ -12,7 +12,7 @@
         <img src="{{ url_for('static', filename='images/alert.png') }}" alt="Logo Icon" class = "logo-section">
     </div>
     <h3 class="description">Sign Up to Recieve Text or Email Notifcations about hurricane activity based on your prefered region!</h3>
-    <form method="POST" action="{{ url_for('alerts_page') }}">
+    <form method="POST" action="{{ url_for('alerts.alerts_page') }}">
         <div id="form">
             <div id="zone">
                 <img src="{{ url_for('static', filename='images/earth.png') }}" alt="Zone Icon" class = "zone-section">

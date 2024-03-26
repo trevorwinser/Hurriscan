@@ -10,17 +10,14 @@ body{
     background-color: #092635 ;
     color: #9EC8B9;
     font-family: "roboto mono", monospace;
+    
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
-<<<<<<< HEAD:code/front-end/nav-bar/admin-dashboard/admin-nav-bar.css
     align-items: center;
     background-color: #9EC8B9; 
-=======
-    background-color: #FDF7FF; 
->>>>>>> admin-dashboard:code/front-end/admin-dashboard/css/admin-nav-bar.css
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
 
@@ -29,20 +26,11 @@ body{
 }
 
 .exit-button {
-<<<<<<< HEAD:code/front-end/nav-bar/admin-dashboard/admin-nav-bar.css
     
     background-color: #1B4242; 
     color: #9EC8B9;
     padding: 10px 20px;
     margin-left: 10px;
-=======
-    position: fixed; 
-    top: 20px; 
-    left: 25px; 
-    background-color: #C1DBF3; 
-    color: black;
-    padding: 10px 20px; 
->>>>>>> admin-dashboard:code/front-end/admin-dashboard/css/admin-nav-bar.css
     border-radius: 15px; 
     border: none; 
     cursor: pointer; 
@@ -56,7 +44,6 @@ body{
 
 
 .logo-section {
-<<<<<<< HEAD:code/front-end/nav-bar/admin-dashboard/admin-nav-bar.css
     
     padding-right: 10px;
     
@@ -68,20 +55,8 @@ body{
     color: #092635; 
     
     
-=======
-    width: 50px;
-    position: relative;
-    top: 12px;
-}
-
-.navbar-title {
-    color: #6A4C93; 
-    font-size: 44px;
-    margin-left: 445px; 
-}
-.navbar-tile img {
-    margin: 0px;
->>>>>>> admin-dashboard:code/front-end/admin-dashboard/css/admin-nav-bar.css
+    
+    
 }
 
 
