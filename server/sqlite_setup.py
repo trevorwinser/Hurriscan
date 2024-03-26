@@ -89,11 +89,8 @@ def create_users(conn):
     cursor.execute(" INSERT INTO User (username, password, email, alerts_email, isAdmin, zone) VALUES (?, ?, ?, ?, ?, ?)", ("Admin1", hashed_password, "admin@gmail.com", 0, 1, "none"))
 
 
-
-    cursor.execute('''
-        INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone)
-        VALUES ("User1", "Password1", "user@gmail.com", "123-456-7890", 0, 0, "none")
-    ''')
+    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("User1", hashed_password, "user@gmail.com", "123-456-7890", 0, 0, "none"))
+    
     conn.commit()
 
 def main():
