@@ -22,3 +22,5 @@ pandas==2.2.1
 Twilio
 sendgrid
 flask_login
+numpy
+scikit-learn

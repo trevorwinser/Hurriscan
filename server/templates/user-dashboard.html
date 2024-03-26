@@ -14,39 +14,26 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
-    <script src="heatmap.min.js"></script>
-    <script src="leaflet-heatmap.js"></script>
+            <script src="{{ url_for('static', filename='js/heatmap.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='js/leaflet-heatmap.js') }}"></script>
 
     <!--    data-->
-    <script src="data.js"></script>
+    <script src="{{ url_for('static', filename='js/data.js') }}"></script>
 
-    <link rel="stylesheet" href="user-dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-dashboard.css') }}">
     <style>
         /* Set the size of the body to take up the full screen */
         body {
             margin: 0;
             height: 100vh;
+            width: 70%;
             display: flex;
         }
     </style>
 </head>
 <body>
 <div id="container">
-    <!-- Map container -->
     <div id="map"></div>
-    <!-- Image container on the right -->
-    <div id="image-container">
-        <div>
-            <img src ="../../static/images/zonal_winds_plot.png">
-        </div>
-        <div>
-            <img src="../../static/images/pie_chart.png" alt="Temperature Plot">
-        </div>
-        <div>
-            Latitude: <input type="text" id="latitude" readonly><br>
-            Longitude: <input type="text" id="longitude" readonly><br>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -92,5 +79,14 @@
     }
     map.on('move', updateLatLong);
 </script>
+
+<div id="data-visualization">
+    <iframe src="{{ url_for('data_visualization') }}" frameborder="0" style="width: 300%; height: 600px;"></iframe>
+</div>
+
+<div id="filter-visualization">
+    <iframe src="{{ url_for('get_monthly_data', year=94, month=8) }}" frameborder="0"></iframe>
+</div>
+
 </body>
 </html>
