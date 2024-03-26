@@ -4,6 +4,8 @@ import sqlite3
 
 mapfilter_bp = Blueprint('mapfilter_bp', __name__, template_folder="../templates", static_folder="../static")
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 @mapfilter_bp.route('/map-filter')
 def mapfilter():
     return render_template('mapfilter-temp/mapfilter.html')
