@@ -12,4 +12,5 @@ test/__pycache__
 code/test/__pycache__
 **/hurriscan.db
 .env
+server/hurriscan.db
 code/login/__pycache__

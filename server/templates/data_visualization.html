@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var months = {{ months|tojson }};
+        var temperatures = {{ temperatures|tojson }};
+        var backgroundColors = [
+            'rgba(9, 38, 53, 1)', 
+            'rgba(27, 66, 66, 1)', 
+            'rgba(92, 131, 116, 1)',
+            'rgba(158, 200, 185, 1)', 
+];
+        var borderColors = [
+            'rgba(0,0,0,0.5)', 
+];
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [{
+            label: 'Total Temperature',
+            data: temperatures,
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script> 
+</body>
+</html>
