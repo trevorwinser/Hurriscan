@@ -15,7 +15,7 @@ It's recommended to use a virtual environment for Python projects to manage depe
 1. Navigate to the project directory:
 
 ```
-cd server
+cd code
 ```
 
 2. Create a virtual environment named `venv` (you can name it something else, but ensure it's included in the `.gitignore` to avoid pushing it to the repository):
@@ -43,7 +43,7 @@ source venv/bin/activate
 After activating the virtual environment, install the project dependencies:
 
 ```
-pip install -r ../requirements.txt
+pip install -r requirements.txt
 ```
 
 This command reads the `requirements.txt` file from the project directory and installs all the necessary packages.
