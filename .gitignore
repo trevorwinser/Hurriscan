@@ -1,15 +1,10 @@
 .DS_Store
 .idea
-code/venv
-code/__pycache__
-code/test/__pycache__
-code/hurriscan.db
+**/venv
+**/__pycache__
 code/sendgrid.env
 venv
 .venv
 .pytest_cache
-test/__pycache__
-code/test/__pycache__
 **/hurriscan.db
 .env
-code/login/__pycache__
