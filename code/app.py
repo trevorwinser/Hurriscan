@@ -12,8 +12,11 @@ from sklearn.linear_model import LinearRegression
 import sqlite_setup
 from datetime import datetime
 
+from twilio.rest import Client
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 sqlite_setup.main()
+
 
 app = Flask(__name__)
 
@@ -40,7 +43,7 @@ def temperature_predictions(month):
         else:
             return jsonify(error="No data available"), 404
     return render_template('temperature_predictions.html')
-
+  
 @app.route('/data-visualization')
 def data_visualization():
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
@@ -145,9 +148,10 @@ def get_users():
             'password': row[2],
             'email': row[3],
             'phone': row[4],
-            'alerts_email': row[5],
-            'alerts_phone': row[6],
-            'isAdmin': row[7]
+            'zone': row[5],
+            'alerts_email': row[6],
+            'alerts_phone': row[7],
+            'isAdmin': row[8]
         }
         users.append(user)
 
@@ -161,7 +165,10 @@ def delete_user(user_id):
         cur = conn.cursor()
         cur.execute('DELETE FROM User WHERE id = ?', (user_id,))
         conn.commit()
-        
+        cur.execute("SELECT * FROM User;")
+        rows = cur.fetchall()
+        for row in rows:
+            print(row)
         conn.close()
         return redirect('/admin') # Doesn't do anything, but needed to return something ¯\_(ツ)_/¯
 
@@ -205,13 +212,13 @@ def mapfilterData():
         sql = buildSQL()
         cursor.execute(sql)
         rows = cursor.fetchall()
-        data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
-        return data, 200
+        data = [{'latitude': row[0], 'longitude': row[1], 'temp': row[2]} for row in rows]
+        return jsonify(data), 200
 
     except sqlite3.Error as e:
-        return f"Error {e} fetching filtered data from database", 500
+        return jsonify({'error': f"Error {e} fetching filtered data from database"}), 500
     except Exception as e:
-        return f"Error {e} fetching filtered data from database", 500
+        return jsonify({'error': f"Error {e} fetching filtered data from database"}), 500
     finally:
         conn.close()
     
@@ -230,6 +237,10 @@ def buildSQL():
             sql += " WHERE "
         sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
     return sql
+
+@app.route('/predictions-dashboard')
+def predictions_dashboard():
+    return render_template('predictions-dashboard.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
