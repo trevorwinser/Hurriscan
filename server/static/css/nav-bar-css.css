@@ -19,13 +19,19 @@ body{
 }
 
 .navbar-section {
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
+    margin-bottom: 5px;
+    font-weight: 500;
+    padding-right: 10px;
 }
 
 .logo-section {
     
     padding-right: 10px;
+
 }
 
 .navbar-title {
@@ -35,6 +41,7 @@ body{
     justify-content: center;
     color: #092635; 
     font-family: "roboto Mono", monospace;
+    margin-bottom: 5px;
    
 }
 
