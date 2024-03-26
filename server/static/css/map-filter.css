@@ -1,0 +1,14 @@
+#container {
+    margin: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+#map {
+    flex-grow: 2;
+    height: calc(100vh - 40px);
+    min-width: 70%;
+    float: left;
+}
