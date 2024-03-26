@@ -1,0 +1,57 @@
+body {
+    background-color: #092635;
+    font-family: "Roboto Mono", monospace;
+    font-optical-sizing: auto;
+    font-size: 16px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    padding-left: 20px;
+}
+
+#create-alert {
+    background-color: #9EC8B9;
+    padding: 20px;
+    margin: 20px;
+}
+
+table#user-table {
+    background-color: #9EC8B9;
+    margin: auto;
+}
+th {
+    text-align: center;
+}
+
+th#id {
+    width: 50px; 
+}
+
+th#username {
+    width: 150px;
+}
+
+th#password {
+    width: 100px;
+}
+
+th#email {
+    width: 200px;
+}
+
+th#phone {
+    width: 120px;
+}
+
+th#alerts_email,
+th#alerts_phone,
+th#isAdmin {
+    width: 80px;
+}
+
+th#action {
+    width: 100px; 
+}
