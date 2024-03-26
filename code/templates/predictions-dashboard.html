@@ -11,25 +11,38 @@
 <body>
     <h1 class="title">Predictions</h1>
     <div class="checkanddesc">
-        <h4 class="description">Choose a spot on the map to get a prediction.</h2>
-        <div class="logo-checkboxes-container">
-            <img src="{{ url_for('static', filename='images/earth.png') }}" alt="Earth Logo" class="earth-logo">
-            <form>
-                <input type="checkbox" id="north-america" name="continent" value="North America">
-                <label for="north-america">North America</label><br>
-                <input type="checkbox" id="south-america" name="continent" value="South America">
-                <label for="south-america">South America</label><br>
-            </form>
-        </div>
+        <h4 class="description">Pick a spot on the map to get predictions on possible future hurricanes.</h4>
     </div>
 
     <div class="container">
         <div id="map"></div>
         <div class="green-box">
-            Based on Humidity, Temperature, and Pressure
+            <br>
+            <br>
+            If predictions do not update, there is not enough data in that location to make an accurate prediction.
+            <br>
+            <br>
+            <br>
+            Predictions based on Humidity, Temperature, and Pressure
+            <br>
+            <br>
+            <br>
+            <span id="prediction-values">
+                Humidity: <span id="humidity-value"></span>
+                <br>
+                <br>
+                Temperature (Celsius): <span id="temperature-value"></span>
+                <br>
+                <br>
+                Air: <span id="air-pressure-value"></span>
+            </span>
+            <br>
+            <br>
+            <br>
+            Current risk for a hurricane in that area is: <span id="hurricane-risk"></span>
         </div>
+        
     </div>
-    
     <div class="buttons">
         <div class="latlong-container">
             <div>Latitude:</div>
@@ -38,10 +51,26 @@
             <input type="text" id="longitude" readonly>
         </div>
         <div class="button-container">
-            <button class="make-prediction-button">Make Prediction</button>
+            <button id="make-predictions-button" class="make-prediction-button">Make Prediction</button>
         </div>
     </div>
-
+    <div class="underogpred">
+        <div id="data-visualization" class="data">
+            <iframe src="{{ url_for('temperature_predictions') }}" frameborder="0"></iframe>
+        </div>
+        <div class="right-of-graph">
+            <div class="logo-checkboxes-container">
+                <img src="{{ url_for('static', filename='images/earth.png') }}" alt="Earth Logo" class="earth-logo">
+                <form>
+                    <input type="checkbox" id="north-america" name="continent" value="North America">
+                    <label for="north-america">North America</label><br>
+                    <input type="checkbox" id="south-america" name="continent" value="South America">
+                    <label for="south-america">South America</label><br>
+                </form>
+            </div>
+            <button id="send-alerts-button" class="send-alerts-button">Send Alerts</button>
+        </div>
+    </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
@@ -64,7 +93,7 @@
         function updateLatLong(latlng) {
             document.getElementById('latitude').value = latlng.lat.toFixed(4);
             document.getElementById('longitude').value = latlng.lng.toFixed(4);
-            updateCircle(latlng); // Update circle position
+            updateCircle(latlng); 
         }
 
         function updateCircle(latlng) {
@@ -91,57 +120,81 @@
             updateLatLong(latlng);
         });
 
-        function getHemisphere() {
-            var northAmericaChecked = document.getElementById('north-america').checked;
-            var southAmericaChecked = document.getElementById('south-america').checked;
-    
-            var formData = new FormData();
-            formData.append('north_america', northAmericaChecked);
-            formData.append('south_america', southAmericaChecked);
-    
+        function makePredictions() {
+            var latitude = document.getElementById('latitude').value;
+            var longitude = document.getElementById('longitude').value;
+            var month = 6; 
+        
+            if (latitude && longitude) {
+                fetch(`/temperature-prediction-make?month=${month}&latitude=${latitude}&longitude=${longitude}`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Network response was not ok.');
+                    })
+                    .then(data => {
+                        console.log(data);
+                        document.getElementById('humidity-value').innerText = data.humidity;
+                        document.getElementById('temperature-value').innerText = data.temperature;
+                        document.getElementById('air-pressure-value').innerText = data.air;
+
+                        var risk = getHurricaneRisk(data.humidity, data.temperature, data.air);
+                        console.log("Hurricane Risk:", risk); // Add this line
+                        document.getElementById('hurricane-risk').innerText = risk;
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            } else {
+                alert('Please select a location on the map.');
+            }
+        }        
+
+        document.getElementById('make-predictions-button').addEventListener('click', function() {
+            makePredictions(); 
+        });
+
+        function getHurricaneRisk(humidity, temperature, air) {
+            console.log("Humidity:", humidity);
+            console.log("Temperature:", temperature);
+            console.log("Air Pressure:", air);
+            if (humidity > 85 && air > 26 && temperature > 27) {  
+                return "High";
+            } else if (humidity > 75 && air > 24 && temperature > 24) {
+                return "Medium";
+            } else {
+                return "Low";
+            }
+        }
+
+        document.getElementById('send-alerts-button').addEventListener('click', function() {
             fetch('/predictions-dashboard/alerts', {
                 method: 'POST',
-                body: formData
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    north_america: document.getElementById('north-america').checked,
+                    south_america: document.getElementById('south-america').checked
+                })
             })
             .then(response => {
                 if (response.ok) {
                     return response.text();
                 }
-                throw new Error('Network response was not ok.');
+                throw new Error('Failed to send alerts');
             })
             .then(data => {
-                console.log(data); // Response from server
+                console.log(data); // Log success message
+                alert('Alerts sent successfully');
             })
             .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
+                console.error('Error sending alerts:', error);
+                alert('Failed to send alerts. Please try again later.');
             });
-        }
-    
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('make-predictions-button').addEventListener('click', function () {
-                sendAlerts();
-            });
-
-            function sendAlerts() {
-                fetch('/predictions-dashboard/alerts', {
-                    method: 'POST'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    }
-                    throw new Error('Network response was not ok.');
-                })
-                .then(data => {
-                    console.log(data); 
-                    alert('Alerts sent successfully!');
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                    alert('Failed to send alerts. Please try again later.');
-                });
-            }
         });
     </script>
 </body>
 </html>
+

@@ -4,7 +4,7 @@
     <title>Weather Predictions</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body style="background-color: #f0f0f0;">
     <canvas id="PredictionsChart"></canvas>
     <select id="month" onchange="updateGraph(this.value)">
         <option value="1">January</option>
@@ -31,7 +31,7 @@
         });
 
         function updateGraph(selectedMonth) {
-            fetch(`/temperature-predictions/${selectedMonth}`).then(response => response.json()).then(data => {
+            fetch(`/temperature-prediction-make?month=${selectedMonth}`).then(response => response.json()).then(data => {
                 PredictionsChart.data.labels = ['Month ' + selectedMonth];
                 PredictionsChart.data.datasets[0].data = [data.temperature];
                 PredictionsChart.data.datasets[1].data = [data.humidity];
