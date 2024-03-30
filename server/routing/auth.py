@@ -26,6 +26,7 @@ def login():
     
         cursor.execute("SELECT password FROM User WHERE username = ?", (username,))
         row = cursor.fetchone()
+        conn.close()
         if(row != None):
             DBpassword = row[0]
             exists = True
@@ -94,6 +95,7 @@ def signUp():
             # db.session.commit()
             # login_user(user, remember=True)
             user.currentUsername = firstName;
+            conn.close()
             
             return redirect(url_for('views.home'))
             
@@ -110,6 +112,7 @@ def emailExists(email):
     
     cursor.execute("SELECT * FROM User WHERE email = ?", (email,))
     rows = cursor.fetchall()
+    conn.close();
     for row in rows:
         return True
     return False
@@ -125,10 +128,12 @@ def isAdmin(username):
     
     cursor.execute("SELECT isAdmin FROM User WHERE username = ?", (username,))
     row = cursor.fetchone()
+    conn.close();
     if row[0] == 1:
         return True
     else:
         return False
+    
     
 
 
