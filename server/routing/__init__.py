@@ -28,7 +28,7 @@ def create_app():
     from .user_dashboard import user_dashboard
     from .register import register_bp
     from .navbar import navbar_bp
-    from .predictions import predictions
+    from .predictions import predictions_bp
     
     #register blueprints here
     app.register_blueprint(auth, url_prefix = '/')
@@ -40,7 +40,7 @@ def create_app():
     app.register_blueprint(user_dashboard, url_prefix='/')
     app.register_blueprint(register_bp, url_prefix='/')
     app.register_blueprint(navbar_bp, url_prefix='/')
-    app.register_blueprint(predictions, url_prefix='/')
+    app.register_blueprint(predictions_bp, url_prefix='/')
     
     
     

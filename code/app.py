@@ -6,8 +6,6 @@ from flask import jsonify
 import json
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 
 import sqlite_setup
 from datetime import datetime
@@ -24,7 +22,7 @@ app = Flask(__name__)
 @app.route('/temperature-predictions/<int:month>')
 def temperature_predictions(month):
     try:
-        conn = sqlite3.connect('hurriscan.db')
+        conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
         df = pd.read_sql_query("SELECT month, AVG(temp) AS avg_temp, AVG(humidity) AS avg_humidity, AVG(air) AS avg_air FROM Data GROUP BY month", conn)
     except Exception as e:
         print(f"Error connecting to database or executing query: {e}")
