@@ -22,7 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Run Tests
-        run: pytest test/
+        run: pytest server/test/
 
 
 #runs tests on every push to the main branch and on every pull request to main
