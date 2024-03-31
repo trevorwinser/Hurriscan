@@ -12,11 +12,6 @@
 
 <div class="navbar">
 
-    <div class="navbar-section">
-        <img src="{{url_for('static', filename='images/filter.png')}}" alt="Left Icon" class="navbar-icon" onclick="openNav()"> 
-       
-    </div>
-
     <div class="navbar-title">
         <img src="{{url_for('static', filename='images/new-logo.png')}}" alt="Logo Icon" class = "logo-section" > 
         <h1>HurriScan</h1>  
@@ -38,15 +33,6 @@
 
     <h2>Filter Options</h2>
     
-    <!-- Location Filter Section -->
-    <div class="location-section">
-        <h3>Location:</h3> 
-        <div class="location-options">
-            <label for="location1"><input type="checkbox" id="location1"> Location 1</label> <br>
-            <label for="location2"><input type="checkbox" id="location2"> Location 2</label> <br>
-            <label for="location3"><input type="checkbox" id="location3"> Location 3</label>
-        </div>
-    </div>
     <canvas id="myChart"></canvas>
 
 <div id="rightSidePanel" class="right-side-panel">
