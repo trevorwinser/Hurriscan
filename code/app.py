@@ -22,7 +22,7 @@ app = Flask(__name__)
 @app.route('/temperature-predictions/<int:month>')
 def temperature_predictions(month):
     try:
-        conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+        conn = sqlite3.connect('hurriscan.db')
         df = pd.read_sql_query("SELECT month, AVG(temp) AS avg_temp, AVG(humidity) AS avg_humidity, AVG(air) AS avg_air FROM Data GROUP BY month", conn)
     except Exception as e:
         print(f"Error connecting to database or executing query: {e}")
@@ -86,9 +86,7 @@ def buildSQL():
         sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
     return sql
 
-@app.route('/predictions-dashboard')
-def predictions_dashboard():
-    return render_template('predictions-dashboard.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
