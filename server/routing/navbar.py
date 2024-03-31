@@ -5,4 +5,4 @@ navbar_bp = Blueprint('navbar', __name__, template_folder="../templates", static
 
 @navbar_bp.route('/navbar')
 def navbar():
-    return render_template('navbar.html')
+    return render_template('redirect-navbar.html')
