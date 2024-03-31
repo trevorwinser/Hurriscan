@@ -3,47 +3,145 @@ body {
     font-family: "Roboto Mono", monospace;
     font-optical-sizing: auto;
     font-size: 16px;
+    color: #9EC8B9;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content:space-around;
+    justify-content: space-around;
+    align-items: flex-start; 
     padding-left: 20px;
 }
 
 #create-alert {
-    background-color: #9EC8B9;
-    padding: 20px;
+    padding: 10px;
     margin: 20px;
+    width: 95%;
+    margin-bottom: 100px;
+}
+
+#create-alert h2 {
+    margin-bottom: 20px;
+    font-family: "Roboto Mono", monospace;
+    color: #9EC8B9;
+}
+
+#create-alert form {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+}
+
+#create-alert label {
+    flex: 0 0 70px; 
+    font-family: "Roboto Mono", monospace;
+    color: #9EC8B9; 
+}
+
+#create-alert input,
+#create-alert textarea {
+    flex: 1; 
+    width: calc(100% - 200px);
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-right: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #1B4242;
+    color: #9EC8B9;
+    font-size: 16px;
+}
+
+#create-alert button {
+    background-color: #1B4242;
+    color: #9EC8B9;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    width: 200px;
+    height: 50px;
+    font-family: "Roboto Mono", monospace;
+    text-align: center; /* Center text */
+}
+
+#create-alert button:hover {
+    background-color: #9EC8B9;
+    color: #092635;
+}
+
+#user-info-section {
+   margin-left: 30px;
+}
+
+#user-info-section button {
+    background-color: #1B4242;
+    color: #9EC8B9;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    width: 300px;
+    height: 50px;
+    font-family: "Roboto Mono", monospace;
+    text-align: center; /* Center text */
+}
+
+#user-info-section button:hover {
+    background-color: #9EC8B9;
+    color: #092635;
+}
+
+#user-table {
+    width: 97%; 
+    border-collapse: collapse;
+    color: #9EC8B9;
+    display: none;
 }
 
 table#user-table {
-    background-color: #9EC8B9;
     margin: auto;
+    font-family: "Roboto Mono", monospace;
+    margin-left: 20px;
+    margin-right: 200px;
+    font-size: 14px;
 }
+
 th {
+    font-family: "Roboto Mono", monospace;
     text-align: center;
 }
 
 th#id {
-    width: 50px; 
+    width: 50px;
+    font-family: "Roboto Mono", monospace;
 }
 
 th#username {
-    width: 150px;
+    width: 125px;
+    font-family: "Roboto Mono", monospace;
 }
 
 th#password {
-    width: 100px;
+    width: 80px;
 }
 
 th#email {
-    width: 200px;
+    width: 175px;
 }
 
 th#phone {
-    width: 120px;
+    width: 100px;
 }
 
 th#alerts_email,
@@ -52,6 +150,35 @@ th#isAdmin {
     width: 80px;
 }
 
+th#zone{
+    width: 100px;
+}
+
 th#action {
-    width: 100px; 
+    width: 70px;
+}
+
+.delete-button {
+    background-color: #1B4242;
+    color: #9EC8B9;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    font-family: "Roboto Mono", monospace;
+    text-align: center;
+}
+
+.delete-button:hover {
+    background-color: #9EC8B9;
+    color: #092635;
+}
+
+td {
+    text-align: center; 
 }

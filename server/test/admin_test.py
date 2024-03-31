@@ -1,7 +1,7 @@
 import pytest
 from selenium import webdriver
 import sqlite3
-
+import time
 
 @pytest.fixture
 def browser():
@@ -19,8 +19,7 @@ def test_delete_user(browser):
     conn = sqlite3.connect('hurriscan.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM User WHERE id = 1;')
-    assert cursor.fetchall() is None, "User with ID 1 still in database"  # app.py prints the User table showing that User w/ id = 1 is deleted. This fails for reasons unknown.
-    conn.close()
+    assert cursor.fetchall() is None, "User with ID 1 still in database" 
 
 def test_create_alert(browser):
     browser.get('http://127.0.0.1:5000/admin')
@@ -32,6 +31,14 @@ def test_create_alert(browser):
     cursor.execute('SELECT * FROM Alert WHERE title = "Test Alert" AND text = "This is a test alert";')
     assert cursor.fetchone() is not None, "Alert was not created in the database"
     conn.close()
+
+def test_display_user_info(browser):
+    browser.get('http://127.0.0.1:5000/admin')
+    button = browser.find_element_by_xpath("//button[contains(text(), 'Display User Information')]")
+    button.click()
+    time.sleep(2) 
+    table = browser.find_element_by_id('user-table')
+    assert table.is_displayed(), "User table is not displayed"
 
 if __name__ == "__main__":
     pytest.main()

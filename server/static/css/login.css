@@ -15,8 +15,6 @@ body{
 
 header{
     background-color: #9EC8B9;
-    
-    
 }
 
 .nav{
@@ -40,18 +38,13 @@ header{
     padding-left: 20px;
 }
 
-
-
 .display{
     padding-top: 250px;
     color: #9EC8B9;
-    
-    
 }
 
 .display a{
     color:#5C8374
-
 }
 
 input{

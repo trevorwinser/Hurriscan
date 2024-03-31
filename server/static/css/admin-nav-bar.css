@@ -9,8 +9,7 @@
 body{
     background-color: #092635 ;
     color: #9EC8B9;
-    font-family: "roboto mono", monospace;
-    
+    font-family: "roboto mono", monospace; 
 }
 
 .navbar {
@@ -43,22 +42,15 @@ body{
 }
 
 
-.logo-section {
-    
-    padding-right: 10px;
-    
+.logo-section { 
+    padding-right: 10px; 
 }
 
 .navbar-title {
     display: flex;
     align-items: center;
-    color: #092635; 
-    
-    
-    
-    
+    color: #092635;  
 }
-
 
 .navbar-icon {
     height: 75px; 
@@ -103,5 +95,3 @@ body{
 .menu-title {
     margin-left: 15px; 
 }
-
-
