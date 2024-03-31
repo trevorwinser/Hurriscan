@@ -16,12 +16,7 @@
 <body>
     
 
-    <header>
-        <div class = "nav">
-            <img src="{{url_for('static', filename='images/radar logo/new-logo.png')}}">
-            <h1> HurriScan</h1>
-        </div>
-    </header>
+  <iframe src="{{url_for('navbar.navbar')}}" frameborder="0" width="100%"></iframe>
 
     {% with messages = get_flashed_messages( with_categories=true) %}
         {%if messages %}
