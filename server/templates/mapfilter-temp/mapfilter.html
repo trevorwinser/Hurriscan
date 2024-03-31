@@ -20,18 +20,29 @@
 </head>
 <body style="background-color: #092635;">
 
-    <input type="month" id="filter-date">
-    <button onclick="applyDateFilter()">Apply Filter</button>
+    <div class="filters">
+        <input type="month" id="filter-date">
+        <button onclick="applyDateFilter()">Apply Date</button>
 
-    <label for="min-temperature"></label>
-    <input type="number" id="min-temperature" placeholder="Min temperature">
-    <label for="max-temperature"></label>
-    <input type="number" id="max-temperature" placeholder="Max temperature">
-    <button onclick="applyTemperatureRangeFilter()">Apply Temperature Range Filter</button>
-
+        <label for="min-temperature"></label>
+        <input type="number" id="min-temperature" placeholder="Min temperature">
+        <label for="max-temperature"></label>
+        <input type="number" id="max-temperature" placeholder="Max temperature">
+        <button onclick="applyTemperatureRangeFilter()">Apply Temperature</button>
+    </div>
+    <div class="elements">
     <div id="container">
         <div id="map"></div>
     </div>
+    <div id="data-section">
+        <div id="filter-visualization">
+            <iframe src="{{ url_for('data_visualization.get_monthly_data', year=94, month=8) }}" frameborder="0"></iframe>
+        </div>
+        <div id="data-visualization">
+            <iframe src="data-visualization" frameborder="0"></iframe>
+        </div>
+    </div>
+</div>
 <script>
     var cfg = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
