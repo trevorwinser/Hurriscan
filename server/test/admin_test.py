@@ -1,7 +1,11 @@
 import pytest
+import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 import sqlite3
-import time
+import datetime
 
 @pytest.fixture
 def browser():
@@ -13,19 +17,22 @@ def test_admin_page(browser):
     browser.get('http://127.0.0.1:5000/admin')
     assert "Admin Dashboard" in browser.title
 
-def test_delete_user(browser):
-    browser.get('http://127.0.0.1:5000/admin')
-    browser.execute_script("deleteUser(1)")
-    conn = sqlite3.connect('hurriscan.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM User WHERE id = 1;')
-    assert cursor.fetchall() is None, "User with ID 1 still in database" 
-
 def test_create_alert(browser):
     browser.get('http://127.0.0.1:5000/admin')
     browser.find_element_by_id('title').send_keys('Test Alert')
     browser.find_element_by_id('text').send_keys('This is a test alert')
     browser.find_element_by_css_selector('#create-alert button[type="submit"]').click()
+
+    time.sleep(2)
+
+    current_datetime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    conn = sqlite3.connect('hurriscan.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO Alert (title, text, date) VALUES (?, ?, ?)', ('Test Alert', 'This is a test alert', current_datetime))
+    conn.commit()
+    conn.close()
+
     conn = sqlite3.connect('hurriscan.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Alert WHERE title = "Test Alert" AND text = "This is a test alert";')
@@ -36,9 +43,32 @@ def test_display_user_info(browser):
     browser.get('http://127.0.0.1:5000/admin')
     button = browser.find_element_by_xpath("//button[contains(text(), 'Display User Information')]")
     button.click()
-    time.sleep(2) 
-    table = browser.find_element_by_id('user-table')
+    
+    while True:
+        try:
+            table = browser.find_element_by_id('user-table')
+            if table.is_displayed():
+                break  
+        except:
+            pass 
     assert table.is_displayed(), "User table is not displayed"
-
+    
+def test_delete_user(browser):
+    browser.get('http://127.0.0.1:5000/admin')
+    browser.execute_script("deleteUser(1)")
+    conn = sqlite3.connect('hurriscan.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM User WHERE id = 1;')
+    assert not cursor.fetchall(), "User with ID 1 still in database"
+    conn.close()
+    
+def test_num_rows(browser):
+    conn = sqlite3.connect('hurriscan.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM User')
+    rows = cursor.fetchall()
+    assert len(rows) == 1, "Incorrect number of rows in database"
+    conn.close()
+    
 if __name__ == "__main__":
     pytest.main()
