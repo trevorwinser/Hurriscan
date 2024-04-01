@@ -13,7 +13,7 @@ predictions_bp = Blueprint('predictions_bp', __name__, template_folder="../templ
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 @predictions_bp.route('/temperature-prediction-make')
-def temperature_predictions():
+def temperature_predictions_make():
     try:
         month = int(request.args.get('month')) if 'month' in request.args else None
         if month is None:
