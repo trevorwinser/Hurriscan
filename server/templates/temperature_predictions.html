@@ -31,13 +31,23 @@
         });
 
         function updateGraph(selectedMonth) {
-            fetch(`/temperature-predictions/${selectedMonth}`).then(response => response.json()).then(data => {
-                PredictionsChart.data.labels = ['Month ' + selectedMonth];
-                PredictionsChart.data.datasets[0].data = [data.temperature];
-                PredictionsChart.data.datasets[1].data = [data.humidity];
-                PredictionsChart.data.datasets[2].data = [data.air];
-                PredictionsChart.update();
-            });
+            fetch(`/temperature-predictions/${selectedMonth}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    PredictionsChart.data.labels = ['Month ' + selectedMonth];
+                    PredictionsChart.data.datasets[0].data = [data.temperature];
+                    PredictionsChart.data.datasets[1].data = [data.humidity];
+                    PredictionsChart.data.datasets[2].data = [data.air];
+                    PredictionsChart.update();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
         }
     </script>
 </body>
