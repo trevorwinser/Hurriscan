@@ -11,4 +11,4 @@ def home():
     if(user.currentUsername == ""):
         return redirect(url_for('auth.login'))
     else:
-        return render_template('nav-bar.html', username=user.currentUsername, isAdmin = user.isAdmin)
+        return render_template('navbar.html', username=user.currentUsername, isAdmin = user.isAdmin)
