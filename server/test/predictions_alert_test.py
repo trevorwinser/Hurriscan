@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-from app import send_alert
+#from app import send_alert
 
 @pytest.mark.parametrize("kind", ['email', 'phone'])
 def test_send_alert(kind):
