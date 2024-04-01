@@ -19,3 +19,5 @@ server/routing/hurriscan.db
 server/test/__pycache__/
 
 *.db
+
+.env

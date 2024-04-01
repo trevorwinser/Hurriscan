@@ -113,7 +113,7 @@ def send_alert(user, month, risk, kind):
     elif kind == 'phone':
         client = Client(account_sid, auth_token)
         message = client.messages.create(
-            from_='+15005550006',
+            from_='+19163024424',
             body='Alert Hurricane Risk: ' + str(risk) + '\n' + 'Month: ' + str(month),
             to=user.get("phone")  
         )
@@ -123,8 +123,9 @@ def send_alert(user, month, risk, kind):
 
 @predictions_bp.route('/predictions-dashboard/alerts', methods=['POST'])
 def predictions_dashboard_alerts():
-    north_america = request.form.get('north_america')
-    south_america = request.form.get('south_america')
+    data = request.get_json()
+    north_america = data.get('north_america', False)
+    south_america = data.get('south_america', False)
     print(north_america, south_america)
     if north_america and south_america:
         return "Both zones selected", 400

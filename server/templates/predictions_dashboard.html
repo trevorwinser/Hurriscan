@@ -171,6 +171,7 @@
         }
 
         document.getElementById('send-alerts-button').addEventListener('click', function() {
+            var risk = hurricane_risk(month, zone, temp=25)
             fetch('/predictions-dashboard/alerts', {
                 method: 'POST',
                 headers: {
@@ -181,19 +182,14 @@
                     south_america: document.getElementById('south-america').checked
                 })
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-                throw new Error('Failed to send alerts');
-            })
+            .then(response => response.json())
             .then(data => {
-                console.log(data); // Log success message
-                alert('Alerts sent successfully');
+                console.log(data);
+            alert('Alerts sent successfully');
             })
             .catch(error => {
                 console.error('Error sending alerts:', error);
-                alert('Failed to send alerts. Please try again later.');
+            alert('Failed to send alerts. Please try again later.');
             });
         });
     </script>
