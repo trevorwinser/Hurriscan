@@ -34,6 +34,7 @@
     
     <h2 class="menu-title">Menu</h2>
     <div class="menu-options">
+        <a href="{{url_for('predictions_bp.predictions_dashboard')}}">Predictions</a>
         <a href="{{url_for('alerts.alerts_page')}}">Alerts</a>
         {% if isAdmin %}
             <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
