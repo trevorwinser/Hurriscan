@@ -93,19 +93,6 @@ def hurricane_risk(humidity, air_temp, temp):
         return "Medium"
     else:
         return "Low"
-        
-def send_alert(phone_number, message):
-    account_sid = os.environ.get('AC44993aed976dd5210997b2519df5a254')
-    auth_token = os.environ.get('540d4a2a07e3e2b25b546f9ea79ce965')
-    if not account_sid or not auth_token:
-        raise ValueError('TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set')
-    client = Client(account_sid, auth_token)
-    message = client.messages.create(
-        from_='+19163024424',  # Twilio phone number
-        body=message,
-        to=phone_number
-    )
-    return message.sid
 
 @predictions_bp.route('/predictions-dashboard/send-text-alert', methods=['POST'])
 def send_alert():
@@ -117,7 +104,20 @@ def send_alert():
         body='test',
         to='+13065702634'
     )
-    return message.sid
+    message = Mail(
+        from_email='noah.stasuik@gmail.com',
+        to_emails='noah.stasuik@gmail.com',
+        subject='Sending with Twilio SendGrid is Fun',
+        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e.message)
+    return jsonify(message="Alert sent"), 200
 
 @predictions_bp.route('/predictions-dashboard/alerts', methods=['POST'])
 def predictions_dashboard_alerts():
