@@ -94,32 +94,30 @@ def hurricane_risk(humidity, air_temp, temp):
     else:
         return "Low"
         
-def send_alert(user, month, risk, kind):
-    
-    account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
-    auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-    if account_sid is None or auth_token is None:
+def send_alert(phone_number, message):
+    account_sid = os.environ.get('AC44993aed976dd5210997b2519df5a254')
+    auth_token = os.environ.get('540d4a2a07e3e2b25b546f9ea79ce965')
+    if not account_sid or not auth_token:
         raise ValueError('TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set')
-    
-    if kind == 'email':
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        message = Mail(
-            from_email="noah.stasuik@gmail.com",
-            to_emails=user.get("email"),
-            subject='Hurriscan Alert!',
-            html_content='<strong>Warning!</strong> Hurricane Activity in your area!!')
-        response = sg.send(message)
-        return response.status_code
-    elif kind == 'phone':
-        client = Client(account_sid, auth_token)
-        message = client.messages.create(
-            from_='+19163024424',
-            body='Alert Hurricane Risk: ' + str(risk) + '\n' + 'Month: ' + str(month),
-            to=user.get("phone")  
-        )
-        return message.sid
-    else:
-        return 0
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        from_='+19163024424',  # Twilio phone number
+        body=message,
+        to=phone_number
+    )
+    return message.sid
+
+@predictions_bp.route('/predictions-dashboard/send-text-alert', methods=['POST'])
+def send_alert():
+    account_sid = os.getenv('TWILIO_ACCOUNT_SID')
+    auth_token = os.getenv('TWILIO_AUTH_TOKEN')
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        from_='+19163024424', 
+        body='test',
+        to='+13065702634'
+    )
+    return message.sid
 
 @predictions_bp.route('/predictions-dashboard/alerts', methods=['POST'])
 def predictions_dashboard_alerts():
@@ -136,7 +134,10 @@ def predictions_dashboard_alerts():
     else:
         return "No zone selected", 400
     month = 6
-    risk = hurricane_risk(month, zone)
+    humidity = 85
+    air_temp = 26
+    temp = 27
+    risk = hurricane_risk(humidity, air_temp, temp)
     
     conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
     conn.row_factory = sqlite3.Row
@@ -182,6 +183,7 @@ def predictions_dashboard_alerts():
         return f"Error {e} fetching user data from database", 500
     finally:
         conn.close() 
+
 @predictions_bp.route('/predictions-dashboard')
 def predictions_dashboard():
     return render_template('predictions_dashboard.html')

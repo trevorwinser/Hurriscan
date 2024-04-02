@@ -151,7 +151,16 @@
             } else {
                 alert('Please select a location on the map.');
             }
-        }        
+        }  
+            
+        function hurricane_risk(month, zone, temp) {
+                return month + zone + temp;
+        }
+
+        var month = 5;  
+        var zone = 3;   
+        var temp = 25;  
+        var risk = hurricane_risk(month, zone, temp);     
 
         document.getElementById('make-predictions-button').addEventListener('click', function() {
             makePredictions(); 
@@ -170,28 +179,28 @@
             }
         }
 
-        document.getElementById('send-alerts-button').addEventListener('click', function() {
-            var risk = hurricane_risk(month, zone, temp=25)
-            fetch('/predictions-dashboard/alerts', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    north_america: document.getElementById('north-america').checked,
-                    south_america: document.getElementById('south-america').checked
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            alert('Alerts sent successfully');
-            })
-            .catch(error => {
-                console.error('Error sending alerts:', error);
-            alert('Failed to send alerts. Please try again later.');
-            });
+    document.getElementById('send-alerts-button').addEventListener('click', function() {
+        fetch('/predictions-dashboard/send-text-alert', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json' 
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send alert.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            alert('Alert sent successfully.');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error sending alert. Please try again.');
         });
+    });
     </script>
 </body>
 </html>

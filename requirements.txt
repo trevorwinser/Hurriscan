@@ -24,3 +24,4 @@ sendgrid
 flask_login
 numpy
 scikit-learn
+python-dotenv
