@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import patch
-#from app import send_alert
+from server.routing import predictions
 
 @pytest.mark.parametrize("kind", ['email', 'phone'])
 def test_send_alert(kind):
@@ -8,8 +8,8 @@ def test_send_alert(kind):
     month = 6
     risk = 'High'
 
-    with patch('app.Client') as MockClient:
-        send_alert(user, month, risk, kind)
+    with patch('server.routing.predictions.Client') as MockClient:
+        predictions.send_alert(user, month, risk, kind)
 
         if kind == 'email':
             MockClient().messages.create.assert_called_once_with(
