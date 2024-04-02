@@ -21,8 +21,6 @@
         <div class="green-box">
             <br>
             <br>
-            If predictions do not update, there is not enough data in that location to make an accurate prediction.
-            <br>
             <br>
             <br>
             Predictions based on Humidity, Temperature, and Pressure
@@ -43,7 +41,7 @@
             <br>
             Current risk for a hurricane in that area is: <span id="hurricane-risk"></span>
         </div>
-        
+        <div id="errorMessage" style="display: none; color: red;">Not enough data to make a prediction, please click elsewhere on the map</div>
     </div>
     <div class="buttons">
         <div class="latlong-container">
@@ -113,13 +111,18 @@
 
         map.on('click', function(event) {
             var latlng = event.latlng;
-
             if (marker) {
                 map.removeLayer(marker);
             }
-
-            marker = L.marker(latlng).addTo(map);
-            updateLatLong(latlng);
+            if (latlng.lat > 17.5 || latlng.lat < -17.5 || latlng.lng > -130 || latlng.lng < -174) {
+                L.popup()
+                    .setLatLng(latlng)
+                    .setContent('Not enough data in this location to make an accurate prediction, please click elsewhere on the map')
+                    .openOn(map);
+            } else {
+                marker = L.marker(latlng).addTo(map);
+                updateLatLong(latlng);
+            }
         });
 
         function makePredictions() {
@@ -142,7 +145,6 @@
                         document.getElementById('air-pressure-value').innerText = data.air;
 
                         var risk = getHurricaneRisk(data.humidity, data.temperature, data.air);
-                        console.log("Hurricane Risk:", risk); // Add this line
                         document.getElementById('hurricane-risk').innerText = risk;
                     })
                     .catch(error => {
@@ -188,7 +190,7 @@
                 throw new Error('Failed to send alerts');
             })
             .then(data => {
-                console.log(data); // Log success message
+                console.log(data);
                 alert('Alerts sent successfully');
             })
             .catch(error => {
