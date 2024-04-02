@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
-        python-version: ['3.12.2', '3.12.1', '3.12.0', '3.9.6']  
+        python-version: ['3.12.2', '3.12.1', '3.12.0', '3.9.6']
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -24,8 +24,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install selenium pytest pytest-xdist
           pip install webdriver-manager
+
       
       - name: Run Selenium tests
-        run: pytest server/test --browsers Firefox Chrome --headless
-
-  #commit
+        env:
+          BROWSER: chrome  
+          HEADLESS: false  
+        run: pytest server/test
