@@ -21,3 +21,5 @@ server/test/__pycache__/
 *.db
 
 .env
+
+*/__pycache__
