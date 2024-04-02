@@ -9,4 +9,4 @@ def navbar():
     if(user.currentUsername == ""):
         return redirect(url_for('auth.login'))
     else:
-        return render_template('navbar.html')
+       return render_template('redirect_navbar.html')

@@ -13,7 +13,7 @@ def admin_dashboard():
     
     if(user.currentUsername != ""):
         if(user.isAdmin == True):
-            return render_template('admin/admin-dashboard.html')
+            return render_template('admin-dashboard.html')
         else:
             return redirect(url_for('views.home'))
         
@@ -21,12 +21,12 @@ def admin_dashboard():
         return redirect(url_for('auth.login'))
     
 
-@admin_bp.route('/admin-nav-bar')
+@admin_bp.route('/redirect-navbar')
 def admin_nav_bar():
     
     if(user.currentUsername != ""):
         if(user.isAdmin == True):
-            return render_template('admin/admin-nav-bar.html', username = user.currentUsername)
+            return render_template('redirect_navbar.html', username = user.currentUsername)
         else:
             return redirect(url_for('views.home'))
     else:

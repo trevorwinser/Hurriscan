@@ -16,12 +16,12 @@
 <body>
     
 
-    <header>
-        <div class = "nav">
-            <img src="{{url_for('static', filename='images/radar logo/new-logo.png')}}">
-            <h1> HurriScan</h1>
-        </div>
-    </header>
+  <header>
+      <div class = "nav">
+          <img src="{{url_for('static', filename='images/new-logo.png')}}">
+          <h1> HurriScan</h1>
+      </div>
+  </header>
 
     {% with messages = get_flashed_messages( with_categories=true) %}
         {%if messages %}
@@ -60,7 +60,7 @@
                     <input type = "password" id = "password2", name="password2" placeholder="Confirm Password"><br>
                     <input type="submit" value="Register">
                 </form>
-                <p>Already have an account? <a href="{{url_for('auth.login')}}">Log In</a></p>
+                <p>Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a></p>
             </div>
             <img src="{{url_for('static', filename = 'images/loginImg.png')}}">
         </div>

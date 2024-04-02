@@ -6,8 +6,6 @@ from flask import jsonify
 import json
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 
 import sqlite_setup
 from datetime import datetime
@@ -88,9 +86,7 @@ def buildSQL():
         sql += "temp BETWEEN " + min_temperature + " AND " + max_temperature
     return sql
 
-@app.route('/predictions-dashboard')
-def predictions_dashboard():
-    return render_template('predictions-dashboard.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
