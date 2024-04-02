@@ -6,8 +6,8 @@
     <title>Data Visualization</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <canvas id="myChart"></canvas>
+<body style="background-color: #f2f2f2">
+    <canvas id="myChart" style="margin-top: 30px;"></canvas> 
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         var months = {{ months|tojson }};
