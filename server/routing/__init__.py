@@ -25,9 +25,10 @@ def create_app():
     from .mapFilter import mapfilter_bp
     from .data_visualization import data_visualization_bp
     from .alerts import alerts_bp
-    from.user_dashboard import user_dashboard
+    from .user_dashboard import user_dashboard
     from .register import register_bp
     from .navbar import navbar_bp
+    from .predictions import predictions_bp
     
     #register blueprints here
     app.register_blueprint(auth, url_prefix = '/')
@@ -36,9 +37,10 @@ def create_app():
     app.register_blueprint(mapfilter_bp, url_prefix='/')
     app.register_blueprint(data_visualization_bp, url_prefix='/')
     app.register_blueprint(alerts_bp, url_prefix = '/')
-    app.register_blueprint(user_dashboard, url_for='/')
-    app.register_blueprint(register_bp, url_for='/')
-    app.register_blueprint(navbar_bp, url_for='/')
+    app.register_blueprint(user_dashboard, url_prefix='/')
+    app.register_blueprint(register_bp, url_prefix='/')
+    app.register_blueprint(navbar_bp, url_prefix='/')
+    app.register_blueprint(predictions_bp, url_prefix='/')
     
     
     
