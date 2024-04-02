@@ -9,6 +9,10 @@ def browser():
     
     driver = webdriver.Chrome()
     
+    # driver_path = 'C:\\Users\\ksing\\Downloads\\chromedriver.exe'
+    # driver = webdriver.Chrome(executable_path=driver_path)
+    # driver.get('http://127.0.0.1:5000/temperature-predictions')
+    
     driver.get('http://127.0.0.1:5000/sign-up')
     yield driver
     driver.quit()

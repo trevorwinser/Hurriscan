@@ -5,25 +5,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-try:
-    # Attempt to initialize a Chrome WebDriver instance
-    driver = webdriver.Chrome()
-    # If successful, open a website (e.g., Google)
-    driver.get("http://www.google.com")
-    # Print a success message
-    print("Chrome WebDriver is installed and working.")
-except Exception as e:
-    # If an error occurs, print the error
-    print(f"An error occurred: {e}")
-finally:
-    # Close the browser window
-    driver.quit()
-
-
 @pytest.fixture
 def browser():
     
     driver = webdriver.Chrome()
+    # driver_path = 'C:\\Users\\ksing\\Downloads\\chromedriver.exe'
+    # driver = webdriver.Chrome(executable_path=driver_path)
+    # driver.get('http://127.0.0.1:5000/temperature-predictions')
     driver.get('http://127.0.0.1:5000/login')
     yield driver
     driver.quit()
