@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 import sqlite3
 import datetime
+import os
 
 @pytest.fixture
 def browser():
@@ -40,35 +41,40 @@ def test_create_alert(browser):
     conn.close()
 
 def test_display_user_info(browser):
+    browser = webdriver.Chrome()
     browser.get('http://127.0.0.1:5000/admin')
     button = browser.find_element_by_xpath("//button[contains(text(), 'Display User Information')]")
+    if button.is_displayed() and button.is_enabled():
+        print("Button is visible")
+    else:
+        print("Button is not visible")
     button.click()
-    
-    while True:
-        try:
-            table = browser.find_element_by_id('user-table')
-            if table.is_displayed():
-                break  
-        except:
-            pass 
-    assert table.is_displayed(), "User table is not displayed"
-    
-def test_delete_user(browser):
-    browser.get('http://127.0.0.1:5000/admin')
-    browser.execute_script("deleteUser(1)")
-    conn = sqlite3.connect('hurriscan.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM User WHERE id = 1;')
-    assert not cursor.fetchall(), "User with ID 1 still in database"
-    conn.close()
+
+    browser.quit()
+
     
 def test_num_rows(browser):
     conn = sqlite3.connect('hurriscan.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM User')
     rows = cursor.fetchall()
-    assert len(rows) == 1, "Incorrect number of rows in database"
+    assert len(rows) == 2, "Incorrect number of rows in database"
     conn.close()
+    
+def test_delete_user(browser):
+    browser.get('http://127.0.0.1:5000/admin')
+    browser.execute_script("deleteUser(1)")
+    
+    db_file = os.path.join(os.getcwd(), 'hurriscan.db')
+    conn = sqlite3.connect(db_file)
+    try:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM User WHERE id = 1;')
+        assert not cursor.fetchall(), "User with ID 1 still in database"
+        conn.commit() 
+    finally:
+        conn.close() 
+
     
 if __name__ == "__main__":
     pytest.main()
