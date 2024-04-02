@@ -3,7 +3,7 @@
 code/venv
 code/__pycache__
 code/test/__pycache__
-code/hurriscan.db
+*/hurriscan.db
 code/sendgrid.env
 venv
 .venv
@@ -14,3 +14,12 @@ server/hurriscan.db
 code/login/__pycache__
 server/routing/__pycache__
 server/__pycache__
+server/routing/hurriscan.db
+
+server/test/__pycache__/
+
+*.db
+
+.env
+
+*/__pycache__
