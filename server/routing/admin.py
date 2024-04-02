@@ -13,7 +13,7 @@ def admin_dashboard():
     
     if(user.currentUsername != ""):
         if(user.isAdmin == True):
-            return render_template('admin-dashboard.html')
+            return render_template('admin_dashboard.html')
         else:
             return redirect(url_for('views.home'))
         
