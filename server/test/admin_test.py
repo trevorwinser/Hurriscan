@@ -7,6 +7,9 @@ from selenium import webdriver
 import sqlite3
 import datetime
 import os
+import logging
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 @pytest.fixture
 def browser():
@@ -65,11 +68,15 @@ def test_delete_user(browser):
     browser.get('http://127.0.0.1:5000/admin')
     browser.execute_script("deleteUser(1)")
     
-    db_file = os.path.join(os.getcwd(), 'hurriscan.db')
-    conn = sqlite3.connect(db_file)
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
     try:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM User WHERE id = 1;')
+        sql = cursor.execute('SELECT * FROM User WHERE id = 1;')
+        logs = browser.get_log('browser')
+        for log in logs:
+            print(log['message'])
         assert not cursor.fetchall(), "User with ID 1 still in database"
         conn.commit() 
     finally:
