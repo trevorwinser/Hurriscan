@@ -5,6 +5,7 @@
 body {
   background-color: #092635;
   font-family: "Roboto Mono", monospace !important;
+  margin: 0px;
 }
 
 #title {

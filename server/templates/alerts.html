@@ -6,7 +6,9 @@
     <title>Alerts Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/alerts.css') }}">
 </head>
+
 <body>
+    <iframe src="{{url_for('navbar.navbar')}}" frameborder="0" width="100%"></iframe>
     <div id="title">
         <h1>Alert Preferences</h1>
         <img src="{{ url_for('static', filename='images/alert.png') }}" alt="Logo Icon" class = "logo-section">
