@@ -14,3 +14,4 @@ server/hurriscan.db
 code/login/__pycache__
 server/routing/__pycache__
 server/__pycache__
+*/__pycache__
