@@ -3,7 +3,7 @@
 code/venv
 code/__pycache__
 code/test/__pycache__
-code/hurriscan.db
+*/hurriscan.db
 code/sendgrid.env
 venv
 .venv
