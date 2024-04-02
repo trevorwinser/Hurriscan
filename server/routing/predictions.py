@@ -101,94 +101,43 @@ def send_alert():
     temperature = data['temperature']
     airPressure = data['airPressure']
     risk = data['risk']
+
     account_sid = os.getenv('TWILIO_ACCOUNT_SID')
     auth_token = os.getenv('TWILIO_AUTH_TOKEN')
     client = Client(account_sid, auth_token)
     body = f"Humidity: {humidity}, Temperature: {temperature}, Air Pressure: {airPressure}, Risk: {risk}"
-    message = client.messages.create(
-        from_='+19163024424', 
-        body=body,
-        to='+13065702634'
-    )
-    message = Mail(
-        from_email='noah.stasuik@gmail.com',
-        to_emails='noah.stasuik@gmail.com',
-        subject='Hurriscan Alert!',
-        html_content=body)
-    try:
-        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-        response = sg.send(message)
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
-    except Exception as e:
-        print(e.message)
-    return jsonify(message="Alert sent"), 200
 
-@predictions_bp.route('/predictions-dashboard/alerts', methods=['POST'])
-def predictions_dashboard_alerts():
-    data = request.get_json()
-    north_america = data.get('north_america', False)
-    south_america = data.get('south_america', False)
-    print(north_america, south_america)
-    if north_america and south_america:
-        return "Both zones selected", 400
-    elif north_america:
-        zone = 'north'
-    elif south_america:
-        zone = 'south'
-    else:
-        return "No zone selected", 400
-    month = 6
-    humidity = 85
-    air_temp = 26
-    temp = 27
-    risk = hurricane_risk(humidity, air_temp, temp)
-    
-    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    
-    try:
-        sql = "SELECT * FROM User WHERE alerts_email != 0"
-        cur.execute(sql)
-        user_rows = cur.fetchall()
-        for user_row in user_rows:
-            user = {
-            'id': user_row[0],
-            'username': user_row[1],
-            'password': user_row[2],
-            'email': user_row[3],
-            'phone': user_row[4],
-            'zone': user_row[5],
-            'alerts_email': user_row[6],
-            'alerts_phone': user_row[7],
-            'isAdmin': user_row[8]
-            }
-            send_alert(user, month, risk, 'email')
-        sql = "SELECT * FROM User WHERE alerts_phone != 0"
-        cur.execute(sql)
-        user_rows = cur.fetchall()
-        for user_row in user_rows:
-            user = {
-            'id': user_row[0],
-            'username': user_row[1],
-            'password': user_row[2],
-            'email': user_row[3],
-            'phone': user_row[4],
-            'zone': user_row[5],
-            'alerts_email': user_row[6],
-            'alerts_phone': user_row[7],
-            'isAdmin': user_row[8]
-            }
-            send_alert(user, month, risk, 'phone')
-        return "Alerts sent", 200  
-    except sqlite3.Error as e:
-        return f"Error {e} fetching user data from database", 500
-    except Exception as e:
-        return f"Error {e} fetching user data from database", 500
-    finally:
-        conn.close() 
+    conn = sqlite3.connect('routing/hurriscan.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM User;")
+    users = cursor.fetchall()
+
+    for user in users:
+        phone = user[6]
+        email = user[5]
+        message = client.messages.create(
+            from_='+19163024424', 
+            body=body,
+            to=phone
+        )
+
+        message = Mail(
+            from_email='noah.stasuik@gmail.com',
+            to_emails=email,
+            subject='Hurriscan Alert!',
+            html_content=body)
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e.message)
+
+    conn.close()
+
+    return jsonify(message="Alert sent"), 200 
 
 @predictions_bp.route('/predictions-dashboard')
 def predictions_dashboard():
