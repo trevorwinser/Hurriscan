@@ -1,8 +1,8 @@
-# import unittest
-# from flask_testing import TestCase
-# from server.main import app 
-# import sqlite3
-# from sqlite_setup import create_table, create_users, main
+import unittest
+from flask_testing import TestCase
+#from server.main import app 
+import sqlite3
+from sqlite_setup import create_table, create_users, main
 
 # class TestAlertsPage(TestCase):
 #     def create_app(self):

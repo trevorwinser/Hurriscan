@@ -86,10 +86,11 @@ def create_users(conn):
     
     hashed_password = generate_password_hash("Password1", method="pbkdf2:sha256")
 
-    cursor.execute(" INSERT INTO User (username, password, email, alerts_email, isAdmin, zone) VALUES (?, ?, ?, ?, ?, ?)", ("Admin1", hashed_password, "admin@gmail.com", 0, 1, "none"))
+    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, isAdmin, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("Admin1", hashed_password, "admin@gmail.com", "+13065702634", 0, 1, "none"))
 
 
-    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("User1", hashed_password, "user@gmail.com", "123-456-7890", 0, 0, "none"))
+    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("User1", hashed_password, "user@gmail.com", "+13065702634", 0, 0, "none"))
+
     
     conn.commit()
 
@@ -115,12 +116,6 @@ def main():
     conn.commit()
 
     cursor = conn.cursor()
-
-    # print("Data in the database:")
-    # cursor.execute("SELECT * FROM Data;")
-    # rows = cursor.fetchall()
-    # for row in rows:
-    #     print(row)
 
     print("\nTotal rows in the Data table:")
     cursor.execute("SELECT COUNT(*) FROM Data;")
