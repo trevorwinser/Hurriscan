@@ -96,19 +96,25 @@ def hurricane_risk(humidity, air_temp, temp):
 
 @predictions_bp.route('/predictions-dashboard/send-text-alert', methods=['POST'])
 def send_alert():
+    data = request.get_json()
+    humidity = data['humidity']
+    temperature = data['temperature']
+    airPressure = data['airPressure']
+    risk = data['risk']
     account_sid = os.getenv('TWILIO_ACCOUNT_SID')
     auth_token = os.getenv('TWILIO_AUTH_TOKEN')
     client = Client(account_sid, auth_token)
+    body = f"Humidity: {humidity}, Temperature: {temperature}, Air Pressure: {airPressure}, Risk: {risk}"
     message = client.messages.create(
         from_='+19163024424', 
-        body='test',
+        body=body,
         to='+13065702634'
     )
     message = Mail(
         from_email='noah.stasuik@gmail.com',
         to_emails='noah.stasuik@gmail.com',
-        subject='Sending with Twilio SendGrid is Fun',
-        html_content='<strong>and easy to do anywhere, even with Python</strong>')
+        subject='Hurriscan Alert!',
+        html_content=body)
     try:
         sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
         response = sg.send(message)

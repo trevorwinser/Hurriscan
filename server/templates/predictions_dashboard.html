@@ -182,11 +182,30 @@
         }
 
     document.getElementById('send-alerts-button').addEventListener('click', function() {
+        var humidity = parseFloat(document.getElementById('humidity-value').innerText);
+        var temperature = parseFloat(document.getElementById('temperature-value').innerText);
+        var airPressure = parseFloat(document.getElementById('air-pressure-value').innerText);
+
+        var risk;
+        if (humidity > 80 && airPressure > 26 && temperature > 28) {  
+            risk = "High";
+        } else if (humidity > 77 && airPressure > 26.5 && temperature > 27.5) {
+            risk = "Medium";
+        } else {
+            risk = "Low";
+        }
+
         fetch('/predictions-dashboard/send-text-alert', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json' 
-            }
+            },
+            body: JSON.stringify({
+                humidity: humidity,
+                temperature: temperature,
+                airPressure: airPressure,
+                risk: risk
+            })
         })
         .then(response => {
             if (!response.ok) {
