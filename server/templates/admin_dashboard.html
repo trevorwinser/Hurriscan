@@ -20,26 +20,9 @@
     <iframe src="{{url_for('navbar.navbar')}}" frameborder="0" width="100%"></iframe>
     <h1 style="margin-left:auto;margin-right:auto;width:20%"> Admin Dashboard </h1>
     <div id="container">
-        <table id="user-table">
-            <thead>
-                <tr>
-                    <th id="id">ID</th>
-                    <th id="username">Username</th>
-                    <th id="password">Password</th>
-                    <th id="email">Email</th>
-                    <th id="phone">Phone</th>
-                    <th id="alerts_email">Zone</th>
-                    <th id="zone">Alerts Email</th>
-                    <th id="alerts_phone">Alerts Phone</th>
-                    <th id="isAdmin">Is Admin</th>
-                    <th id="action">Action</th>
-                </tr>
-            </thead>
-            <tbody id="user-table-body"></tbody>
-        </table>
-
         <div id="create-alert">
             <h2>Create New Alert</h2>
+            <div class="form">
             <form action="/create-alert" method="POST">
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" required><br><br>
@@ -48,6 +31,27 @@
                 <button type="submit">Create Alert</button>
             </form>
         </div>
+        </div>
+        <table id="user-table">
+            <div id="user-info-section" onclick="toggleTableVisibility()">
+                    <button type="submit">Display User Information</button>    
+                    <tr>
+                    <th id="id">ID</th>
+                    <th id="username">Username</th>
+                    <th id="password">Password</th>
+                    <th id="email">Email</th>
+                    <th id="phone">Phone</th>
+                    <th id="zone">Zone</th>
+                    <th id="alerts_email">Alerts Email</th>
+                    <th id="alerts_phone">Alerts Phone</th>
+                    <th id="isAdmin">Is Admin</th>
+                    <th id="action">Action</th>
+                </tr>
+            </div>
+            </thead>
+            <tbody id="user-table-body"></tbody>
+        </div>
+        </table>
     </div>
 
     <script>
@@ -62,13 +66,13 @@
                             <td id="user_id">${user.id}</td>
                             <td id="username">${user.username}</td>
                             <td id="password">${user.password}</td>
+                            <td id="phone">${user.password}</td>
                             <td id="email">${user.email}</td>
-                            <td id="phone">${user.phone}</td>
                             <td id="zone">${user.zone}</td>
                             <td id="alerts_email">${user.alerts_email ? 'Yes' : 'No'}</td>
                             <td id="alerts_phone">${user.alerts_phone ? 'Yes' : 'No'}</td>
                             <td id="is_admin">${user.isAdmin ? 'Yes' : 'No'}</td>
-                            <td><button onclick="deleteUser(${user.id})">Delete</button></td>
+                            <td><button class="delete-button" onclick="deleteUser(${user.id})">Delete</button></td>
                         `;
                         tableBody.appendChild(row);
                     });
@@ -87,6 +91,15 @@
                 }
             })
             .catch(error => console.error('Error:', error));
+        }
+
+        function toggleTableVisibility() {
+            var table = document.getElementById("user-table");
+            if (table.style.display === "none") {
+                table.style.display = "table"; 
+            } else {
+                table.style.display = "none";
+            }
         }
     </script>
 </body>

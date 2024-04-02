@@ -2,56 +2,183 @@ body {
     background-color: #092635;
     font-family: "Roboto Mono", monospace;
     font-optical-sizing: auto;
-    font-size: 16px;
+    font-size: 1rem;
+    color: #9EC8B9;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content:space-around;
-    padding-left: 20px;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-left: 1.25rem;
 }
 
 #create-alert {
+    padding: 0.625rem;
+    margin: 1.25rem;
+    width: 95%;
+    margin-bottom: 6.25rem;
+}
+
+#create-alert h2 {
+    margin-bottom: 1.25rem;
+    font-family: "Roboto Mono", monospace;
+    color: #9EC8B9;
+}
+
+#create-alert form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#create-alert label {
+    flex: 0 0 4.375rem;
+    font-family: "Roboto Mono", monospace;
+    color: #9EC8B9;
+}
+
+#create-alert input,
+#create-alert textarea {
+    flex: 1;
+    width: calc(100% - 6.25rem);
+    padding: 0.625rem;
+    margin-bottom: 1.25rem;
+    margin-right: 2.5rem;
+    border-radius: 0.3125rem;
+    border: none;
+    background-color: #1B4242;
+    color: #9EC8B9;
+    font-size: 1rem;
+}
+
+#create-alert button {
+    background-color: #1B4242;
+    color: #9EC8B9;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    width: 12.5rem;
+    height: 3.125rem;
+    font-family: "Roboto Mono", monospace;
+    text-align: center;
+}
+
+#create-alert button:hover {
     background-color: #9EC8B9;
-    padding: 20px;
-    margin: 20px;
+    color: #092635;
+}
+
+#user-info-section {
+    margin-left: 1.875rem;
+}
+
+#user-info-section button {
+    background-color: #1B4242;
+    color: #9EC8B9;
+    padding: 0.625rem 1.25rem;
+    margin-bottom: 1.25rem;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    width: 18.75rem;
+    height: 3.125rem;
+    font-family: "Roboto Mono", monospace;
+    text-align: center;
+}
+
+#user-info-section button:hover {
+    background-color: #9EC8B9;
+    color: #092635;
+}
+
+#user-table {
+    width: 97%;
+    border-collapse: collapse;
+    color: #9EC8B9;
+    display: none;
 }
 
 table#user-table {
-    background-color: #9EC8B9;
     margin: auto;
+    font-family: "Roboto Mono", monospace;
+    margin-left: 1.25rem;
+    margin-right: 12.5rem;
+    font-size: 0.875rem;
 }
+
 th {
+    font-family: "Roboto Mono", monospace;
     text-align: center;
 }
 
 th#id {
-    width: 50px; 
+    width: 3.125rem;
+    font-family: "Roboto Mono", monospace;
 }
 
 th#username {
-    width: 150px;
+    width: 7.8125rem;
+    font-family: "Roboto Mono", monospace;
 }
 
 th#password {
-    width: 100px;
+    width: 5rem;
 }
 
 th#email {
-    width: 200px;
+    width: 10.9375rem;
 }
 
 th#phone {
-    width: 120px;
+    width: 6.25rem;
 }
 
 th#alerts_email,
 th#alerts_phone,
 th#isAdmin {
-    width: 80px;
+    width: 5rem;
+}
+
+th#zone {
+    width: 6.25rem;
 }
 
 th#action {
-    width: 100px; 
+    width: 4.375rem;
+}
+
+.delete-button {
+    background-color: #1B4242;
+    color: #9EC8B9;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.875rem;
+    width: 6.25rem;
+    height: 3.125rem;
+    margin-top: 0.625rem;
+    font-family: "Roboto Mono", monospace;
+    text-align: center;
+}
+
+.delete-button:hover {
+    background-color: #9EC8B9;
+    color: #092635;
+}
+
+td {
+    text-align: center;
 }
