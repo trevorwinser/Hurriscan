@@ -9,4 +9,4 @@ user_dashboard = Blueprint('user_dashboard', __name__, template_folder="../templ
 
 @user_dashboard.route('/user_dashboard')
 def dashboard():
-    return render_template('user-dashboard.html')
+    return render_template('user_dashboard.html')
