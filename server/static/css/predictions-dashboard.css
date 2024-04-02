@@ -94,10 +94,10 @@ label {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 215px; /* Adjusted width to match the input text boxes */
+    width: 215px; 
     font-weight: bold;
     margin-top: 10px;
-    font-size: 16px; /* Increase font size */
+    font-size: 16px; 
 }
 
 .make-prediction-button:hover {
