@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/predictions-dashboard.css') }}">
+    <title>Map Filter Demo</title>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin="">
+    </script>
+
+    <script src="{{url_for('static', filename='js/heatmap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/leaflet-heatmap.js')}}"></script>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/predictions-dashboard.css')}}">
 </head>
 <body>
     
@@ -71,11 +81,17 @@
             <button id="send-alerts-button" class="send-alerts-button">Send Alerts</button>
         </div>
     </div>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin=""></script>
-
+    <script src="https://unpkg.com/leaflet-heatmap/leaflet-heatmap.js"></script>
     <script>
+        var cfg = {
+            "maxOpacity": .8,
+            "scaleRadius": true,
+            latField: 'latitude',
+            lngField: 'longitude',
+            valueField: 'temperature'
+        };
+
+        var heatmapLayer = new HeatmapOverlay(cfg);
         var baseLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 15,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -84,7 +100,7 @@
         var map = L.map('map', {
             center: [0, -160],
             zoom: 2,
-            layers: [baseLayer]
+            layers: [baseLayer, heatmapLayer]
         });
 
         var marker;
@@ -109,12 +125,30 @@
             }).addTo(map);
         }
 
+        function fetchHeatmapData(latitude, longitude) {
+            fetch(`/heatmap-data?latitude=${latitude}&longitude=${longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    heatmapLayer.setData({
+                        max: 100,
+                        data: data.map(row => ({
+                            latitude: row.latitude,
+                            longitude: row.longitude,
+                            temperature: row.value
+                        }))
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching heatmap data:', error);
+                });
+        }
+        
         map.on('click', function(event) {
             var latlng = event.latlng;
             if (marker) {
                 map.removeLayer(marker);
             }
-            if (latlng.lat > 17.5 || latlng.lat < -17.5 || latlng.lng > -130 || latlng.lng < -174) {
+            if (latlng.lat > 17.5 || latlng.lat < -17.5 || latlng.lng > -90 || latlng.lng < -190) {
                 L.popup()
                     .setLatLng(latlng)
                     .setContent('Not enough data in this location to make an accurate prediction, please click elsewhere on the map')
@@ -139,13 +173,17 @@
                         throw new Error('Network response was not ok.');
                     })
                     .then(data => {
-                        console.log(data);
-                        document.getElementById('humidity-value').innerText = data.humidity;
-                        document.getElementById('temperature-value').innerText = data.temperature;
-                        document.getElementById('air-pressure-value').innerText = data.air;
+                        document.getElementById('humidity-value').innerText = data.humidity.toFixed(1);
+                        document.getElementById('temperature-value').innerText = data.temperature.toFixed(2);
+                        document.getElementById('air-pressure-value').innerText = data.air.toFixed(2);
 
                         var risk = getHurricaneRisk(data.humidity, data.temperature, data.air);
                         document.getElementById('hurricane-risk').innerText = risk;
+
+                        updateHeatData(latitude, longitude);
+                        if (circle) {
+                            map.removeLayer(circle);
+                        }
                     })
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
@@ -154,24 +192,8 @@
                 alert('Please select a location on the map.');
             }
         }  
-            
-        function hurricane_risk(month, zone, temp) {
-                return month + zone + temp;
-        }
-
-        var month = 5;  
-        var zone = 3;   
-        var temp = 25;  
-        var risk = hurricane_risk(month, zone, temp);     
-
-        document.getElementById('make-predictions-button').addEventListener('click', function() {
-            makePredictions(); 
-        });
-
+        
         function getHurricaneRisk(humidity, temperature, air) {
-            console.log("Humidity:", humidity);
-            console.log("Temperature:", temperature);
-            console.log("Air Pressure:", air);
             if (humidity > 80 && air > 26 && temperature > 28) {  
                 return "High";
             } else if (humidity > 77 && air > 26.5 && temperature > 27.5) {
@@ -181,48 +203,90 @@
             }
         }
 
-    document.getElementById('send-alerts-button').addEventListener('click', function() {
-        var humidity = parseFloat(document.getElementById('humidity-value').innerText);
-        var temperature = parseFloat(document.getElementById('temperature-value').innerText);
-        var airPressure = parseFloat(document.getElementById('air-pressure-value').innerText);
+        document.getElementById('make-predictions-button').addEventListener('click', function() {
+            makePredictions(); 
+        });
 
-        var risk;
-        if (humidity > 80 && airPressure > 26 && temperature > 28) {  
-            risk = "High";
-        } else if (humidity > 77 && airPressure > 26.5 && temperature > 27.5) {
-            risk = "Medium";
-        } else {
-            risk = "Low";
+        document.getElementById('send-alerts-button').addEventListener('click', function() {
+            var humidity = parseFloat(document.getElementById('humidity-value').innerText);
+            var temperature = parseFloat(document.getElementById('temperature-value').innerText);
+            var airPressure = parseFloat(document.getElementById('air-pressure-value').innerText);
+
+            var risk;
+            if (humidity > 80 && airPressure > 26 && temperature > 28) {  
+                risk = "High";
+            } else if (humidity > 77 && airPressure > 26.5 && temperature > 27.5) {
+                risk = "Medium";
+            } else {
+                risk = "Low";
+            }
+
+            fetch('/predictions-dashboard/send-text-alert', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify({
+                    humidity: humidity,
+                    temperature: temperature,
+                    airPressure: airPressure,
+                    risk: risk
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to send alert.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data.message);
+                alert('Alert sent successfully.');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error sending alert. Please try again.');
+            });
+        });
+
+        function fetchInitialData() {
+            fetch('/fetch-data')
+                .then(response => response.json())
+                .then(data => {
+                    heatmapLayer.setData({
+                        max: 100,  
+                        data: data.map(row => ({
+                            latitude: row.latitude,
+                            longitude: row.longitude,
+                            temperature: row.temperature
+                        }))
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching initial data:', error);
+                });
         }
 
-        fetch('/predictions-dashboard/send-text-alert', {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify({
-                humidity: humidity,
-                temperature: temperature,
-                airPressure: airPressure,
-                risk: risk
+        function updateHeatData(lat,long){
+            fetch('/fetch-data')
+            .then(response => response.json())
+            .then(data => {
+                heatmapLayer.setData({
+                    max: 100,  
+                    data: data.map(row => ({
+                        latitude: lat,
+                        longitude: long,
+                        temperature: row.temperature
+                    }))
+                });
             })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send alert.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data.message);
-            alert('Alert sent successfully.');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error sending alert. Please try again.');
-        });
-    });
+            .catch(error => {
+                console.error('Error fetching initial data:', error);
+            });
+        }
+        window.onload = function() {
+            fetchInitialData();
+        };
     </script>
 </body>
 </html>
-
