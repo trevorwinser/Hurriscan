@@ -19,7 +19,8 @@
         </div>
     </div>
     <div class="navbar-section">
-        <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
+        <img src="{{ url_for('static', filename='images/profile_icon.png') }}" alt="Right Icon" class="navbar-icon">
+        <p style="position: absolute; color:black; font-weight: bold; padding-left: 35px; top: 55px;"> {{ username }}</p>
     </div>
 </header>
 
