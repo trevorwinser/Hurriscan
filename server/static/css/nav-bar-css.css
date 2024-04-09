@@ -52,11 +52,11 @@ body{
     flex-direction: row;
     justify-content: space-around;
     font-family: "roboto Mono", monospace;
-    
+    margin-left: 700px;
 }
 
 .menu a {
-    margin: 0 15px; 
+    margin-right: 30px;
     color: #092635;
     text-decoration: none;
     font-weight: bold;
