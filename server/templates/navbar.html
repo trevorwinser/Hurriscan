@@ -16,9 +16,11 @@
         <h1>HurriScan</h1>
     </div>
 
-    <div class="menu-area" onclick="toggleMenu()">
+    <div class="navbar-section" style="padding:0px; margin:0px;">
         <div id="menu" class="menu">
-            <a href="{{url_for('predictions_bp.predictions_dashboard')}}">Predictions</a>
+            
+        
+        <a href="{{url_for('predictions_bp.predictions_dashboard')}}">Predictions</a>
             <a href="{{url_for('alerts.alerts_page')}}">Alerts</a>
             {% if isAdmin %}
                 <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
@@ -26,7 +28,6 @@
             <a href="{{url_for('auth.logout')}}">Sign-out</a>
         </div>
     </div>
-
     <div class="navbar-section">
         <img src="{{url_for('static', filename='images/profile_icon.png')}}" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
         <p>{{ username }}</p>
