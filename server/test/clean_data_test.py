@@ -8,7 +8,7 @@ import pytest
 def data():
     # Construct the file path for test data
     current_file_dir = Path(__file__).parent
-    data_file_path = current_file_dir / '..' / 'data' / 'cleaned_data.csv'
+    data_file_path = current_file_dir / '..' / '..' / 'data' / 'cleaned_data.csv'
     absolute_data_file_path = data_file_path.resolve()
 
     # Load and return the test data

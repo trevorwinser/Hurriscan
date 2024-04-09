@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, abort,request
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
@@ -41,6 +41,8 @@ def create_app():
     app.register_blueprint(register_bp, url_prefix='/')
     app.register_blueprint(navbar_bp, url_prefix='/')
     app.register_blueprint(predictions_bp, url_prefix='/')
+    
+    
     
     
     

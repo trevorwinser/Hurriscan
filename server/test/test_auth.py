@@ -1,10 +1,10 @@
 import os
 import pytest
 from flask import Flask
-from ..routing import create_app  # Replace 'yourapp' with the name of your Flask app package
-from ..routing.auth import auth 
+from routing import create_app  # Replace 'yourapp' with the name of your Flask app package
+from routing.auth import auth 
 from flask_sqlalchemy import SQLAlchemy
-from ..routing import user
+from routing import user
 
 
 
