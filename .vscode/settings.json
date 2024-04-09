@@ -1,6 +1,14 @@
 {
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [
-        "server/test"
+        "server"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./server",
+        "-p",
+        "*test.py"
     ]
   }
