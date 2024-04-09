@@ -80,7 +80,7 @@ def delete_user(user_id):
                 conn.commit()
                 
                 conn.close()
-                return redirect('/admin') # Doesn't do anything, but needed to return something ¯\_(ツ)_/¯
+                return redirect('/admin')
 
             except Exception as e:
                 return jsonify({'error': str(e)}), 500
@@ -106,6 +106,6 @@ def create_alert():
         print(row)
     conn.close()
 
-    return redirect('/alerts') # Wrong path but will change later!
+    return redirect('/alerts')
     
     
