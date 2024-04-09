@@ -86,10 +86,10 @@ def create_users(conn):
     
     hashed_password = generate_password_hash("Password1", method="pbkdf2:sha256")
 
-    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, isAdmin, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("Admin1", hashed_password, "admin@gmail.com", "+13065702634", 0, 1, "none"))
+    cursor.execute(" INSERT INTO User (username, password, email, isAdmin) VALUES (?, ?, ?, ?)", ("Admin1", hashed_password, "Admin@gmail.com", 1))
 
 
-    cursor.execute(" INSERT INTO User (username, password, email, phone, alerts_email, alerts_phone, zone) VALUES (?, ?, ?, ?, ?, ?, ?)", ("User1", hashed_password, "user@gmail.com", "+13065702634", 0, 0, "none"))
+    cursor.execute(" INSERT INTO User (username, password, email, zone, isAdmin) VALUES (?, ?, ?, ?, ?)", ("User1", hashed_password, "User@gmail.com", "West", 0))
 
     
     conn.commit()
