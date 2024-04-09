@@ -8,6 +8,8 @@ import sqlite3
 import datetime
 import os
 import logging
+import sqlite_setup
+sqlite_setup.main()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -37,7 +39,7 @@ def test_create_alert(browser):
     conn.commit()
     conn.close()
 
-    conn = sqlite3.connect('hurriscan.db')
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM Alert WHERE title = "Test Alert" AND text = "This is a test alert";')
     assert cursor.fetchone() is not None, "Alert was not created in the database"
@@ -57,7 +59,7 @@ def test_display_user_info(browser):
 
     
 def test_num_rows(browser):
-    conn = sqlite3.connect('hurriscan.db')
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM User')
     rows = cursor.fetchall()
