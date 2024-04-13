@@ -38,9 +38,6 @@
                     <tr>
                     <th id="id">ID</th>
                     <th id="username">Username</th>
-                    <th id="password">Password</th>
-                    <th id="email">Email</th>
-                    <th id="phone">Phone</th>
                     <th id="zone">Zone</th>
                     <th id="alerts_email">Alerts Email</th>
                     <th id="alerts_phone">Alerts Phone</th>
@@ -65,9 +62,6 @@
                         row.innerHTML = `
                             <td id="user_id">${user.id}</td>
                             <td id="username">${user.username}</td>
-                            <td id="password">${user.password}</td>
-                            <td id="phone">${user.password}</td>
-                            <td id="email">${user.email}</td>
                             <td id="zone">${user.zone}</td>
                             <td id="alerts_email">${user.alerts_email ? 'Yes' : 'No'}</td>
                             <td id="alerts_phone">${user.alerts_phone ? 'Yes' : 'No'}</td>

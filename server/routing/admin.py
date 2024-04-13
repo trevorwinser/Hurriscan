@@ -41,7 +41,7 @@ def get_users():
             conn.row_factory = sqlite3.Row
             cur = conn.cursor()
 
-            cur.execute('SELECT * FROM User')
+            cur.execute('SELECT id, username, alerts_email, alerts_phone, isAdmin FROM User')
             rows = cur.fetchall()
 
             users = []
@@ -49,12 +49,9 @@ def get_users():
                 user1 = {
                     'id': row[0],
                     'username': row[1],
-                    'password': row[2],
-                    'email': row[3],
-                    'phone': row[4],
-                    'alerts_email': row[5],
-                    'alerts_phone': row[6],
-                    'isAdmin': row[7]
+                    'alerts_email': row[2],
+                    'alerts_phone': row[3],
+                    'isAdmin': row[4]
                 }
                 users.append(user1)
 
@@ -80,7 +77,7 @@ def delete_user(user_id):
                 conn.commit()
                 
                 conn.close()
-                return redirect('/admin') # Doesn't do anything, but needed to return something ¯\_(ツ)_/¯
+                return redirect('/admin')
 
             except Exception as e:
                 return jsonify({'error': str(e)}), 500
@@ -106,6 +103,6 @@ def create_alert():
         print(row)
     conn.close()
 
-    return redirect('/alerts') # Wrong path but will change later!
+    return redirect('/admin')
     
     

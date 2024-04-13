@@ -4,55 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HurriScan</title>
-    <link rel = "stylesheet" href= "static/css/nav-bar-css.css">
+    <link rel="stylesheet" href="static/css/nav-bar-css.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    
 
 <div class="navbar">
 
     <div class="navbar-title">
-        <img src="{{url_for('static', filename='images/new-logo.png')}}" alt="Logo Icon" class = "logo-section" > 
-        <h1>HurriScan</h1>  
+        <img src="{{url_for('static', filename='images/new-logo.png')}}" alt="Logo Icon" class="logo-section">
+        <h1>HurriScan</h1>
     </div>
-    
-    
+    <div class="menu-area" onclick="toggleMenu()">
+        <div id="menu" class="menu">
+            
+        
+        <a href="{{url_for('predictions_bp.predictions_dashboard')}}">Predictions</a>
+            <a href="{{url_for('alerts.alerts_page')}}">Alerts</a>
+            {% if isAdmin %}
+                <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
+            {% endif %}
+            <a href="{{url_for('auth.logout')}}">Sign-out</a>
+        </div>
+    </div>
     <div class="navbar-section">
         <img src="{{url_for('static', filename='images/profile_icon.png')}}" alt="Right Icon" class="navbar-icon" onclick="openRightNav()">
-        <p> {{ username }}</p>
+        <p>{{ username }}</p>
     </div>
 
 </div>
 
-<iframe src="{{ url_for('user_dashboard.dashboard') }}" style="width:100%; height: 100vh; border:none;" ></iframe>
-    
-<div id="sidePanel" class="side-panel">
-    <!-- Close button -->
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<iframe src="{{ url_for('user_dashboard.dashboard') }}" style="width:100%; height: 100vh; border:none;"></iframe>
 
-    <h2>Filter Options</h2>
-    
-    <canvas id="myChart"></canvas>
+<script src="static/js/dataVisualization.js"></script>
 
-<div id="rightSidePanel" class="right-side-panel">
-    <!-- Close button -->
-    <a href="javascript:void(0)" class="closebtn-right" onclick="closeRightNav()">&times;</a>
-    
-    <h2 class="menu-title">Menu</h2>
-    <div class="menu-options">
-        <a href="{{url_for('predictions_bp.predictions_dashboard')}}">Predictions</a>
-        <a href="{{url_for('alerts.alerts_page')}}">Alerts</a>
-        {% if isAdmin %}
-            <a href="{{url_for('admin.admin_dashboard')}}">Admin View</a>
-        {% endif %}
-        <a href="{{url_for('auth.logout')}}">Sign-out</a>
-    </div>
-</div>
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        if (menu.style.display === "block") {
+            menu.style.display = "none";
+        } else {
+            menu.style.display = "block";
+        }
+    }
 
-    <script src="static/js/sidePanel.js"></script>
-    <script src="static/js/dataVisualization.js"></script>
-
-    
+    window.onclick = function(event) {
+        if (!event.target.matches('.menu-area')) {
+            var menu = document.getElementById("menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 </html>
