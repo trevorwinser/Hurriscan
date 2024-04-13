@@ -1,8 +1,16 @@
+import threading
 import pytest
+from routing import create_app
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import requests
+import time
+
+
+
+
 
 @pytest.fixture
 def browser():
@@ -51,3 +59,5 @@ def test_input_fields(browser):
     assert browser.find_element(By.ID, "username").get_attribute('value') == test_data["username"]
     assert browser.find_element(By.ID, "password1").get_attribute('value') == test_data["password1"]
     assert browser.find_element(By.ID, "password2").get_attribute('value') == test_data["password2"]
+    
+    
