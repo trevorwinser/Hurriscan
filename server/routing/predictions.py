@@ -139,6 +139,34 @@ def send_alert():
 
     return jsonify(message="Alert sent"), 200 
 
+@predictions_bp.route('/fetch-data')
+def fetchInitialData():
+    conn = sqlite3.connect(os.path.join(basedir, 'hurriscan.db'))
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    lat = request.args.get('lat')
+    long = request.args.get('long')
+    try:
+        if(lat and long):
+            sql = "SELECT latitude, longitude, temp FROM Data WHERE latitude = " + lat + " AND longitude = " + long
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
+            return data, 200
+        else:
+            sql = "SELECT latitude, longitude, temp FROM Data"
+            cursor.execute(sql)
+            rows = cursor.fetchall()
+            data = [{'latitude': row[0], 'longitude': row[1], 'humidity': row[2]} for row in rows]
+            return data, 200
+    except sqlite3.Error as e:
+        return f"Error {e} fetching filtered data from database", 500
+    except Exception as e:
+        return f"Error {e} fetching filtered data from database", 500
+    finally:
+        conn.close()
+
 @predictions_bp.route('/predictions-dashboard')
 def predictions_dashboard():
     return render_template('predictions_dashboard.html')
